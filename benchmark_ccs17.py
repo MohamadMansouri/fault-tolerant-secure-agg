@@ -9,10 +9,10 @@ from copy import deepcopy
 import sys
 
 REPITIONS = 10
-DIMLIST = [100, 2000, 4000, 6000, 8000, 10000, 20000, 40000, 60000, 80000, 100000, 200000, 300000, 400000, 500000]
+DIMLIST = [1000, 2000, 4000, 6000, 8000, 10000, 20000, 40000, 60000, 80000, 100000, 200000, 300000, 400000, 500000]
 INPUTSIZE = 16 
 KEYSIZE = 256
-NCNTLIST = [10, 200, 300, 400, 500, 1000]
+NCNTLIST = [100, 200, 300, 400, 500, 1000]
 THRESHOLD = 2/3
 DROPLIST = [0.0, 0.1, 0.2, 0.3]
 
@@ -185,6 +185,7 @@ if __name__ == "__main__":
         Bandwidth.LOGFILE = sys.argv[2]
     else:
         Bandwidth.LOGFILE = "ccs17_" + Bandwidth.LOGFILE
+        Clock.LOGFILE = "ccs17_" + Clock.LOGFILE
         if len(sys.argv) != 1:
             print("Usage: benchmarks.py [time_benchmarks.csv] [comm_benchmarks.csv]")
             sys.exit(-1)
