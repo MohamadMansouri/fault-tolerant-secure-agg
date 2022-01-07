@@ -179,7 +179,7 @@ def run_benchmark(clients, server, scenario, repititions):
 
 
 if __name__ == "__main__":
-    print(sys.argv)
+
     if len(sys.argv) == 3:
         Clock.LOGFILE = sys.argv[1]
         Bandwidth.LOGFILE = sys.argv[2]
