@@ -1,9 +1,8 @@
 import random
 from Crypto.Cipher.AES import key_size
-from ecdsa.numbertheory import inverse_mod 
 from gmpy2 import mpz, rint_round, log2
 
-from protocols.buildingblocks.utils import getprimeover, powmod
+from protocols.buildingblocks.utils import getprimeover, invert, powmod
 from protocols.buildingblocks.VectorEncoding import VES
 from protocols.buildingblocks.FullDomainHash import FDH
 
@@ -103,7 +102,7 @@ class ServerKey(object):
         # V = (ciphertext * self.pp.H(t, self.s)) % self.pp.nsquare
         X = self.l_function(V, self.pp.n)  % self.pp.n
         if delta:
-            X = (X * inverse_mod(delta, self.pp.nsquare)) % self.pp.n
+            X = (X * invert(delta, self.pp.nsquare)) % self.pp.n
         return int(X)
     
     def l_function(self, x, p):
