@@ -1,4 +1,5 @@
 .venv/
+.vscode/
 ftsa.egg-info/
 build/
 dist/

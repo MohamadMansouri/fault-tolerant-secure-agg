@@ -18,7 +18,7 @@ class Server(object):
 
     # init the building blocks
     prg = PRG(dimension, valuesize)
-    SSb = SSS(prg.security) # SS scheme for the blinding mask b
+    SSb = SSS(PRG.security) # SS scheme for the blinding mask b
     SSsk = SSS(keysize) # SS scheme for the DH key
 
     def __init__(self) -> None:
@@ -40,7 +40,7 @@ class Server(object):
         Server.keysize = keysize
         Server.threshold = threshold
         Server.prg = PRG(dimension, valuesize)
-        Server.SSb = SSS(Server.prg.security)
+        Server.SSb = SSS(PRG.security)
         Server.SSsk = SSS(keysize)
 
     def new_fl_step(self):

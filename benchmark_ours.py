@@ -209,7 +209,9 @@ if __name__ == "__main__":
         if len(sys.argv) != 1:
             print("Usage: benchmarks.py [time_benchmarks.csv] [comm_benchmarks.csv]")
             sys.exit(-1)
-
+    
+    Bandwidth.LOGFILE = "ours_" + Bandwidth.LOGFILE
+    
     dimensions = DIMLIST
     inputsize = INPUTSIZE 
     keysize = KEYSIZE

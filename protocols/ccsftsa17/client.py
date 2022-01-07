@@ -23,7 +23,7 @@ class Client(object):
 
     # init the building blocks
     prg = PRG(dimension, valuesize)
-    SSb = SSS(prg.security) # t-out-of-n SS for the blinding mask b
+    SSb = SSS(PRG.security) # t-out-of-n SS for the blinding mask b
     SSsk = SSS(keysize) # t-out-of-n SS for the deffie-hellman secret key
     KA = KAS()
 
@@ -54,7 +54,7 @@ class Client(object):
         Client.threshold = threshold
         Client.Uall = [i+1 for i in range(nclients)]
         Client.prg = PRG(dimension, valuesize)
-        Client.SSb = SSS(Client.prg.security)
+        Client.SSb = SSS(PRG.security)
         Client.SSsk = SSS(keysize)
         Client.KA = KAS()
 

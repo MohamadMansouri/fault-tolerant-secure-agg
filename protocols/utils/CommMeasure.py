@@ -60,7 +60,10 @@ def getrealsize(obj, hint=None):
     if isinstance(obj, int):
         if not hint:
             raise ValueError("int size cannot be specified automatically. Please give a hint")
-        return hint
+        elif isinstance(hint, int):
+            return hint
+        else:
+            return hint[0]
     elif isinstance(obj, str):
         return len(obj)*STRSIZE
     elif isinstance(obj, bytes):
@@ -70,7 +73,10 @@ def getrealsize(obj, hint=None):
     elif isinstance(obj,VerifyingKey):
         return getrealsize(obj.to_string(), hint)
     elif isinstance(obj, list):
-        return sum([getrealsize(x,hint) for x in obj])
+        h = hint
+        if isinstance(hint, list):
+            h = hint[1]
+        return sum([getrealsize(x,h) for x in obj])
     elif isinstance(obj, dict):
         return sum([getrealsize(x,hint) + getrealsize(y,hint)  for x,y in obj.items()])
     elif isinstance(obj, set):

@@ -24,7 +24,7 @@ class Client(object):
     JL = JLS(nclients, valuesize, dimension, keysize)
     publicparam, _ , _ = JL.generate_keys() # public parameters for JL and for the FSS
     prg = PRG(dimension, valuesize)
-    SS = SSS(prg.security)
+    SS = SSS(PRG.security)
     FS = FSS(keysize, publicparam.n)
 
     def __init__(self, user) -> None:
@@ -52,7 +52,7 @@ class Client(object):
         Client.JL = JLS(nclients, valuesize, dimension, keysize)
         Client.publicparam = publicparam
         Client.prg = PRG(dimension, valuesize)
-        Client.SS = SSS(Client.prg.security)
+        Client.SS = SSS(PRG.security)
         Client.FS = FSS(keysize, Client.publicparam.n)
 
     def new_fl_step(self):
@@ -134,7 +134,7 @@ class Client(object):
 
     def online_encrypt(self):
         # sample a random element b
-        b = random.SystemRandom().getrandbits(Client.prg.security)
+        b = random.SystemRandom().getrandbits(PRG.security)
 
         # extend b using PRG
         B = Client.prg.eval(b)

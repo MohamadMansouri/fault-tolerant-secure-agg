@@ -22,7 +22,7 @@ class Server(object):
     JL = JLS(nclients, valuesize, dimension, keysize)
     publicparam, _ , _ = JL.generate_keys() # public parameters for JL and for the FSS
     prg = PRG(dimension, valuesize)
-    SS = SSS(prg.security)
+    SS = SSS(PRG.security)
     FS = FSS(keysize, publicparam.n)
     KA = KAS()
 
@@ -44,7 +44,7 @@ class Server(object):
         Server.JL = JLS(nclients, valuesize, dimension, keysize)
         Server.publicparam = publicparam
         Server.prg = PRG(dimension, valuesize)
-        Server.SS = SSS(Server.prg.security)
+        Server.SS = SSS(PRG.security)
         Server.FS = FSS(keysize, Server.publicparam.n)
         Server.KA = KAS()
 
