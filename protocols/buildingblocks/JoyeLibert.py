@@ -213,7 +213,7 @@ class JLS(object):
 
         return public_param, server, users
 
-    def aggregate(self,e:list[EncryptedNumber]):
+    def aggregate(self,e):
         assert len(e) > 0 , "empty list of ciphers to aggregate"
         c = e[0]
         for k in e[1:]:
@@ -221,7 +221,7 @@ class JLS(object):
         return c
 
 
-    def aggregate_vector(self, ev:list[list[EncryptedNumber]]):
+    def aggregate_vector(self, ev):
         assert len(ev) > 0 , "empty list of ciphers to aggregate"
         l = len(ev[0])
         for v in ev:

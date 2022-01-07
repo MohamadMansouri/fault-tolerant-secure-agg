@@ -16,7 +16,7 @@ class VES(object):
         self.vectorsize = vs
         self.numbatches = ceil(self.vectorsize / self.batchsize)
 
-    def encode(self, V : list[int]):
+    def encode(self, V):
         bs = self.batchsize
         e = []
         E = []
@@ -56,7 +56,6 @@ class VES(object):
         return V
 
     def decode(self, E):
-        elementsize = self.valuesize + ceil(log2(self.addops))
         V = []
         for e in E: 
             for v in self.debatch(e):
