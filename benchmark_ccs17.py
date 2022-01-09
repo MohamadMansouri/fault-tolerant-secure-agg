@@ -9,10 +9,11 @@ from copy import deepcopy
 import sys
 
 REPITIONS = 10
-DIMLIST = [1000, 2000, 4000, 6000, 8000, 10000, 20000, 40000, 60000, 80000, 100000, 200000, 300000, 400000, 500000]
+# DIMLIST = [1000, 2000, 4000, 6000, 8000, 10000, 20000, 40000, 60000, 80000, 100000, 200000, 300000, 400000, 500000]
+DIMLIST = [100000, 200000, 300000, 400000, 500000]
 INPUTSIZE = 16 
 KEYSIZE = 256
-NCNTLIST = [100, 200, 300, 400, 500, 1000]
+NCNTLIST = [100, 200, 300, 400, 500]
 THRESHOLD = 2/3
 DROPLIST = [0.0, 0.1, 0.2, 0.3]
 
@@ -199,23 +200,38 @@ if __name__ == "__main__":
     threshold = THRESHOLD
     dropouts = DROPLIST
 
-    total = len(dimensions) * len(nclientss) * len(dropouts)
+    total = len(dimensions) * len(dropouts) + len(nclientss) * len(dropouts)
     success = {False : 0, True : 0}
     counter = 0 
 
+    dimension = 100000
+    for nclients in nclientss:
+        for dropout in dropouts:
+
+            counter += 1
+            print("Test number {}/{} ({}/{} succesfull): dimension = {}, nclients = {}, dropout = {}".format(
+                counter, total, success[True], success[True] + success[False], dimension, nclients, dropout))
+
+            scenario = Scenario(dimension, inputsize, keysize, ceil(threshold*nclients), nclients, dropout)
+            clients, server = init_scenario(scenario)
+            valid = run_benchmark(clients, server, scenario, REPITIONS)
+            success[valid] += 1
+
+    nclients = 500    
     for dimension in dimensions:
-        for nclients in nclientss:
-            for dropout in dropouts:
+        for dropout in dropouts:
 
-                counter += 1
-                print("Test number {}/{} ({}/{} succesfull): dimension = {}, nclients = {}, dropout = {}".format(
-                    counter, total, success[True], success[True] + success[False], dimension, nclients, dropout))
+            counter += 1
+            print("Test number {}/{} ({}/{} succesfull): dimension = {}, nclients = {}, dropout = {}".format(
+                counter, total, success[True], success[True] + success[False], dimension, nclients, dropout))
 
-                scenario = Scenario(dimension, inputsize, keysize, ceil(threshold*nclients), nclients, dropout)
-                clients, server = init_scenario(scenario)
-                valid = run_benchmark(clients, server, scenario, REPITIONS, )
-                success[valid] += 1
-    
+            scenario = Scenario(dimension, inputsize, keysize, ceil(threshold*nclients), nclients, dropout)
+            clients, server = init_scenario(scenario)
+            valid = run_benchmark(clients, server, scenario, REPITIONS)    
+            success[valid] += 1
+
+
+
 
     print("Finished. Succesfull tests: {}/{}".format(success[True], success[True] + success[False]))
 
