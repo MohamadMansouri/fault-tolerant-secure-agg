@@ -187,8 +187,8 @@ if __name__ == "__main__":
         Clock.LOGFILE = sys.argv[1]
         Bandwidth.LOGFILE = sys.argv[2]
         if len(sys.argv) == 5:
-            r1 = sys.argv[3]    
-            r2 = sys.argv[4]    
+            r1 = int(sys.argv[3])
+            r2 = int(sys.argv[4])
     else:
         Bandwidth.LOGFILE = "ccs17_" + Bandwidth.LOGFILE
         Clock.LOGFILE = "ccs17_" + Clock.LOGFILE
