@@ -220,12 +220,12 @@ if __name__ == "__main__":
         for dropout in dropouts:
 
             counter += 1
+            if counter not in runs:
+                continue
+            
             print("Test number {}/{} ({}/{} succesfull): dimension = {}, nclients = {}, dropout = {}".format(
                 counter, total, success[True], success[True] + success[False], dimension, nclients, dropout))
 
-            
-            if counter not in runs:
-                continue
             
 
             scenario = Scenario(dimension, inputsize, keysize, ceil(threshold*nclients), nclients, dropout)
@@ -238,11 +238,12 @@ if __name__ == "__main__":
         for dropout in dropouts:
 
             counter += 1
+            if counter not in runs:
+                continue
+            
             print("Test number {}/{} ({}/{} succesfull): dimension = {}, nclients = {}, dropout = {}".format(
                 counter, total, success[True], success[True] + success[False], dimension, nclients, dropout))
             
-            if counter not in runs:
-                continue
             
             scenario = Scenario(dimension, inputsize, keysize, ceil(threshold*nclients), nclients, dropout)
             clients, server = init_scenario(scenario)
