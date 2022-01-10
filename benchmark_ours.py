@@ -203,16 +203,21 @@ def run_benchmark(clients, server, scenario, repititions):
 
 if __name__ == "__main__":
 
-    if len(sys.argv) == 3:
+    r1 = None
+    r2 = None
+
+    if len(sys.argv) >= 3:
         Clock.LOGFILE = sys.argv[1]
         Bandwidth.LOGFILE = sys.argv[2]
+        if len(sys.argv) == 5:
+            r1 = sys.argv[3]    
+            r2 = sys.argv[4]    
     else:
         Bandwidth.LOGFILE = "ours_" + Bandwidth.LOGFILE
         Clock.LOGFILE = "ours_" + Clock.LOGFILE
         if len(sys.argv) != 1:
             print("Usage: benchmarks.py [time_benchmarks.csv] [comm_benchmarks.csv]")
             sys.exit(-1)
-    
     
     dimensions = DIMLIST
     inputsize = INPUTSIZE 
@@ -224,6 +229,11 @@ if __name__ == "__main__":
     total = len(dimensions) * len(dropouts) + len(nclientss) * len(dropouts)
     success = {False : 0, True : 0}
     counter = 0 
+    
+    if r1:
+        runs = range(r1,r2)
+    else: 
+        runs = range(1, total+1)
 
     dimension = 100000
     for nclients in nclientss:
@@ -232,7 +242,10 @@ if __name__ == "__main__":
             counter += 1
             print("Test number {}/{} ({}/{} succesfull): dimension = {}, nclients = {}, dropout = {}".format(
                 counter, total, success[True], success[True] + success[False], dimension, nclients, dropout))
-
+            
+            if counter not in runs:
+                continue
+            
             scenario = Scenario(dimension, inputsize, keysize, ceil(threshold*nclients), nclients, dropout)
             clients, server = init_scenario(scenario)
             valid = run_benchmark(clients, server, scenario, REPITIONS)
@@ -246,6 +259,9 @@ if __name__ == "__main__":
             print("Test number {}/{} ({}/{} succesfull): dimension = {}, nclients = {}, dropout = {}".format(
                 counter, total, success[True], success[True] + success[False], dimension, nclients, dropout))
 
+            if counter not in runs:
+                continue
+            
             scenario = Scenario(dimension, inputsize, keysize, ceil(threshold*nclients), nclients, dropout)
             clients, server = init_scenario(scenario)
             valid = run_benchmark(clients, server, scenario, REPITIONS)    
