@@ -142,7 +142,7 @@ class Server(object):
                 lagcoef = Server.SSsk.lagrange(kshares[vuser])
             k = Server.SSsk.recon(kshares[vuser],lagcoef)
             k = int(k)
-            dhkey[vuser] = KAS().generate_from_bytes(k.to_bytes((k.bit_length() + 7) // 8, "big"))
+            dhkey[vuser] = KAS().generate_from_bytes(k.to_bytes(Server.keysize // 8, "big"))
 
         # recompute their masking agreed keys 
         skey = {}
