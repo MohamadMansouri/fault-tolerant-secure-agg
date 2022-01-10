@@ -11,7 +11,7 @@ import sys
 
 REPITIONS = 10
 # DIMLIST = [1000, 2000, 4000, 6000, 8000, 10000, 20000, 40000, 60000, 80000, 100000, 200000, 300000, 400000, 500000]
-DIMLIST = [100000, 200000, 300000, 400000, 500000]
+DIMLIST = [200000, 300000, 400000, 500000]
 INPUTSIZE = 16 
 KEYSIZE = 2048
 NCNTLIST = [100, 200, 300, 400, 500]
@@ -251,7 +251,7 @@ if __name__ == "__main__":
             valid = run_benchmark(clients, server, scenario, REPITIONS)
             success[valid] += 1
 
-    nclients = 500    
+    nclients = 300    
     for dimension in dimensions:
         for dropout in dropouts:
 
