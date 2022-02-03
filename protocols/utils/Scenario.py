@@ -13,19 +13,32 @@ class Scenario(object):
         self.dropout = dropout
     
     def __hash__(self) -> int:
-        return str(self.tolist()).__hash__()
+        return str([self.dimension,self.inputsize,self.threshold,self.nclients,self.dropout]).__hash__()
     
     def __eq__(self, __o: object) -> bool:
         return \
         self.dimension == __o.dimension and \
         self.inputsize == __o.inputsize and \
-        self.keysize == __o.keysize and\
         self.threshold == __o.threshold and\
         self.nclients == __o.nclients and\
         self.dropout == __o.dropout 
 
+    def __repr__(self) -> str:
+        return "Scenario(dim={},ncli={},drop={})".format(self.dimension, self.nclients, self.dropout)
+
     def fromlist(self, l):
         self.__init__(*l)
+
+    def fromstrlist(self, l):
+        ll = []
+        ll.append(int(l[0]))
+        ll.append(int(l[1]))
+        ll.append(int(l[2]))
+        ll.append(int(l[3]))
+        ll.append(int(l[4]))
+        ll.append(float(l[5]))
+        self.__init__(*ll)
+        
 
     def fromdict(self, d):
         self.dimension = d["dimension"]
@@ -58,3 +71,5 @@ class Scenario(object):
     def header(self):
         return list(self.todict().keys())
     
+    def len(self):
+        return len(self.tolist())

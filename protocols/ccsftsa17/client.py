@@ -167,7 +167,7 @@ class Client(object):
 
         self.U4 = U4
 
-        # deduce the alive users and decrypt the shares
+        # decrypt the shares
         for vuser in self.eshares: 
             key = AESKEY(self.ckeys[vuser])
             message = key.decrypt(self.eshares[vuser])
