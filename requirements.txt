@@ -1,5 +1,0 @@
-gmpy2
-pycryptodome
-ecdsa
-numpy
-matplotlib
