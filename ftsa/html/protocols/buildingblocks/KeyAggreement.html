@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>protocols.buildingblocks.KeyAggreement API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="**Key-Agreement Scheme** …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -23,16 +23,28 @@
 <h1 class="title">Module <code>protocols.buildingblocks.KeyAggreement</code></h1>
 </header>
 <section id="section-intro">
+<h3 id="key-agreement-scheme"><strong>Key-Agreement Scheme</strong></h3>
+<p>This module contains a wraper for Elliptec Curve DH scheme over NIST256p the
+from the library "<a href="https://cryptography.io/en/latest/">Python Cryptography Toolkit (pycrypto)</a>"</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from ecdsa import ECDH, NIST256p
+<pre><code class="python">&#34;&#34;&#34;
+### **Key-Agreement Scheme**
+
+This module contains a wraper for Elliptec Curve DH scheme over NIST256p the  from the library \&#34;[Python Cryptography Toolkit (pycrypto)](https://cryptography.io/en/latest/)\&#34;
+
+&#34;&#34;&#34;
+
+from ecdsa import ECDH, NIST256p
 from Crypto.Hash import SHA256
 from gmpy2 import mpz
 
 class KAS(object):
+    &#34;&#34;&#34;A key-agreement class that holds the secret and public keys of a party&#34;&#34;&#34;
     curve = NIST256p
+    &#34;&#34;&#34;The curve used by the scheme (default: NIST256P)&#34;&#34;&#34;
     def __init__(self) -&gt; None:
         super().__init__()
         self.ecdh = ECDH(KAS.curve)
@@ -40,16 +52,19 @@ class KAS(object):
         self.pk = None
 
     def generate(self):
+        &#34;&#34;&#34;Generates a key pair of public and private key&#34;&#34;&#34;
         self.pk = self.ecdh.generate_private_key()
         self.sk = self.ecdh.private_key
         return self
 
     def generate_from_bytes(self, bytes):
+        &#34;&#34;&#34;Generates the public key from the bytes of the private key&#34;&#34;&#34;
         self.pk = self.ecdh.load_private_key_bytes(bytes)
         self.sk = self.ecdh.private_key
         return self
 
     def agree(self, pk, size=256, pem=False):
+        &#34;&#34;&#34;Agree on a shared key of size `size` using the public key `pk` of the other party&#34;&#34;&#34;
         if not pem:
             self.ecdh.load_received_public_key(pk)
         else:
@@ -67,6 +82,7 @@ class KAS(object):
         return r
 
     def get_sk_bytes(self):
+        &#34;&#34;&#34;Returns the bytes of the secret key&#34;&#34;&#34;
         return self.sk.to_string()</code></pre>
 </details>
 </section>
@@ -83,13 +99,15 @@ class KAS(object):
 <span>class <span class="ident">KAS</span></span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>A key-agreement class that holds the secret and public keys of a party</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class KAS(object):
+    &#34;&#34;&#34;A key-agreement class that holds the secret and public keys of a party&#34;&#34;&#34;
     curve = NIST256p
+    &#34;&#34;&#34;The curve used by the scheme (default: NIST256P)&#34;&#34;&#34;
     def __init__(self) -&gt; None:
         super().__init__()
         self.ecdh = ECDH(KAS.curve)
@@ -97,16 +115,19 @@ class KAS(object):
         self.pk = None
 
     def generate(self):
+        &#34;&#34;&#34;Generates a key pair of public and private key&#34;&#34;&#34;
         self.pk = self.ecdh.generate_private_key()
         self.sk = self.ecdh.private_key
         return self
 
     def generate_from_bytes(self, bytes):
+        &#34;&#34;&#34;Generates the public key from the bytes of the private key&#34;&#34;&#34;
         self.pk = self.ecdh.load_private_key_bytes(bytes)
         self.sk = self.ecdh.private_key
         return self
 
     def agree(self, pk, size=256, pem=False):
+        &#34;&#34;&#34;Agree on a shared key of size `size` using the public key `pk` of the other party&#34;&#34;&#34;
         if not pem:
             self.ecdh.load_received_public_key(pk)
         else:
@@ -124,13 +145,14 @@ class KAS(object):
         return r
 
     def get_sk_bytes(self):
+        &#34;&#34;&#34;Returns the bytes of the secret key&#34;&#34;&#34;
         return self.sk.to_string()</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
 <dt id="protocols.buildingblocks.KeyAggreement.KAS.curve"><code class="name">var <span class="ident">curve</span></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The curve used by the scheme (default: NIST256P)</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -139,12 +161,13 @@ class KAS(object):
 <span>def <span class="ident">generate</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Generates a key pair of public and private key</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def generate(self):
+    &#34;&#34;&#34;Generates a key pair of public and private key&#34;&#34;&#34;
     self.pk = self.ecdh.generate_private_key()
     self.sk = self.ecdh.private_key
     return self</code></pre>
@@ -154,12 +177,13 @@ class KAS(object):
 <span>def <span class="ident">generate_from_bytes</span></span>(<span>self, bytes)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Generates the public key from the bytes of the private key</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def generate_from_bytes(self, bytes):
+    &#34;&#34;&#34;Generates the public key from the bytes of the private key&#34;&#34;&#34;
     self.pk = self.ecdh.load_private_key_bytes(bytes)
     self.sk = self.ecdh.private_key
     return self</code></pre>
@@ -169,12 +193,13 @@ class KAS(object):
 <span>def <span class="ident">agree</span></span>(<span>self, pk, size=256, pem=False)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Agree on a shared key of size <code>size</code> using the public key <code>pk</code> of the other party</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def agree(self, pk, size=256, pem=False):
+    &#34;&#34;&#34;Agree on a shared key of size `size` using the public key `pk` of the other party&#34;&#34;&#34;
     if not pem:
         self.ecdh.load_received_public_key(pk)
     else:
@@ -196,12 +221,13 @@ class KAS(object):
 <span>def <span class="ident">get_sk_bytes</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Returns the bytes of the secret key</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def get_sk_bytes(self):
+    &#34;&#34;&#34;Returns the bytes of the secret key&#34;&#34;&#34;
     return self.sk.to_string()</code></pre>
 </details>
 </dd>
@@ -213,7 +239,9 @@ class KAS(object):
 <nav id="sidebar">
 <h1>Index</h1>
 <div class="toc">
-<ul></ul>
+<ul>
+<li><a href="#key-agreement-scheme">Key-Agreement Scheme</a></li>
+</ul>
 </div>
 <ul id="index">
 <li><h3>Super-module</h3>

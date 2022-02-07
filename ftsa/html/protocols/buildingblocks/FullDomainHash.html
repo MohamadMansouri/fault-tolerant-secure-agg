@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>protocols.buildingblocks.FullDomainHash API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="**Full-Domain Hash** …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -23,34 +23,70 @@
 <h1 class="title">Module <code>protocols.buildingblocks.FullDomainHash</code></h1>
 </header>
 <section id="section-intro">
+<h3 id="full-domain-hash"><strong>Full-Domain Hash</strong></h3>
+<p>This module computes a full domain hash value usign SHA256 hash function</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from Crypto.Hash import SHA256
+<pre><code class="python">&#34;&#34;&#34;
+### **Full-Domain Hash**
+
+This module computes a full domain hash value usign SHA256 hash function
+&#34;&#34;&#34;
+
+from Crypto.Hash import SHA256
 from gmpy2 import mpz, gcd
 
 
 
 class FDH(object):
-    def __init__(self, keysize, n) -&gt; None:
+    &#34;&#34;&#34;
+    The Full-Domain Hash scheme
+
+    ## **Args**:
+    -------------
+    *bitsize* : `int` -- 
+        The bitlength of the output of the FDH
+    
+    *N* : `int` -- 
+        The modulus \\(N\\) such that the FDH output is in \\(\\mathbb{Z}^*_N\\) 
+
+    &#34;&#34;&#34;
+    def __init__(self, bitsize, N) -&gt; None:
         super().__init__()
-        self.keysize = keysize
-        self.n = n
+        self.bitsize = bitsize
+        self.N = N
 
     def H(self, t):
+        &#34;&#34;&#34;
+        Computes the FDH using SHA256
+        
+        It computes:
+            $$\\textbf{SHA256}(x||0) ||\\textbf{SHA256}(x||1) || ... || \\textbf{SHA256}(x||c) \\mod N$$
+        where \\(c\\) is a counter that keeps incrementing until the size of the output has *bitsize* length and the output falls in  \\(\\mathbb{Z}^*_N\\)
+
+        ## **Args**:
+        -------------
+        *t* : `int` -- 
+            The input of the hash function
+
+        ## **Returns**:
+        ----------------
+        A value in \\(\\mathbb{Z}^*_N\\) of type `gmpy2.mpz`
+        &#34;&#34;&#34;
         counter = 1
         result = b&#39;&#39;
         while True:
             while True:
                 h = SHA256.new()
-                h.update(int(t).to_bytes(self.keysize // 2,&#34;big&#34;) + counter.to_bytes(1,&#34;big&#34;))
+                h.update(int(t).to_bytes(self.bitsize // 2,&#34;big&#34;) + counter.to_bytes(1,&#34;big&#34;))
                 result += h.digest()
                 counter += 1
-                if len(result) &lt; (self.keysize // 8):
+                if len(result) &lt; (self.bitsize // 8):
                     break
-            r = mpz(int.from_bytes(result[-self.keysize:],&#34;big&#34;))
-            if gcd(r, self.n) == 1:
+            r = mpz(int.from_bytes(result[-self.bitsize:],&#34;big&#34;))
+            if gcd(r, self.N) == 1:
                 break
             else:
                 print(&#34;HAPPENED&#34;)
@@ -68,33 +104,67 @@ class FDH(object):
 <dl>
 <dt id="protocols.buildingblocks.FullDomainHash.FDH"><code class="flex name class">
 <span>class <span class="ident">FDH</span></span>
-<span>(</span><span>keysize, n)</span>
+<span>(</span><span>bitsize, N)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The Full-Domain Hash scheme</p>
+<h2 id="args"><strong>Args</strong>:</h2>
+<hr>
+<p><em>bitsize</em> : <code>int</code> &ndash;
+The bitlength of the output of the FDH</p>
+<p><em>N</em> : <code>int</code> &ndash;
+The modulus <span><span class="MathJax_Preview">N</span><script type="math/tex">N</script></span> such that the FDH output is in <span><span class="MathJax_Preview">\mathbb{Z}^*_N</span><script type="math/tex">\mathbb{Z}^*_N</script></span></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class FDH(object):
-    def __init__(self, keysize, n) -&gt; None:
+    &#34;&#34;&#34;
+    The Full-Domain Hash scheme
+
+    ## **Args**:
+    -------------
+    *bitsize* : `int` -- 
+        The bitlength of the output of the FDH
+    
+    *N* : `int` -- 
+        The modulus \\(N\\) such that the FDH output is in \\(\\mathbb{Z}^*_N\\) 
+
+    &#34;&#34;&#34;
+    def __init__(self, bitsize, N) -&gt; None:
         super().__init__()
-        self.keysize = keysize
-        self.n = n
+        self.bitsize = bitsize
+        self.N = N
 
     def H(self, t):
+        &#34;&#34;&#34;
+        Computes the FDH using SHA256
+        
+        It computes:
+            $$\\textbf{SHA256}(x||0) ||\\textbf{SHA256}(x||1) || ... || \\textbf{SHA256}(x||c) \\mod N$$
+        where \\(c\\) is a counter that keeps incrementing until the size of the output has *bitsize* length and the output falls in  \\(\\mathbb{Z}^*_N\\)
+
+        ## **Args**:
+        -------------
+        *t* : `int` -- 
+            The input of the hash function
+
+        ## **Returns**:
+        ----------------
+        A value in \\(\\mathbb{Z}^*_N\\) of type `gmpy2.mpz`
+        &#34;&#34;&#34;
         counter = 1
         result = b&#39;&#39;
         while True:
             while True:
                 h = SHA256.new()
-                h.update(int(t).to_bytes(self.keysize // 2,&#34;big&#34;) + counter.to_bytes(1,&#34;big&#34;))
+                h.update(int(t).to_bytes(self.bitsize // 2,&#34;big&#34;) + counter.to_bytes(1,&#34;big&#34;))
                 result += h.digest()
                 counter += 1
-                if len(result) &lt; (self.keysize // 8):
+                if len(result) &lt; (self.bitsize // 8):
                     break
-            r = mpz(int.from_bytes(result[-self.keysize:],&#34;big&#34;))
-            if gcd(r, self.n) == 1:
+            r = mpz(int.from_bytes(result[-self.bitsize:],&#34;big&#34;))
+            if gcd(r, self.N) == 1:
                 break
             else:
                 print(&#34;HAPPENED&#34;)
@@ -106,24 +176,51 @@ class FDH(object):
 <span>def <span class="ident">H</span></span>(<span>self, t)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Computes the FDH using SHA256</p>
+<p>It computes:
+<span><span class="MathJax_Preview">\textbf{SHA256}(x||0) ||\textbf{SHA256}(x||1) || ... || \textbf{SHA256}(x||c) \mod N</span><script type="math/tex; mode=display">\textbf{SHA256}(x||0) ||\textbf{SHA256}(x||1) || ... || \textbf{SHA256}(x||c) \mod N</script></span>
+where <span><span class="MathJax_Preview">c</span><script type="math/tex">c</script></span> is a counter that keeps incrementing until the size of the output has <em>bitsize</em> length and the output falls in
+<span><span class="MathJax_Preview">\mathbb{Z}^*_N</span><script type="math/tex">\mathbb{Z}^*_N</script></span></p>
+<h2 id="args"><strong>Args</strong>:</h2>
+<hr>
+<p><em>t</em> : <code>int</code> &ndash;
+The input of the hash function</p>
+<h2 id="returns"><strong>Returns</strong>:</h2>
+<hr>
+<p>A value in <span><span class="MathJax_Preview">\mathbb{Z}^*_N</span><script type="math/tex">\mathbb{Z}^*_N</script></span> of type <code>gmpy2.mpz</code></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def H(self, t):
+    &#34;&#34;&#34;
+    Computes the FDH using SHA256
+    
+    It computes:
+        $$\\textbf{SHA256}(x||0) ||\\textbf{SHA256}(x||1) || ... || \\textbf{SHA256}(x||c) \\mod N$$
+    where \\(c\\) is a counter that keeps incrementing until the size of the output has *bitsize* length and the output falls in  \\(\\mathbb{Z}^*_N\\)
+
+    ## **Args**:
+    -------------
+    *t* : `int` -- 
+        The input of the hash function
+
+    ## **Returns**:
+    ----------------
+    A value in \\(\\mathbb{Z}^*_N\\) of type `gmpy2.mpz`
+    &#34;&#34;&#34;
     counter = 1
     result = b&#39;&#39;
     while True:
         while True:
             h = SHA256.new()
-            h.update(int(t).to_bytes(self.keysize // 2,&#34;big&#34;) + counter.to_bytes(1,&#34;big&#34;))
+            h.update(int(t).to_bytes(self.bitsize // 2,&#34;big&#34;) + counter.to_bytes(1,&#34;big&#34;))
             result += h.digest()
             counter += 1
-            if len(result) &lt; (self.keysize // 8):
+            if len(result) &lt; (self.bitsize // 8):
                 break
-        r = mpz(int.from_bytes(result[-self.keysize:],&#34;big&#34;))
-        if gcd(r, self.n) == 1:
+        r = mpz(int.from_bytes(result[-self.bitsize:],&#34;big&#34;))
+        if gcd(r, self.N) == 1:
             break
         else:
             print(&#34;HAPPENED&#34;)
@@ -138,7 +235,9 @@ class FDH(object):
 <nav id="sidebar">
 <h1>Index</h1>
 <div class="toc">
-<ul></ul>
+<ul>
+<li><a href="#full-domain-hash">Full-Domain Hash</a></li>
+</ul>
 </div>
 <ul id="index">
 <li><h3>Super-module</h3>

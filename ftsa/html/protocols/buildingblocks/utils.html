@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>protocols.buildingblocks.utils API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="**Extra Utilities** …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -23,34 +23,47 @@
 <h1 class="title">Module <code>protocols.buildingblocks.utils</code></h1>
 </header>
 <section id="section-intro">
+<h3 id="extra-utilities"><strong>Extra Utilities</strong></h3>
+<p>This module contain additional utility methods used in the building blocks and the protocols</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import gmpy2, random
+<pre><code class="python">&#34;&#34;&#34; 
+### **Extra Utilities**
+
+This module contain additional utility methods used in the building blocks and the protocols&#34;&#34;&#34;
+
+import gmpy2, random
 
 
 def add_vectors(A,B,r):
+    &#34;&#34;&#34;Adds two vectors mod r&#34;&#34;&#34;
     C=[]
     for a,b in zip(A,B):
         C.append((a+b) % r)
     return C
 
 def subs_vectors(A,B,r):
+    &#34;&#34;&#34;Substracts two vectors mod r&#34;&#34;&#34;
+
     C=[]
     for a,b in zip(A,B):
         C.append((a-b) % r)
     return C
 
-def getprimeover(N):
+def getprimeover(bits):
+    &#34;&#34;&#34;Returns a prime number with specific number of bits &#34;&#34;&#34;
+
     randfunc = random.SystemRandom()
-    r = gmpy2.mpz(randfunc.getrandbits(N))
-    r = gmpy2.bit_set(r, N - 1)
+    r = gmpy2.mpz(randfunc.getrandbits(bits))
+    r = gmpy2.bit_set(r, bits - 1)
     return gmpy2.next_prime(r)
 
 
 
 def invert(a, b):
+    &#34;&#34;&#34;Finds the invers of a mod b&#34;&#34;&#34;
     s = gmpy2.invert(a, b)
     # according to documentation, gmpy2.invert might return 0 on
     # non-invertible element, although it seems to actually raise an
@@ -60,6 +73,8 @@ def invert(a, b):
     return s
 
 def powmod(a, b, c):
+    &#34;&#34;&#34;Computes a to the power of b mod c&#34;&#34;&#34;
+
     if a == 1:
         return 1
     return gmpy2.powmod(a, b, c)
@@ -67,6 +82,7 @@ def powmod(a, b, c):
 
 
 class PField(object):
+    &#34;&#34;&#34;A field \\(\\mathbb{Z}_p\\) of all the integers mod \\(p\\)&#34;&#34;&#34;
     def __init__(self, encoded_value, p, bits):
         &#34;&#34;&#34;Initialize a Field element to a certain value.
 
@@ -124,36 +140,43 @@ class PField(object):
 
 
 class P2048Field(PField):
-    # 16th Mersenne prime
+    &#34;&#34;&#34;A Field using the 16th Mersenne prime \\(p=2^{2203} - 1\\) used to perform field operation on 2048 bits numbers&#34;&#34;&#34;
     bits = 2048
     def __init__(self, encoded_value):
         super().__init__(encoded_value, 2**2203 - 1, P2048Field.bits)
 
 class P1024Field(PField):
-    # 15th Mersenne prime
+    &#34;&#34;&#34;A Field using the 15th Mersenne prime \\(p=2^{1279} - 1\\) used to perform field operation on 1024 bits numbers&#34;&#34;&#34;
     bits = 1024
     def __init__(self, encoded_value):
         super().__init__(encoded_value, 2**1279 - 1, P1024Field.bits)
 
 class P512Field(PField):
-    # 13th Mersenne prime
+    &#34;&#34;&#34;A Field using the 13th Mersenne prime \\(p=2^{521} - 1\\) used to perform field operation on 512 bits numbers&#34;&#34;&#34;
+
     bits = 512
     def __init__(self, encoded_value):
         super().__init__(encoded_value,2**521 - 1, P512Field.bits)
  
 class P256Field(PField):
+    &#34;&#34;&#34;A Field using the prime \\(p=2^{257} - 2233\\) used to perform field operation on 256 bits numbers&#34;&#34;&#34;
+
     # 2**n - k
     bits = 256
     def __init__(self, encoded_value):
         super().__init__(encoded_value,2**257 - 2233, P256Field.bits)
       
 class P128Field(PField):
+    &#34;&#34;&#34;A Field using the prime \\(p=2^{129} - 1365\\) used to perform field operation on 128 bits numbers&#34;&#34;&#34;
+
     # 2**n - k
     bits = 128
     def __init__(self, encoded_value):
         super().__init__(encoded_value,2**129 - 1365, P128Field.bits)
        
 class P64Field(PField):
+    &#34;&#34;&#34;A Field using the prime \\(p=2^{65} - 493\\) used to perform field operation on 64 bits numbers&#34;&#34;&#34;
+
     # 2**n - k
     bits = 64
     def __init__(self, encoded_value):
@@ -171,12 +194,13 @@ class P64Field(PField):
 <span>def <span class="ident">add_vectors</span></span>(<span>A, B, r)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Adds two vectors mod r</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def add_vectors(A,B,r):
+    &#34;&#34;&#34;Adds two vectors mod r&#34;&#34;&#34;
     C=[]
     for a,b in zip(A,B):
         C.append((a+b) % r)
@@ -187,12 +211,14 @@ class P64Field(PField):
 <span>def <span class="ident">subs_vectors</span></span>(<span>A, B, r)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Substracts two vectors mod r</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def subs_vectors(A,B,r):
+    &#34;&#34;&#34;Substracts two vectors mod r&#34;&#34;&#34;
+
     C=[]
     for a,b in zip(A,B):
         C.append((a-b) % r)
@@ -200,18 +226,20 @@ class P64Field(PField):
 </details>
 </dd>
 <dt id="protocols.buildingblocks.utils.getprimeover"><code class="name flex">
-<span>def <span class="ident">getprimeover</span></span>(<span>N)</span>
+<span>def <span class="ident">getprimeover</span></span>(<span>bits)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Returns a prime number with specific number of bits</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def getprimeover(N):
+<pre><code class="python">def getprimeover(bits):
+    &#34;&#34;&#34;Returns a prime number with specific number of bits &#34;&#34;&#34;
+
     randfunc = random.SystemRandom()
-    r = gmpy2.mpz(randfunc.getrandbits(N))
-    r = gmpy2.bit_set(r, N - 1)
+    r = gmpy2.mpz(randfunc.getrandbits(bits))
+    r = gmpy2.bit_set(r, bits - 1)
     return gmpy2.next_prime(r)</code></pre>
 </details>
 </dd>
@@ -219,12 +247,13 @@ class P64Field(PField):
 <span>def <span class="ident">invert</span></span>(<span>a, b)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Finds the invers of a mod b</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def invert(a, b):
+    &#34;&#34;&#34;Finds the invers of a mod b&#34;&#34;&#34;
     s = gmpy2.invert(a, b)
     # according to documentation, gmpy2.invert might return 0 on
     # non-invertible element, although it seems to actually raise an
@@ -238,12 +267,14 @@ class P64Field(PField):
 <span>def <span class="ident">powmod</span></span>(<span>a, b, c)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Computes a to the power of b mod c</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def powmod(a, b, c):
+    &#34;&#34;&#34;Computes a to the power of b mod c&#34;&#34;&#34;
+
     if a == 1:
         return 1
     return gmpy2.powmod(a, b, c)</code></pre>
@@ -259,7 +290,8 @@ class P64Field(PField):
 <span>(</span><span>encoded_value, p, bits)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Initialize a Field element to a certain value.</p>
+<div class="desc"><p>A field <span><span class="MathJax_Preview">\mathbb{Z}_p</span><script type="math/tex">\mathbb{Z}_p</script></span> of all the integers mod <span><span class="MathJax_Preview">p</span><script type="math/tex">p</script></span></p>
+<p>Initialize a Field element to a certain value.</p>
 <p>The value passed as parameter is internally encoded as
 a mpz.</p></div>
 <details class="source">
@@ -267,6 +299,7 @@ a mpz.</p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class PField(object):
+    &#34;&#34;&#34;A field \\(\\mathbb{Z}_p\\) of all the integers mod \\(p\\)&#34;&#34;&#34;
     def __init__(self, encoded_value, p, bits):
         &#34;&#34;&#34;Initialize a Field element to a certain value.
 
@@ -371,7 +404,8 @@ a mpz.</p></div>
 <span>(</span><span>encoded_value)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Initialize a Field element to a certain value.</p>
+<div class="desc"><p>A Field using the 16th Mersenne prime <span><span class="MathJax_Preview">p=2^{2203} - 1</span><script type="math/tex">p=2^{2203} - 1</script></span> used to perform field operation on 2048 bits numbers</p>
+<p>Initialize a Field element to a certain value.</p>
 <p>The value passed as parameter is internally encoded as
 a mpz.</p></div>
 <details class="source">
@@ -379,7 +413,7 @@ a mpz.</p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class P2048Field(PField):
-    # 16th Mersenne prime
+    &#34;&#34;&#34;A Field using the 16th Mersenne prime \\(p=2^{2203} - 1\\) used to perform field operation on 2048 bits numbers&#34;&#34;&#34;
     bits = 2048
     def __init__(self, encoded_value):
         super().__init__(encoded_value, 2**2203 - 1, P2048Field.bits)</code></pre>
@@ -424,7 +458,8 @@ a mpz.</p></div>
 <span>(</span><span>encoded_value)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Initialize a Field element to a certain value.</p>
+<div class="desc"><p>A Field using the 15th Mersenne prime <span><span class="MathJax_Preview">p=2^{1279} - 1</span><script type="math/tex">p=2^{1279} - 1</script></span> used to perform field operation on 1024 bits numbers</p>
+<p>Initialize a Field element to a certain value.</p>
 <p>The value passed as parameter is internally encoded as
 a mpz.</p></div>
 <details class="source">
@@ -432,7 +467,7 @@ a mpz.</p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class P1024Field(PField):
-    # 15th Mersenne prime
+    &#34;&#34;&#34;A Field using the 15th Mersenne prime \\(p=2^{1279} - 1\\) used to perform field operation on 1024 bits numbers&#34;&#34;&#34;
     bits = 1024
     def __init__(self, encoded_value):
         super().__init__(encoded_value, 2**1279 - 1, P1024Field.bits)</code></pre>
@@ -477,7 +512,8 @@ a mpz.</p></div>
 <span>(</span><span>encoded_value)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Initialize a Field element to a certain value.</p>
+<div class="desc"><p>A Field using the 13th Mersenne prime <span><span class="MathJax_Preview">p=2^{521} - 1</span><script type="math/tex">p=2^{521} - 1</script></span> used to perform field operation on 512 bits numbers</p>
+<p>Initialize a Field element to a certain value.</p>
 <p>The value passed as parameter is internally encoded as
 a mpz.</p></div>
 <details class="source">
@@ -485,7 +521,8 @@ a mpz.</p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class P512Field(PField):
-    # 13th Mersenne prime
+    &#34;&#34;&#34;A Field using the 13th Mersenne prime \\(p=2^{521} - 1\\) used to perform field operation on 512 bits numbers&#34;&#34;&#34;
+
     bits = 512
     def __init__(self, encoded_value):
         super().__init__(encoded_value,2**521 - 1, P512Field.bits)</code></pre>
@@ -530,7 +567,8 @@ a mpz.</p></div>
 <span>(</span><span>encoded_value)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Initialize a Field element to a certain value.</p>
+<div class="desc"><p>A Field using the prime <span><span class="MathJax_Preview">p=2^{257} - 2233</span><script type="math/tex">p=2^{257} - 2233</script></span> used to perform field operation on 256 bits numbers</p>
+<p>Initialize a Field element to a certain value.</p>
 <p>The value passed as parameter is internally encoded as
 a mpz.</p></div>
 <details class="source">
@@ -538,6 +576,8 @@ a mpz.</p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class P256Field(PField):
+    &#34;&#34;&#34;A Field using the prime \\(p=2^{257} - 2233\\) used to perform field operation on 256 bits numbers&#34;&#34;&#34;
+
     # 2**n - k
     bits = 256
     def __init__(self, encoded_value):
@@ -583,7 +623,8 @@ a mpz.</p></div>
 <span>(</span><span>encoded_value)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Initialize a Field element to a certain value.</p>
+<div class="desc"><p>A Field using the prime <span><span class="MathJax_Preview">p=2^{129} - 1365</span><script type="math/tex">p=2^{129} - 1365</script></span> used to perform field operation on 128 bits numbers</p>
+<p>Initialize a Field element to a certain value.</p>
 <p>The value passed as parameter is internally encoded as
 a mpz.</p></div>
 <details class="source">
@@ -591,6 +632,8 @@ a mpz.</p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class P128Field(PField):
+    &#34;&#34;&#34;A Field using the prime \\(p=2^{129} - 1365\\) used to perform field operation on 128 bits numbers&#34;&#34;&#34;
+
     # 2**n - k
     bits = 128
     def __init__(self, encoded_value):
@@ -636,7 +679,8 @@ a mpz.</p></div>
 <span>(</span><span>encoded_value)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Initialize a Field element to a certain value.</p>
+<div class="desc"><p>A Field using the prime <span><span class="MathJax_Preview">p=2^{65} - 493</span><script type="math/tex">p=2^{65} - 493</script></span> used to perform field operation on 64 bits numbers</p>
+<p>Initialize a Field element to a certain value.</p>
 <p>The value passed as parameter is internally encoded as
 a mpz.</p></div>
 <details class="source">
@@ -644,6 +688,8 @@ a mpz.</p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class P64Field(PField):
+    &#34;&#34;&#34;A Field using the prime \\(p=2^{65} - 493\\) used to perform field operation on 64 bits numbers&#34;&#34;&#34;
+
     # 2**n - k
     bits = 64
     def __init__(self, encoded_value):
@@ -690,7 +736,9 @@ a mpz.</p></div>
 <nav id="sidebar">
 <h1>Index</h1>
 <div class="toc">
-<ul></ul>
+<ul>
+<li><a href="#extra-utilities">Extra Utilities</a></li>
+</ul>
 </div>
 <ul id="index">
 <li><h3>Super-module</h3>

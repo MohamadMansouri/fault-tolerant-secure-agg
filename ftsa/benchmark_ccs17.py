@@ -1,5 +1,5 @@
-from protocols.ccsftsa17.client import Client
-from protocols.ccsftsa17.server import Server
+from ftsa.protocols.ccsftsa17.client import Client
+from ftsa.protocols.ccsftsa17.server import Server
 from ftsa.protocols.utils.Scenario import Scenario
 from ftsa.protocols.utils.TimeMeasure import Clock
 from ftsa.protocols.utils.CommMeasure import Bandwidth, User
@@ -253,5 +253,5 @@ if __name__ == "__main__":
 
 
 
-    print("Finished. Succesfull tests: {}/{}".format(success[True], success[True] + success[False]))
+    print("Finished. Successful tests: {}/{}".format(success[True], success[True] + success[False]))
 

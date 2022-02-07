@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>protocols.buildingblocks.AESGCM128 API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="**Authenticated Encryption Scheme** …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -23,16 +23,49 @@
 <h1 class="title">Module <code>protocols.buildingblocks.AESGCM128</code></h1>
 </header>
 <section id="section-intro">
+<h3 id="authenticated-encryption-scheme"><strong>Authenticated Encryption Scheme</strong></h3>
+<p>This module contains a wraper for AES-GCM encryption from the library "<a href="https://cryptography.io/en/latest/">Python Cryptography Toolkit (pycrypto)</a>"</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from ftsa.protocols.utils.CommMeasure import getrealsize
+<pre><code class="python">&#34;&#34;&#34;
+### **Authenticated Encryption Scheme**
+
+This module contains a wraper for AES-GCM encryption from the library \&#34;[Python Cryptography Toolkit (pycrypto)](https://cryptography.io/en/latest/)\&#34;
+&#34;&#34;&#34;
+
+from ftsa.protocols.utils.CommMeasure import getrealsize
 
 from Crypto.Cipher import AES
 from gmpy2 import mpz
 
 class EncryptedMessage(object):
+    &#34;&#34;&#34;
+    An encrypted message using AES-GCM 
+
+    ## **Args**:
+    -------------
+    *ciphertext* : `bytes` --
+        the raw ciphertext value
+
+    *tag* : `bytes` --
+        the integrity verification tag raw value
+
+    *nonce* : `byets`
+        the nonce raw value
+    
+    ## **Attributes**:
+    -------------
+    *ciphertext* : `bytes` --
+        the raw ciphertext value
+
+    *tag* : `bytes` --
+        the integrity verification tag raw value
+
+    *nonce* : `bytes` --
+        the nonce raw value
+    &#34;&#34;&#34;
     def __init__(self, ciphertext, tag, nonce) -&gt; None:
         super().__init__()
         self.ct = ciphertext
@@ -43,10 +76,24 @@ class EncryptedMessage(object):
         return str(self.ct)
 
     def getrealsize(self):
+        &#34;&#34;&#34;returns the size of the ciphertext in bits&#34;&#34;&#34;
         return getrealsize(self.ct) + getrealsize(self.tag) + getrealsize(self.nonce)
 
 
 class EncryptionKey(object):
+    &#34;&#34;&#34;
+    The AES-GCM key to be used for encryption/decryption of messages
+
+    ## **Args**:
+    -------------
+    *key* : `bytes` or `int` or `gmpy2.mpz` --
+        the raw key value
+
+    ## **Attributes**:
+    -------------
+    *key* : `bytes` or `int` or `gmpy2.mpz` --
+        the raw key value
+    &#34;&#34;&#34;
     def __init__(self, key) -&gt; None:
         super().__init__()
         if isinstance(key, mpz):
@@ -65,11 +112,13 @@ class EncryptionKey(object):
             raise ValueError(&#34;Key is of unacceptable type {}&#34;.format(type(key)))
     
     def encrypt(self, m):
+        &#34;&#34;&#34;Encrypts the message m and returns an `EncryptedMessage`&#34;&#34;&#34;
         cipher = AES.new(self.key, AES.MODE_GCM)
         ct, tag = cipher.encrypt_and_digest(m)
         return EncryptedMessage(ct, tag, cipher.nonce)
 
     def decrypt(self, e : EncryptedMessage):
+        &#34;&#34;&#34;Decrypts and verfies the integrits of `EncryptedMessage` and returns the message bytes&#34;&#34;&#34;
         cipher = AES.new(self.key, AES.MODE_GCM, nonce = e.nonce)
         return cipher.decrypt_and_verify(e.ct,e.tag)</code></pre>
 </details>
@@ -88,12 +137,53 @@ class EncryptionKey(object):
 <span>(</span><span>ciphertext, tag, nonce)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>An encrypted message using AES-GCM </p>
+<h2 id="args"><strong>Args</strong>:</h2>
+<hr>
+<p><em>ciphertext</em> : <code>bytes</code> &ndash;
+the raw ciphertext value</p>
+<p><em>tag</em> : <code>bytes</code> &ndash;
+the integrity verification tag raw value</p>
+<p><em>nonce</em> : <code>byets</code>
+the nonce raw value</p>
+<h2 id="attributes"><strong>Attributes</strong>:</h2>
+<hr>
+<p><em>ciphertext</em> : <code>bytes</code> &ndash;
+the raw ciphertext value</p>
+<p><em>tag</em> : <code>bytes</code> &ndash;
+the integrity verification tag raw value</p>
+<p><em>nonce</em> : <code>bytes</code> &ndash;
+the nonce raw value</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class EncryptedMessage(object):
+    &#34;&#34;&#34;
+    An encrypted message using AES-GCM 
+
+    ## **Args**:
+    -------------
+    *ciphertext* : `bytes` --
+        the raw ciphertext value
+
+    *tag* : `bytes` --
+        the integrity verification tag raw value
+
+    *nonce* : `byets`
+        the nonce raw value
+    
+    ## **Attributes**:
+    -------------
+    *ciphertext* : `bytes` --
+        the raw ciphertext value
+
+    *tag* : `bytes` --
+        the integrity verification tag raw value
+
+    *nonce* : `bytes` --
+        the nonce raw value
+    &#34;&#34;&#34;
     def __init__(self, ciphertext, tag, nonce) -&gt; None:
         super().__init__()
         self.ct = ciphertext
@@ -104,6 +194,7 @@ class EncryptionKey(object):
         return str(self.ct)
 
     def getrealsize(self):
+        &#34;&#34;&#34;returns the size of the ciphertext in bits&#34;&#34;&#34;
         return getrealsize(self.ct) + getrealsize(self.tag) + getrealsize(self.nonce)</code></pre>
 </details>
 <h3>Methods</h3>
@@ -112,12 +203,13 @@ class EncryptionKey(object):
 <span>def <span class="ident">getrealsize</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>returns the size of the ciphertext in bits</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def getrealsize(self):
+    &#34;&#34;&#34;returns the size of the ciphertext in bits&#34;&#34;&#34;
     return getrealsize(self.ct) + getrealsize(self.tag) + getrealsize(self.nonce)</code></pre>
 </details>
 </dd>
@@ -128,12 +220,33 @@ class EncryptionKey(object):
 <span>(</span><span>key)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The AES-GCM key to be used for encryption/decryption of messages</p>
+<h2 id="args"><strong>Args</strong>:</h2>
+<hr>
+<p><em>key</em> : <code>bytes</code> or <code>int</code> or <code>gmpy2.mpz</code> &ndash;
+the raw key value</p>
+<h2 id="attributes"><strong>Attributes</strong>:</h2>
+<hr>
+<p><em>key</em> : <code>bytes</code> or <code>int</code> or <code>gmpy2.mpz</code> &ndash;
+the raw key value</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class EncryptionKey(object):
+    &#34;&#34;&#34;
+    The AES-GCM key to be used for encryption/decryption of messages
+
+    ## **Args**:
+    -------------
+    *key* : `bytes` or `int` or `gmpy2.mpz` --
+        the raw key value
+
+    ## **Attributes**:
+    -------------
+    *key* : `bytes` or `int` or `gmpy2.mpz` --
+        the raw key value
+    &#34;&#34;&#34;
     def __init__(self, key) -&gt; None:
         super().__init__()
         if isinstance(key, mpz):
@@ -152,11 +265,13 @@ class EncryptionKey(object):
             raise ValueError(&#34;Key is of unacceptable type {}&#34;.format(type(key)))
     
     def encrypt(self, m):
+        &#34;&#34;&#34;Encrypts the message m and returns an `EncryptedMessage`&#34;&#34;&#34;
         cipher = AES.new(self.key, AES.MODE_GCM)
         ct, tag = cipher.encrypt_and_digest(m)
         return EncryptedMessage(ct, tag, cipher.nonce)
 
     def decrypt(self, e : EncryptedMessage):
+        &#34;&#34;&#34;Decrypts and verfies the integrits of `EncryptedMessage` and returns the message bytes&#34;&#34;&#34;
         cipher = AES.new(self.key, AES.MODE_GCM, nonce = e.nonce)
         return cipher.decrypt_and_verify(e.ct,e.tag)</code></pre>
 </details>
@@ -166,12 +281,13 @@ class EncryptionKey(object):
 <span>def <span class="ident">encrypt</span></span>(<span>self, m)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Encrypts the message m and returns an <code><a title="protocols.buildingblocks.AESGCM128.EncryptedMessage" href="#protocols.buildingblocks.AESGCM128.EncryptedMessage">EncryptedMessage</a></code></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def encrypt(self, m):
+    &#34;&#34;&#34;Encrypts the message m and returns an `EncryptedMessage`&#34;&#34;&#34;
     cipher = AES.new(self.key, AES.MODE_GCM)
     ct, tag = cipher.encrypt_and_digest(m)
     return EncryptedMessage(ct, tag, cipher.nonce)</code></pre>
@@ -181,12 +297,13 @@ class EncryptionKey(object):
 <span>def <span class="ident">decrypt</span></span>(<span>self, e: <a title="protocols.buildingblocks.AESGCM128.EncryptedMessage" href="#protocols.buildingblocks.AESGCM128.EncryptedMessage">EncryptedMessage</a>)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Decrypts and verfies the integrits of <code><a title="protocols.buildingblocks.AESGCM128.EncryptedMessage" href="#protocols.buildingblocks.AESGCM128.EncryptedMessage">EncryptedMessage</a></code> and returns the message bytes</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def decrypt(self, e : EncryptedMessage):
+    &#34;&#34;&#34;Decrypts and verfies the integrits of `EncryptedMessage` and returns the message bytes&#34;&#34;&#34;
     cipher = AES.new(self.key, AES.MODE_GCM, nonce = e.nonce)
     return cipher.decrypt_and_verify(e.ct,e.tag)</code></pre>
 </details>
@@ -199,7 +316,9 @@ class EncryptionKey(object):
 <nav id="sidebar">
 <h1>Index</h1>
 <div class="toc">
-<ul></ul>
+<ul>
+<li><a href="#authenticated-encryption-scheme">Authenticated Encryption Scheme</a></li>
+</ul>
 </div>
 <ul id="index">
 <li><h3>Super-module</h3>

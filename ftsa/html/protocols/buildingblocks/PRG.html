@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>protocols.buildingblocks.PRG API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="** Pseudo-Random Generator ** …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -23,18 +23,48 @@
 <h1 class="title">Module <code>protocols.buildingblocks.PRG</code></h1>
 </header>
 <section id="section-intro">
+<h3 id="pseudo-random-generator"><strong> Pseudo-Random Generator </strong></h3>
+<p>This module contains a wraper for AES-CTR encryption from the library "<a href="https://cryptography.io/en/latest/">Python Cryptography Toolkit (pycrypto)</a>"</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from Crypto.Cipher import AES
+<pre><code class="python">&#34;&#34;&#34;
+### ** Pseudo-Random Generator **
+
+This module contains a wraper for AES-CTR encryption from the library \&#34;[Python Cryptography Toolkit (pycrypto)](https://cryptography.io/en/latest/)\&#34;
+&#34;&#34;&#34;
+from Crypto.Cipher import AES
 from math import ceil
 from gmpy2 import mpz
 
 class PRG(object):
-    zero=0
-    nonce = zero.to_bytes(12,&#34;big&#34;)
+    &#34;&#34;&#34;
+    A pseudo-random generator class used to extend an integer to a vector
+
+    ## **Args**:
+    -------------
+    *vectorsize* : `int` --
+        the number of elements of the output vector
+
+    *elementsize* : `int` --
+        the size of each element of the vector in bits
+
+    ## **Attributes**:
+    -------------
+    *m* : `int` --
+        the number of elements of the output vector ( \\(m\\))
+
+    *bits* : `int` --
+        the size of each element of the vector ( \\(bits\\))
+    
+    *e* : `int` --
+        the size of each element of the vector in bytes
+    &#34;&#34;&#34;
+    _zero=0
+    _nonce = _zero.to_bytes(12,&#34;big&#34;)
     security = 128
+    &#34;&#34;&#34;The bitlength of the input of the PRG&#34;&#34;&#34;
     def __init__(self, vectorsize, elementsize) -&gt; None:
         super().__init__()
         self.m = vectorsize
@@ -42,6 +72,10 @@ class PRG(object):
         self.e = ceil(elementsize / 8)
 
     def eval(self,x):
+        &#34;&#34;&#34;Computes AES-CTR of an empty string of size equal \\(m \\times bits\\) and then splits the result to generate a vector.
+        
+        It returns a vector of \\(m\\) elements each of size \\(bits\\) bits
+        &#34;&#34;&#34;
         seed = x
         if isinstance(seed, mpz):
             seed = int(x)
@@ -53,7 +87,7 @@ class PRG(object):
         elif not isinstance(seed, bytes):
             raise ValueError(&#34;seed should be of type either int or bytes&#34;)
 
-        c = AES.new(seed[:PRG.security // 8], AES.MODE_CTR, nonce=PRG.nonce, initial_value=0)
+        c = AES.new(seed[:PRG.security // 8], AES.MODE_CTR, nonce=PRG._nonce, initial_value=0)
         cipher = c.encrypt(b&#39;&#39;.rjust(self.e*self.m, b&#39;\x00&#39;))
         return [int.from_bytes(cipher[i:i+self.e],&#34;big&#34;) % 2**self.bits for i in range(0,len(cipher), self.e)]</code></pre>
 </details>
@@ -72,15 +106,52 @@ class PRG(object):
 <span>(</span><span>vectorsize, elementsize)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>A pseudo-random generator class used to extend an integer to a vector</p>
+<h2 id="args"><strong>Args</strong>:</h2>
+<hr>
+<p><em>vectorsize</em> : <code>int</code> &ndash;
+the number of elements of the output vector</p>
+<p><em>elementsize</em> : <code>int</code> &ndash;
+the size of each element of the vector in bits</p>
+<h2 id="attributes"><strong>Attributes</strong>:</h2>
+<hr>
+<p><em>m</em> : <code>int</code> &ndash;
+the number of elements of the output vector ( <span><span class="MathJax_Preview">m</span><script type="math/tex">m</script></span>)</p>
+<p><em>bits</em> : <code>int</code> &ndash;
+the size of each element of the vector ( <span><span class="MathJax_Preview">bits</span><script type="math/tex">bits</script></span>)</p>
+<p><em>e</em> : <code>int</code> &ndash;
+the size of each element of the vector in bytes</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class PRG(object):
-    zero=0
-    nonce = zero.to_bytes(12,&#34;big&#34;)
+    &#34;&#34;&#34;
+    A pseudo-random generator class used to extend an integer to a vector
+
+    ## **Args**:
+    -------------
+    *vectorsize* : `int` --
+        the number of elements of the output vector
+
+    *elementsize* : `int` --
+        the size of each element of the vector in bits
+
+    ## **Attributes**:
+    -------------
+    *m* : `int` --
+        the number of elements of the output vector ( \\(m\\))
+
+    *bits* : `int` --
+        the size of each element of the vector ( \\(bits\\))
+    
+    *e* : `int` --
+        the size of each element of the vector in bytes
+    &#34;&#34;&#34;
+    _zero=0
+    _nonce = _zero.to_bytes(12,&#34;big&#34;)
     security = 128
+    &#34;&#34;&#34;The bitlength of the input of the PRG&#34;&#34;&#34;
     def __init__(self, vectorsize, elementsize) -&gt; None:
         super().__init__()
         self.m = vectorsize
@@ -88,6 +159,10 @@ class PRG(object):
         self.e = ceil(elementsize / 8)
 
     def eval(self,x):
+        &#34;&#34;&#34;Computes AES-CTR of an empty string of size equal \\(m \\times bits\\) and then splits the result to generate a vector.
+        
+        It returns a vector of \\(m\\) elements each of size \\(bits\\) bits
+        &#34;&#34;&#34;
         seed = x
         if isinstance(seed, mpz):
             seed = int(x)
@@ -99,23 +174,15 @@ class PRG(object):
         elif not isinstance(seed, bytes):
             raise ValueError(&#34;seed should be of type either int or bytes&#34;)
 
-        c = AES.new(seed[:PRG.security // 8], AES.MODE_CTR, nonce=PRG.nonce, initial_value=0)
+        c = AES.new(seed[:PRG.security // 8], AES.MODE_CTR, nonce=PRG._nonce, initial_value=0)
         cipher = c.encrypt(b&#39;&#39;.rjust(self.e*self.m, b&#39;\x00&#39;))
         return [int.from_bytes(cipher[i:i+self.e],&#34;big&#34;) % 2**self.bits for i in range(0,len(cipher), self.e)]</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="protocols.buildingblocks.PRG.PRG.zero"><code class="name">var <span class="ident">zero</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="protocols.buildingblocks.PRG.PRG.nonce"><code class="name">var <span class="ident">nonce</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
 <dt id="protocols.buildingblocks.PRG.PRG.security"><code class="name">var <span class="ident">security</span></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The bitlength of the input of the PRG</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -124,12 +191,17 @@ class PRG(object):
 <span>def <span class="ident">eval</span></span>(<span>self, x)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Computes AES-CTR of an empty string of size equal <span><span class="MathJax_Preview">m \times bits</span><script type="math/tex">m \times bits</script></span> and then splits the result to generate a vector.</p>
+<p>It returns a vector of <span><span class="MathJax_Preview">m</span><script type="math/tex">m</script></span> elements each of size <span><span class="MathJax_Preview">bits</span><script type="math/tex">bits</script></span> bits</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def eval(self,x):
+    &#34;&#34;&#34;Computes AES-CTR of an empty string of size equal \\(m \\times bits\\) and then splits the result to generate a vector.
+    
+    It returns a vector of \\(m\\) elements each of size \\(bits\\) bits
+    &#34;&#34;&#34;
     seed = x
     if isinstance(seed, mpz):
         seed = int(x)
@@ -141,7 +213,7 @@ class PRG(object):
     elif not isinstance(seed, bytes):
         raise ValueError(&#34;seed should be of type either int or bytes&#34;)
 
-    c = AES.new(seed[:PRG.security // 8], AES.MODE_CTR, nonce=PRG.nonce, initial_value=0)
+    c = AES.new(seed[:PRG.security // 8], AES.MODE_CTR, nonce=PRG._nonce, initial_value=0)
     cipher = c.encrypt(b&#39;&#39;.rjust(self.e*self.m, b&#39;\x00&#39;))
     return [int.from_bytes(cipher[i:i+self.e],&#34;big&#34;) % 2**self.bits for i in range(0,len(cipher), self.e)]</code></pre>
 </details>
@@ -154,7 +226,9 @@ class PRG(object):
 <nav id="sidebar">
 <h1>Index</h1>
 <div class="toc">
-<ul></ul>
+<ul>
+<li><a href="#pseudo-random-generator">Pseudo-Random Generator</a></li>
+</ul>
 </div>
 <ul id="index">
 <li><h3>Super-module</h3>
@@ -168,8 +242,6 @@ class PRG(object):
 <h4><code><a title="protocols.buildingblocks.PRG.PRG" href="#protocols.buildingblocks.PRG.PRG">PRG</a></code></h4>
 <ul class="">
 <li><code><a title="protocols.buildingblocks.PRG.PRG.eval" href="#protocols.buildingblocks.PRG.PRG.eval">eval</a></code></li>
-<li><code><a title="protocols.buildingblocks.PRG.PRG.zero" href="#protocols.buildingblocks.PRG.PRG.zero">zero</a></code></li>
-<li><code><a title="protocols.buildingblocks.PRG.PRG.nonce" href="#protocols.buildingblocks.PRG.PRG.nonce">nonce</a></code></li>
 <li><code><a title="protocols.buildingblocks.PRG.PRG.security" href="#protocols.buildingblocks.PRG.PRG.security">security</a></code></li>
 </ul>
 </li>

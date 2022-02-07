@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>protocols.buildingblocks.IntegerSS API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="**Shamir&#39;s Secret Sharing over the Integers ** …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -23,11 +23,21 @@
 <h1 class="title">Module <code>protocols.buildingblocks.IntegerSS</code></h1>
 </header>
 <section id="section-intro">
+<h3 id="shamirs-secret-sharing-over-the-integers"><strong>Shamir's Secret Sharing over the Integers </strong></h3>
+<p>This module contains an implementation of Shamir's secret sharing (t-out-of-n) over the integers [4]. This module is used internally in Joye-Libert scheme.</p>
+<p>[4] ** Tal Rabin. A simplified approach to threshold and proactive rsa. In Proceedings of the 18th Annual International Cryptology Conference on Advances in Cryptology, CRYPTO'98, Berlin, Heidelberg, 1998. Springer-Verlag.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from os import urandom as rng
+<pre><code class="python">&#34;&#34;&#34;
+### **Shamir&#39;s Secret Sharing over the Integers **
+
+This module contains an implementation of Shamir&#39;s secret sharing (t-out-of-n) over the integers [4]. This module is used internally in Joye-Libert scheme.
+
+[4] ** Tal Rabin. A simplified approach to threshold and proactive rsa. In Proceedings of the 18th Annual International Cryptology Conference on Advances in Cryptology, CRYPTO&#39;98, Berlin, Heidelberg, 1998. Springer-Verlag.&#34;&#34;&#34;
+
+from os import urandom as rng
 from math import factorial, log2
 
 from ftsa.protocols.buildingblocks.ShamirSS import Share
@@ -36,6 +46,16 @@ from ftsa.protocols.buildingblocks.FullDomainHash import FDH
 from ftsa.protocols.utils.CommMeasure import User
 
 class IShare(Share):
+    &#34;&#34;&#34;A share of a secret value in the SS over the integers scheme
+    
+    ## **Args**:
+    -------------
+    *idx* : `int` --
+        the user index who holds the share
+
+    *value* : `Field` --
+        the raw value of the share
+    &#34;&#34;&#34;
     bits = 0
     def __init__(self, idx, value) -&gt; None:
         super().__init__(idx, value)
@@ -44,11 +64,31 @@ class IShare(Share):
         return IShare(self.idx, self.value + other.value)
     
     def getrealsize(self):
+        &#34;&#34;&#34;returns the size of the share in bits&#34;&#34;&#34;
         return User.size + IShare.bits 
     
 
 
 class ISSS(object):
+    &#34;&#34;&#34;The secret sharing scheme over the integers
+    
+    ## **Args**:
+    -------------
+    *bitlength* : `int` --
+        the bit length of secrets to be shared
+    
+    *sigma* : `int` --
+        the security parameter for the ISS scheme
+
+    ## **Attributes**:
+    -------------
+    *bitlength* : `int` --
+        the bit length of secrets to be shared
+
+    *Field* : `Field` --
+        The field to be used for the operations
+    
+    &#34;&#34;&#34;
     def __init__(self, bitlength, sigma):
         super().__init__()
         self.bitlength = bitlength
@@ -56,6 +96,7 @@ class ISSS(object):
 
 
     def Share(self,secret,t,U):
+        &#34;&#34;&#34;Shares a secret with n users with a threshold k. Returns a list of `IShare` elements&#34;&#34;&#34;
 
         delta = factorial(len(U))
         coeffs = []
@@ -82,6 +123,8 @@ class ISSS(object):
         return [IShare(i, make_share(i, coeffs)) for i in U]
     
     def Recon(self, shares, t, delta):
+        &#34;&#34;&#34;Reconstructs a secret from a list of shares. If lagcoefs are not provided, it computes them. delta is factorial of the number of clients. Returns the secret as an integer&#34;&#34;&#34;
+
         assert len(shares) &gt; 0 , &#34;empty list of shares to reconstruct from&#34;
         if isinstance(shares[0], list):
             l = len(shares[0])
@@ -174,12 +217,28 @@ class ISSS(object):
 <span>(</span><span>idx, value)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>A share of a secret value in the SS over the integers scheme</p>
+<h2 id="args"><strong>Args</strong>:</h2>
+<hr>
+<p><em>idx</em> : <code>int</code> &ndash;
+the user index who holds the share</p>
+<p><em>value</em> : <code>Field</code> &ndash;
+the raw value of the share</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class IShare(Share):
+    &#34;&#34;&#34;A share of a secret value in the SS over the integers scheme
+    
+    ## **Args**:
+    -------------
+    *idx* : `int` --
+        the user index who holds the share
+
+    *value* : `Field` --
+        the raw value of the share
+    &#34;&#34;&#34;
     bits = 0
     def __init__(self, idx, value) -&gt; None:
         super().__init__(idx, value)
@@ -188,6 +247,7 @@ class ISSS(object):
         return IShare(self.idx, self.value + other.value)
     
     def getrealsize(self):
+        &#34;&#34;&#34;returns the size of the share in bits&#34;&#34;&#34;
         return User.size + IShare.bits </code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -207,12 +267,13 @@ class ISSS(object):
 <span>def <span class="ident">getrealsize</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>returns the size of the share in bits</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def getrealsize(self):
+    &#34;&#34;&#34;returns the size of the share in bits&#34;&#34;&#34;
     return User.size + IShare.bits </code></pre>
 </details>
 </dd>
@@ -223,12 +284,43 @@ class ISSS(object):
 <span>(</span><span>bitlength, sigma)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The secret sharing scheme over the integers</p>
+<h2 id="args"><strong>Args</strong>:</h2>
+<hr>
+<p><em>bitlength</em> : <code>int</code> &ndash;
+the bit length of secrets to be shared</p>
+<p><em>sigma</em> : <code>int</code> &ndash;
+the security parameter for the ISS scheme</p>
+<h2 id="attributes"><strong>Attributes</strong>:</h2>
+<hr>
+<p><em>bitlength</em> : <code>int</code> &ndash;
+the bit length of secrets to be shared</p>
+<p><em>Field</em> : <code>Field</code> &ndash;
+The field to be used for the operations</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class ISSS(object):
+    &#34;&#34;&#34;The secret sharing scheme over the integers
+    
+    ## **Args**:
+    -------------
+    *bitlength* : `int` --
+        the bit length of secrets to be shared
+    
+    *sigma* : `int` --
+        the security parameter for the ISS scheme
+
+    ## **Attributes**:
+    -------------
+    *bitlength* : `int` --
+        the bit length of secrets to be shared
+
+    *Field* : `Field` --
+        The field to be used for the operations
+    
+    &#34;&#34;&#34;
     def __init__(self, bitlength, sigma):
         super().__init__()
         self.bitlength = bitlength
@@ -236,6 +328,7 @@ class ISSS(object):
 
 
     def Share(self,secret,t,U):
+        &#34;&#34;&#34;Shares a secret with n users with a threshold k. Returns a list of `IShare` elements&#34;&#34;&#34;
 
         delta = factorial(len(U))
         coeffs = []
@@ -262,6 +355,8 @@ class ISSS(object):
         return [IShare(i, make_share(i, coeffs)) for i in U]
     
     def Recon(self, shares, t, delta):
+        &#34;&#34;&#34;Reconstructs a secret from a list of shares. If lagcoefs are not provided, it computes them. delta is factorial of the number of clients. Returns the secret as an integer&#34;&#34;&#34;
+
         assert len(shares) &gt; 0 , &#34;empty list of shares to reconstruct from&#34;
         if isinstance(shares[0], list):
             l = len(shares[0])
@@ -345,12 +440,13 @@ class ISSS(object):
 <span>def <span class="ident">Share</span></span>(<span>self, secret, t, U)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Shares a secret with n users with a threshold k. Returns a list of <code><a title="protocols.buildingblocks.IntegerSS.IShare" href="#protocols.buildingblocks.IntegerSS.IShare">IShare</a></code> elements</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def Share(self,secret,t,U):
+    &#34;&#34;&#34;Shares a secret with n users with a threshold k. Returns a list of `IShare` elements&#34;&#34;&#34;
 
     delta = factorial(len(U))
     coeffs = []
@@ -381,12 +477,14 @@ class ISSS(object):
 <span>def <span class="ident">Recon</span></span>(<span>self, shares, t, delta)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Reconstructs a secret from a list of shares. If lagcoefs are not provided, it computes them. delta is factorial of the number of clients. Returns the secret as an integer</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def Recon(self, shares, t, delta):
+    &#34;&#34;&#34;Reconstructs a secret from a list of shares. If lagcoefs are not provided, it computes them. delta is factorial of the number of clients. Returns the secret as an integer&#34;&#34;&#34;
+
     assert len(shares) &gt; 0 , &#34;empty list of shares to reconstruct from&#34;
     if isinstance(shares[0], list):
         l = len(shares[0])
@@ -415,7 +513,9 @@ class ISSS(object):
 <nav id="sidebar">
 <h1>Index</h1>
 <div class="toc">
-<ul></ul>
+<ul>
+<li><a href="#shamirs-secret-sharing-over-the-integers">Shamir's Secret Sharing over the Integers</a></li>
+</ul>
 </div>
 <ul id="index">
 <li><h3>Super-module</h3>

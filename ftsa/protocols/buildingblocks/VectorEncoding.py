@@ -1,7 +1,56 @@
+"""
+### ** Vector Encoding Scheme **
+
+This module encodes and decodes vector elements to create smaller size vectors using a packing technique
+"""
+
+
 from math import ceil, log2, floor
 import gmpy2 
 
 class VES(object):
+    """
+    The vector encoding class
+
+    ** Args**:
+    -------------
+    *ptsize* : `int` --
+        The bitlength of the plaintext (the number of bits of an element in the output vector) 
+    
+    *addops* : `int` --
+        The number of supported addition operation on the encoded elements (to avoid overflow)
+
+    *valuesize* : `int` --
+        The bit length of an element of the input vector
+
+    *vectorsize* : `int` --
+        The number of element of the input vector
+
+    ** Attributes**:
+    -------------
+    *ptsize* : `int` --
+        The bitlength of the plaintext (the number of bits of an element in the output vector) 
+    
+    *addops* : `int` --
+        The number of supported addition operation on the encoded elements (to avoid overflow)
+
+    *valuesize* : `int` --
+        The bit length of an element of the input vector
+
+    *vectorsize* : `int` --
+        The number of element of the input vector
+
+    *elementsize* : `int` --
+        The extended bit length of an element of the input vector
+
+    *compratio* : `int` --
+        The compression ratio of the scheme
+
+    *numbatches* : `int` --
+        The number of elements in the output vector
+    
+ 
+    """
     def __init__(self, ptsize, addops, valuesize, vectorsize) -> None:
         super().__init__()
         self.ptsize = ptsize
@@ -9,11 +58,12 @@ class VES(object):
         self.valuesize = valuesize
         self.vectorsize = vectorsize
         self.elementsize = valuesize + ceil(log2(addops))
-        self.batchsize = floor(ptsize / self.elementsize)
-        self.numbatches = ceil(self.vectorsize / self.batchsize)
+        self.compratio = floor(ptsize / self.elementsize)
+        self.numbatches = ceil(self.vectorsize / self.compratio)
 
     def encode(self, V):
-        bs = self.batchsize
+        """Encode a vector to a smaller size vector"""
+        bs = self.compratio
         e = []
         E = []
         for v in V: 
@@ -22,12 +72,13 @@ class VES(object):
             if bs == 0:
                 E.append(self._batch(e))
                 e = []
-                bs = self.batchsize
+                bs = self.compratio
         if e:
             E.append(self._batch(e))
         return E
     
     def decode(self, E):
+        """decode a vector back to original size vector"""
         V = []
         for e in E: 
             for v in self._debatch(e):

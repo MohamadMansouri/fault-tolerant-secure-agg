@@ -1,4 +1,8 @@
+"""
+### **Shamir's Secret Sharing Scheme **
 
+This module contains an implementation of Shamir's secret sharing (t-out-of-n) over a field of user choice.
+"""
 from os import urandom as rng
 
 from ftsa.protocols.buildingblocks.utils import P64Field, P128Field, P256Field, P512Field, P1024Field, P2048Field
@@ -6,6 +10,24 @@ from ftsa.protocols.utils.CommMeasure import User
 
 
 class Share(object):
+    """A share of a secret value
+    
+    ## **Args**:
+    -------------
+    *idx* : `int` --
+        the user index who holds the share
+
+    *value* : `Field` --
+        the raw value of the share
+
+    ## **Attributes**:
+    -------------
+    *idx* : `int` --
+        the user index who holds the share
+
+    *value* : `Field` --
+        the raw value of the share
+    """
     def __init__(self, idx, value) -> None:
         super().__init__()
         self.idx = idx
@@ -15,9 +37,26 @@ class Share(object):
         return Share(self.idx, self.value + other.value)
 
     def getrealsize(self):
+        """returns the size of the share in bits"""
         return User.size + self.value.bits
 
 class SSS(object):
+    """The secret sharing scheme
+    
+    ## **Args**:
+    -------------
+    *bitlength* : `int` --
+        the bit length of secrets to be shared
+
+    ## **Attributes**:
+    -------------
+    *bitlength* : `int` --
+        the bit length of secrets to be shared
+
+    *Field* : `Field` --
+        The field to be used for the operations
+    
+    """
     def __init__(self, bitlength) -> None:
         super().__init__()
         if bitlength <= 64:
@@ -43,6 +82,7 @@ class SSS(object):
         self.bitlength = bitlength
 
     def lagrange(self,shares):
+        """computes the lagrange coefetions. It returns a dictionary of user indices as keys and lagrange coeficients as values"""
         k = len(shares)
 
         gf_ind = []
@@ -68,7 +108,7 @@ class SSS(object):
         return coefs
                     
     def share(self,k, n, secret):
-
+        """Shares a secret with n users with a threshold k. Returns a list of `Share` elements"""
         coeffs = [self.Field(rng(self.bitlength//8)) for i in range(k - 1)]
         coeffs.append(self.Field(secret))
 
@@ -84,6 +124,8 @@ class SSS(object):
         return [Share(i, make_share(i, coeffs)) for i in range(1, n + 1)]
 
     def recon(self,shares, lagcoefs=None):
+        """Reconstructs a secret from a list of shares. If lagcoefs are not provided, it computes them. Returns the secret as an integer"""
+
         gf_shares = []
         for x in shares:
             idx = self.Field(x.idx)

@@ -1,27 +1,38 @@
+""" 
+### **Extra Utilities**
+
+This module contain additional utility methods used in the building blocks and the protocols"""
+
 import gmpy2, random
 
 
 def add_vectors(A,B,r):
+    """Adds two vectors mod r"""
     C=[]
     for a,b in zip(A,B):
         C.append((a+b) % r)
     return C
 
 def subs_vectors(A,B,r):
+    """Substracts two vectors mod r"""
+
     C=[]
     for a,b in zip(A,B):
         C.append((a-b) % r)
     return C
 
-def getprimeover(N):
+def getprimeover(bits):
+    """Returns a prime number with specific number of bits """
+
     randfunc = random.SystemRandom()
-    r = gmpy2.mpz(randfunc.getrandbits(N))
-    r = gmpy2.bit_set(r, N - 1)
+    r = gmpy2.mpz(randfunc.getrandbits(bits))
+    r = gmpy2.bit_set(r, bits - 1)
     return gmpy2.next_prime(r)
 
 
 
 def invert(a, b):
+    """Finds the invers of a mod b"""
     s = gmpy2.invert(a, b)
     # according to documentation, gmpy2.invert might return 0 on
     # non-invertible element, although it seems to actually raise an
@@ -31,6 +42,8 @@ def invert(a, b):
     return s
 
 def powmod(a, b, c):
+    """Computes a to the power of b mod c"""
+
     if a == 1:
         return 1
     return gmpy2.powmod(a, b, c)
@@ -38,6 +51,7 @@ def powmod(a, b, c):
 
 
 class PField(object):
+    """A field \\(\\mathbb{Z}_p\\) of all the integers mod \\(p\\)"""
     def __init__(self, encoded_value, p, bits):
         """Initialize a Field element to a certain value.
 
@@ -95,36 +109,43 @@ class PField(object):
 
 
 class P2048Field(PField):
-    # 16th Mersenne prime
+    """A Field using the 16th Mersenne prime \\(p=2^{2203} - 1\\) used to perform field operation on 2048 bits numbers"""
     bits = 2048
     def __init__(self, encoded_value):
         super().__init__(encoded_value, 2**2203 - 1, P2048Field.bits)
 
 class P1024Field(PField):
-    # 15th Mersenne prime
+    """A Field using the 15th Mersenne prime \\(p=2^{1279} - 1\\) used to perform field operation on 1024 bits numbers"""
     bits = 1024
     def __init__(self, encoded_value):
         super().__init__(encoded_value, 2**1279 - 1, P1024Field.bits)
 
 class P512Field(PField):
-    # 13th Mersenne prime
+    """A Field using the 13th Mersenne prime \\(p=2^{521} - 1\\) used to perform field operation on 512 bits numbers"""
+
     bits = 512
     def __init__(self, encoded_value):
         super().__init__(encoded_value,2**521 - 1, P512Field.bits)
  
 class P256Field(PField):
+    """A Field using the prime \\(p=2^{257} - 2233\\) used to perform field operation on 256 bits numbers"""
+
     # 2**n - k
     bits = 256
     def __init__(self, encoded_value):
         super().__init__(encoded_value,2**257 - 2233, P256Field.bits)
       
 class P128Field(PField):
+    """A Field using the prime \\(p=2^{129} - 1365\\) used to perform field operation on 128 bits numbers"""
+
     # 2**n - k
     bits = 128
     def __init__(self, encoded_value):
         super().__init__(encoded_value,2**129 - 1365, P128Field.bits)
        
 class P64Field(PField):
+    """A Field using the prime \\(p=2^{65} - 493\\) used to perform field operation on 64 bits numbers"""
+
     # 2**n - k
     bits = 64
     def __init__(self, encoded_value):

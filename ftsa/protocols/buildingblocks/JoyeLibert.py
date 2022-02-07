@@ -1,5 +1,5 @@
 """
-### **  Joye-Libert secure aggregation scheme (JL) and its threshold-variant (TJL)**  
+### **Joye-Libert secure aggregation scheme (JL) and its threshold-variant (TJL)**  
 
 This module contains a python implementation of the Joye-Libert scheme and the threshold-variant of Joye-Libert scheme. The original scheme of Joye-Libert can be found here [1]. The threshold variant is defined here [2].
 

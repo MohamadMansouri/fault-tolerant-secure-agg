@@ -1,3 +1,10 @@
+"""
+### **Shamir's Secret Sharing over the Integers **
+
+This module contains an implementation of Shamir's secret sharing (t-out-of-n) over the integers [4]. This module is used internally in Joye-Libert scheme.
+
+[4] ** Tal Rabin. A simplified approach to threshold and proactive rsa. In Proceedings of the 18th Annual International Cryptology Conference on Advances in Cryptology, CRYPTO'98, Berlin, Heidelberg, 1998. Springer-Verlag."""
+
 from os import urandom as rng
 from math import factorial, log2
 
@@ -7,6 +14,16 @@ from ftsa.protocols.buildingblocks.FullDomainHash import FDH
 from ftsa.protocols.utils.CommMeasure import User
 
 class IShare(Share):
+    """A share of a secret value in the SS over the integers scheme
+    
+    ## **Args**:
+    -------------
+    *idx* : `int` --
+        the user index who holds the share
+
+    *value* : `Field` --
+        the raw value of the share
+    """
     bits = 0
     def __init__(self, idx, value) -> None:
         super().__init__(idx, value)
@@ -15,11 +32,31 @@ class IShare(Share):
         return IShare(self.idx, self.value + other.value)
     
     def getrealsize(self):
+        """returns the size of the share in bits"""
         return User.size + IShare.bits 
     
 
 
 class ISSS(object):
+    """The secret sharing scheme over the integers
+    
+    ## **Args**:
+    -------------
+    *bitlength* : `int` --
+        the bit length of secrets to be shared
+    
+    *sigma* : `int` --
+        the security parameter for the ISS scheme
+
+    ## **Attributes**:
+    -------------
+    *bitlength* : `int` --
+        the bit length of secrets to be shared
+
+    *Field* : `Field` --
+        The field to be used for the operations
+    
+    """
     def __init__(self, bitlength, sigma):
         super().__init__()
         self.bitlength = bitlength
@@ -27,6 +64,7 @@ class ISSS(object):
 
 
     def Share(self,secret,t,U):
+        """Shares a secret with n users with a threshold k. Returns a list of `IShare` elements"""
 
         delta = factorial(len(U))
         coeffs = []
@@ -53,6 +91,8 @@ class ISSS(object):
         return [IShare(i, make_share(i, coeffs)) for i in U]
     
     def Recon(self, shares, t, delta):
+        """Reconstructs a secret from a list of shares. If lagcoefs are not provided, it computes them. delta is factorial of the number of clients. Returns the secret as an integer"""
+
         assert len(shares) > 0 , "empty list of shares to reconstruct from"
         if isinstance(shares[0], list):
             l = len(shares[0])
