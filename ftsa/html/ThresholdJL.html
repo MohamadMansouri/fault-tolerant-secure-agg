@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>ThresholdJL API documentation</title>
+<meta name="description" content="This module contains a python implementation of the Joye-Libert scheme. The original scheme can be found here [1] …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>ThresholdJL</code></h1>
+</header>
+<section id="section-intro">
+<h2 id="this-module-contains-a-python-implementation-of-the-joye-libert-scheme-the-original-scheme-can-be-found-here-1">This module contains a python implementation of the Joye-Libert scheme. The original scheme can be found here [1]</h2>
+<p>[1] <em>Marc Joye and Benoît Libert. A scalable scheme for
+privacy-preserving aggregation of time-series data. In
+Ahmad-Reza Sadeghi, editor, Financial Cryptography
+and Data Security. Springer Berlin Heidelberg, 2013.</em></p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+## This module contains a python implementation of the Joye-Libert scheme. The original scheme can be found here [1]
+
+[1] *Marc Joye and Benoît Libert. A scalable scheme for
+privacy-preserving aggregation of time-series data. In
+Ahmad-Reza Sadeghi, editor, Financial Cryptography
+and Data Security. Springer Berlin Heidelberg, 2013.*
+&#34;&#34;&#34;
+
+import random
+from gmpy2 import mpz
+
+from ftsa.protocols.buildingblocks.utils import getprimeover, invert, powmod
+from ftsa.protocols.buildingblocks.JoyeLibert import JLS, EncryptedNumber, ServerKey, UserKey
+from ftsa.protocols.buildingblocks.FullDomainHash import FDH
+
+
+DEFAULT_KEY_SIZE = 2048
+
+class TJLS(JLS):
+    &#34;&#34;&#34;
+    The Threshold version of Joye-Libert scheme. It consists of six Probabilistic Polynomial Time algorithms: **Setup**, **SKShare**, **ShareProtect**, **ShareCombine**, **Protect**, and **Agg**.
+
+    ## **Args**:
+    -------------        
+    *nusers* : `int` --
+        The number of users in the scheme
+
+    *threshold* : `int` --
+        The secret sharing reconstruction threshold 
+
+    *VE* : `VectorEncoding` --
+        The vector encoding/decoding scheme
+
+    ## **Attributes**:
+    -------------        
+    *nusers* : `int` --
+        The number of users in the scheme
+
+    *threshold* : `int` --
+        The secret sharing reconstruction threshold 
+
+    *VE* : `VectorEncoding` --
+        The vector encoding/decoding scheme
+
+    *keysize* : `int` --
+        The bit length of the keys
+    
+
+    
+    &#34;&#34;&#34;
+    def __init__(self, nusers, threshold, VE):
+        super().__init__()
+        self.nusers = nusers
+        self.keysize = None
+        self.threshold = threshold
+        self.VE = VE
+
+    def SKShare(self, sk_u, t, U):
+        &#34;&#34;&#34;
+        Share the secret sk_u with all users in U: 
+        $$\\{(v,[\\Delta sk_u]_v)\\}_{\\forall v \\in \\mathcal{U}} \\gets \\textbf{TJL.SKShare}(sk_u,t,\\mathcal{U})$$
+
+        ### On input of user \\(u\\)&#39;s secret key, this algorithm calls \\(\\textbf{ISS.Share}(sk_u,t,\\mathcal{U})\\) where the interval of the secret \\(sk_u\\) is \\([-2^{2l},2^{2l}]\\) and \\(l\\) is the number of bits of the modulus \\(N\\). It constructs a secret sharing of the private key \\(sk_u\\) over the integers. Hence, this algorithm outputs \\(n\\) shares of user \\(u\\)&#39;s key \\(sk_u\\), each share \\([\\Delta sk_u]_v\\) is for each user \\(v \\in \\mathcal{U}\\).
+
+        ## **Args**:
+        -------------
+        *sk_u* : `UserKey` --
+            The secret key of user u
+        
+        *t* : `int` --
+            The threshold of the secret sharing scheme
+
+        *U* : `list` --
+            The list of user identifier [1,...,n]
+        
+        ## **Returns**:
+        ----------------
+        A list of shares of the secret key. Each share is of type `IntSecretShare`
+        &#34;&#34;&#34;
+        pass
+    
+    def ShareProtect(self, pp, list_sk_v_ushare, tau):
+        &#34;&#34;&#34;
+        Protect a zero value with u&#39;s shares of all failed users&#39; secret keys: 
+        $$[ y&#39;_{\\tau}]_u \\gets \\textbf{TJL.ShareProtect}(pp,\\{[\\Delta sk_v]_u\\}_{v\\in \\mathcal{U}&#39;&#39;},\\tau)$$
+
+        ### This algorithm protects a zero-value with user \\(u\\)s shares of all the secret keys corresponding to the failed users ( \\(v \\in\\mathcal{U}&#39;&#39;\\) ) ( \\([\\Delta sk_v]_u\\) is the user \\(u\\) share of the secret key \\(sk_v\\) corresponding to the failed user \\(v\\) ). It basically calls \\(\\textbf{JL.Protect}(pp,\\sum_{v\\in \\mathcal{U}&#39;&#39;}[\\Delta sk_v]_u,\\tau, 0)\\) and outputs \\([y&#39;_{\\tau}]_u = H(\\tau)^{\\sum_{v\\in \\mathcal{U}&#39;&#39;}[\\Delta sk_v]_u} \\mod N^2\\). This algorithm is called when there are failed users and hence their input need to be recovered.
+
+        ## **Args**:
+        -------------
+        *pp* : `PublicParam` --
+            The public parameters \\(pp\\) (not used)
+
+        *list_sk_v_ushare* : `list` --
+            A list of shares of all failed users&#39; secret keys
+
+        *tau* : `int` --
+            The time period \\(\\tau\\)
+
+        
+        ## **Returns**:
+        ----------------
+        A share the protected zero-value with all failed users keys of type `IntSecretShare`
+        &#34;&#34;&#34;
+        pass
+    
+    def ShareCombine(self, list_yzero_ushare_tau, t):
+        &#34;&#34;&#34;
+        Combine the shares of all protected zero-value: 
+        $$y&#39;_{\\tau} \\gets \\textbf{TJL.ShareCombine}(\\{(u,[y&#39;_{\\tau}]_u, n)\\}_{\\forall u \\in \\mathcal{U}&#39;},t)$$
+
+        ### This algorithm combines \\(t\\) out of \\(n\\) protected shares of the zero-value for time step \\(\\tau\\) and given \\(\\Delta = n!\\). \\(\\mathcal{U}&#39;\\) is a subset of the online users such that \\(|\\mathcal{U}&#39;| \\geq t\\) and \\(\\mathcal{U}&#39;&#39;\\) is the set of failed users. It computes the Lagrange interpolation on the exponent.
+
+        ## **Args**:
+        -------------
+        *list_yzero_ushare_tau* : `list` --
+            A list of shares of the protected zero-value of all failed users
+        
+        *t* : `int` --
+            The threshold of the secret sharing scheme
+
+        ## **Returns**:
+        ----------------
+        The protected zero-value of all failed users at time period tau. Value of type `gmpy.mpz` or `list`
+        &#34;&#34;&#34;
+        pass
+
+
+    def Agg(self,pp, sk_0, tau,list_y_u_tau, yzero_tau):
+        &#34;&#34;&#34;
+        Aggregate users protected inputs with the server&#39;s secret key: 
+        $$X_{\\tau} \\gets \\textbf{TJL.Agg}(pp, sk_0,\\tau, \\{y_{u,\\tau}\\}_{\\forall u \\in \\mathcal{U}&#39;},y&#39;_\\tau)$$
+
+        ### On input the public parameters \\(pp\\), the aggregation key \\(sk_0\\), the individual ciphertexts of online users ( \\(u \\in \\mathcal{U}&#39;\\)), and the ciphertexts of the zero-value corresponding to the failed users, this algorithm aggregates the ciphers of time period \\(\\tau\\) by first multiplying the inputs for all online users, raising them to the power \\({\\Delta^2}\\), and multiplying the result with the ciphertext of the zero-value. \\(\\mathcal{U}&#39;\\) is that set of online users and \\(\\mathcal{U}&#39;&#39; = \\mathcal{U} \\setminus \\mathcal{U}&#39;\\) is the set of failed users. It computes:
+        
+        $$y&#39;_{\\tau} = (\\prod\\limits_{\\forall u \\in \\mathcal{U}&#39;}{y_{u,\\tau}})^{\\Delta^2} \\cdot y&#39;_\\tau \\mod N^2 =(1+{\\Delta^2} \\sum\\limits_{\\forall u \\in \\mathcal{U}&#39;}x_{u,\\tau} N)H(\\tau)^{{\\Delta^2} \\sum\\limits_{\\forall u \\in \\mathcal{U}&#39;}sk_u} \\cdot H(\\tau)^{{\\Delta^2} \\sum\\limits_{\\forall u \\in \\mathcal{U}&#39;&#39;}sk_u} $$
+        $$= (1+{\\Delta^2} \\sum\\limits_{\\forall u \\in \\mathcal{U}&#39;}x_{u,\\tau} N)H(\\tau)^{{\\Delta^2} \\sum\\limits_{\\forall u \\in \\mathcal{U}}sk_u}$$
+
+        ### To decrypt the final result, the algorithm proceeds as follows:  
+        $$ V_{\\tau} = H(\\tau)^{ {\\Delta^2} sk_0} \\cdot y&#39;_{\\tau}  \\qquad \\qquad X_{\\tau} = \\frac{V_{\\tau}-1}{N{\\Delta^2} } \\mod N$$
+
+
+        
+        ## **Args**:
+        -------------
+
+        *pp* : `PublicParam` --
+            The public parameters \\(pp\\) (not used)
+
+        *sk_0* : `ServerKey` --
+            The server&#39;s secret key \\(sk_0\\)
+
+        *tau* : `int` --
+            The time period \\(\\tau\\)
+
+        *list_y_u_tau* : `list` --
+            A list of the users&#39; protected inputs \\(\\{y_{u,\\tau}\\}_{u \\in \\{1,..,n\\}}\\)
+
+        ## **Returns**:
+        -------------
+        The sum of the users&#39; inputs of type `int` 
+        &#34;&#34;&#34;
+
+        assert isinstance(list_y_u_tau, list), &#34;list_y_u_tau should be a list&#34;
+        assert len(list_y_u_tau) &gt; 0 , &#34;list_y_u_tau should contain at least one protected input&#34;
+        if isinstance(list_y_u_tau[0], list):
+            for y_u_tau in list_y_u_tau:
+                assert len(list_y_u_tau[0]) == len(y_u_tau), &#34;attempting to aggregate protected vectors of different sizes&#34;
+            y_tau=[]
+            for i in range(len(list_y_u_tau[0])):
+                y_tau_i = list_y_u_tau[0][i]
+                for y_u_tau in list_y_u_tau[1:]:
+                    y_tau_i += y_u_tau[i]
+            y_tau.append(y_tau_i)
+            d = sk_0.decrypt(y_tau, tau)
+            sum_x_u_tau = self.VE.decode(d)
+
+        else: 
+            assert isinstance(list_y_u_tau[0], EncryptedNumber), &#34;bad ciphertext&#34;
+            y_tau = list_y_u_tau[0]
+            for y_u_tau in list_y_u_tau[1:]:
+                y_tau += y_u_tau
+            sum_x_u_tau = sk_0.decrypt(y_tau, tau)
+
+        return sum_x_u_tau</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="ThresholdJL.TJLS"><code class="flex name class">
+<span>class <span class="ident">TJLS</span></span>
+<span>(</span><span>nusers, threshold, VE)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The Threshold version of Joye-Libert scheme. It consists of six Probabilistic Polynomial Time algorithms: <strong>Setup</strong>, <strong>SKShare</strong>, <strong>ShareProtect</strong>, <strong>ShareCombine</strong>, <strong>Protect</strong>, and <strong>Agg</strong>.</p>
+<h2 id="args"><strong>Args</strong>:</h2>
+<hr>
+<p><em>nusers</em> : <code>int</code> &ndash;
+The number of users in the scheme</p>
+<p><em>threshold</em> : <code>int</code> &ndash;
+The secret sharing reconstruction threshold </p>
+<p><em>VE</em> : <code>VectorEncoding</code> &ndash;
+The vector encoding/decoding scheme</p>
+<h2 id="attributes"><strong>Attributes</strong>:</h2>
+<hr>
+<p><em>nusers</em> : <code>int</code> &ndash;
+The number of users in the scheme</p>
+<p><em>threshold</em> : <code>int</code> &ndash;
+The secret sharing reconstruction threshold </p>
+<p><em>VE</em> : <code>VectorEncoding</code> &ndash;
+The vector encoding/decoding scheme</p>
+<p><em>keysize</em> : <code>int</code> &ndash;
+The bit length of the keys</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TJLS(JLS):
+    &#34;&#34;&#34;
+    The Threshold version of Joye-Libert scheme. It consists of six Probabilistic Polynomial Time algorithms: **Setup**, **SKShare**, **ShareProtect**, **ShareCombine**, **Protect**, and **Agg**.
+
+    ## **Args**:
+    -------------        
+    *nusers* : `int` --
+        The number of users in the scheme
+
+    *threshold* : `int` --
+        The secret sharing reconstruction threshold 
+
+    *VE* : `VectorEncoding` --
+        The vector encoding/decoding scheme
+
+    ## **Attributes**:
+    -------------        
+    *nusers* : `int` --
+        The number of users in the scheme
+
+    *threshold* : `int` --
+        The secret sharing reconstruction threshold 
+
+    *VE* : `VectorEncoding` --
+        The vector encoding/decoding scheme
+
+    *keysize* : `int` --
+        The bit length of the keys
+    
+
+    
+    &#34;&#34;&#34;
+    def __init__(self, nusers, threshold, VE):
+        super().__init__()
+        self.nusers = nusers
+        self.keysize = None
+        self.threshold = threshold
+        self.VE = VE
+
+    def SKShare(self, sk_u, t, U):
+        &#34;&#34;&#34;
+        Share the secret sk_u with all users in U: 
+        $$\\{(v,[\\Delta sk_u]_v)\\}_{\\forall v \\in \\mathcal{U}} \\gets \\textbf{TJL.SKShare}(sk_u,t,\\mathcal{U})$$
+
+        ### On input of user \\(u\\)&#39;s secret key, this algorithm calls \\(\\textbf{ISS.Share}(sk_u,t,\\mathcal{U})\\) where the interval of the secret \\(sk_u\\) is \\([-2^{2l},2^{2l}]\\) and \\(l\\) is the number of bits of the modulus \\(N\\). It constructs a secret sharing of the private key \\(sk_u\\) over the integers. Hence, this algorithm outputs \\(n\\) shares of user \\(u\\)&#39;s key \\(sk_u\\), each share \\([\\Delta sk_u]_v\\) is for each user \\(v \\in \\mathcal{U}\\).
+
+        ## **Args**:
+        -------------
+        *sk_u* : `UserKey` --
+            The secret key of user u
+        
+        *t* : `int` --
+            The threshold of the secret sharing scheme
+
+        *U* : `list` --
+            The list of user identifier [1,...,n]
+        
+        ## **Returns**:
+        ----------------
+        A list of shares of the secret key. Each share is of type `IntSecretShare`
+        &#34;&#34;&#34;
+        pass
+    
+    def ShareProtect(self, pp, list_sk_v_ushare, tau):
+        &#34;&#34;&#34;
+        Protect a zero value with u&#39;s shares of all failed users&#39; secret keys: 
+        $$[ y&#39;_{\\tau}]_u \\gets \\textbf{TJL.ShareProtect}(pp,\\{[\\Delta sk_v]_u\\}_{v\\in \\mathcal{U}&#39;&#39;},\\tau)$$
+
+        ### This algorithm protects a zero-value with user \\(u\\)s shares of all the secret keys corresponding to the failed users ( \\(v \\in\\mathcal{U}&#39;&#39;\\) ) ( \\([\\Delta sk_v]_u\\) is the user \\(u\\) share of the secret key \\(sk_v\\) corresponding to the failed user \\(v\\) ). It basically calls \\(\\textbf{JL.Protect}(pp,\\sum_{v\\in \\mathcal{U}&#39;&#39;}[\\Delta sk_v]_u,\\tau, 0)\\) and outputs \\([y&#39;_{\\tau}]_u = H(\\tau)^{\\sum_{v\\in \\mathcal{U}&#39;&#39;}[\\Delta sk_v]_u} \\mod N^2\\). This algorithm is called when there are failed users and hence their input need to be recovered.
+
+        ## **Args**:
+        -------------
+        *pp* : `PublicParam` --
+            The public parameters \\(pp\\) (not used)
+
+        *list_sk_v_ushare* : `list` --
+            A list of shares of all failed users&#39; secret keys
+
+        *tau* : `int` --
+            The time period \\(\\tau\\)
+
+        
+        ## **Returns**:
+        ----------------
+        A share the protected zero-value with all failed users keys of type `IntSecretShare`
+        &#34;&#34;&#34;
+        pass
+    
+    def ShareCombine(self, list_yzero_ushare_tau, t):
+        &#34;&#34;&#34;
+        Combine the shares of all protected zero-value: 
+        $$y&#39;_{\\tau} \\gets \\textbf{TJL.ShareCombine}(\\{(u,[y&#39;_{\\tau}]_u, n)\\}_{\\forall u \\in \\mathcal{U}&#39;},t)$$
+
+        ### This algorithm combines \\(t\\) out of \\(n\\) protected shares of the zero-value for time step \\(\\tau\\) and given \\(\\Delta = n!\\). \\(\\mathcal{U}&#39;\\) is a subset of the online users such that \\(|\\mathcal{U}&#39;| \\geq t\\) and \\(\\mathcal{U}&#39;&#39;\\) is the set of failed users. It computes the Lagrange interpolation on the exponent.
+
+        ## **Args**:
+        -------------
+        *list_yzero_ushare_tau* : `list` --
+            A list of shares of the protected zero-value of all failed users
+        
+        *t* : `int` --
+            The threshold of the secret sharing scheme
+
+        ## **Returns**:
+        ----------------
+        The protected zero-value of all failed users at time period tau. Value of type `gmpy.mpz` or `list`
+        &#34;&#34;&#34;
+        pass
+
+
+    def Agg(self,pp, sk_0, tau,list_y_u_tau, yzero_tau):
+        &#34;&#34;&#34;
+        Aggregate users protected inputs with the server&#39;s secret key: 
+        $$X_{\\tau} \\gets \\textbf{TJL.Agg}(pp, sk_0,\\tau, \\{y_{u,\\tau}\\}_{\\forall u \\in \\mathcal{U}&#39;},y&#39;_\\tau)$$
+
+        ### On input the public parameters \\(pp\\), the aggregation key \\(sk_0\\), the individual ciphertexts of online users ( \\(u \\in \\mathcal{U}&#39;\\)), and the ciphertexts of the zero-value corresponding to the failed users, this algorithm aggregates the ciphers of time period \\(\\tau\\) by first multiplying the inputs for all online users, raising them to the power \\({\\Delta^2}\\), and multiplying the result with the ciphertext of the zero-value. \\(\\mathcal{U}&#39;\\) is that set of online users and \\(\\mathcal{U}&#39;&#39; = \\mathcal{U} \\setminus \\mathcal{U}&#39;\\) is the set of failed users. It computes:
+        
+        $$y&#39;_{\\tau} = (\\prod\\limits_{\\forall u \\in \\mathcal{U}&#39;}{y_{u,\\tau}})^{\\Delta^2} \\cdot y&#39;_\\tau \\mod N^2 =(1+{\\Delta^2} \\sum\\limits_{\\forall u \\in \\mathcal{U}&#39;}x_{u,\\tau} N)H(\\tau)^{{\\Delta^2} \\sum\\limits_{\\forall u \\in \\mathcal{U}&#39;}sk_u} \\cdot H(\\tau)^{{\\Delta^2} \\sum\\limits_{\\forall u \\in \\mathcal{U}&#39;&#39;}sk_u} $$
+        $$= (1+{\\Delta^2} \\sum\\limits_{\\forall u \\in \\mathcal{U}&#39;}x_{u,\\tau} N)H(\\tau)^{{\\Delta^2} \\sum\\limits_{\\forall u \\in \\mathcal{U}}sk_u}$$
+
+        ### To decrypt the final result, the algorithm proceeds as follows:  
+        $$ V_{\\tau} = H(\\tau)^{ {\\Delta^2} sk_0} \\cdot y&#39;_{\\tau}  \\qquad \\qquad X_{\\tau} = \\frac{V_{\\tau}-1}{N{\\Delta^2} } \\mod N$$
+
+
+        
+        ## **Args**:
+        -------------
+
+        *pp* : `PublicParam` --
+            The public parameters \\(pp\\) (not used)
+
+        *sk_0* : `ServerKey` --
+            The server&#39;s secret key \\(sk_0\\)
+
+        *tau* : `int` --
+            The time period \\(\\tau\\)
+
+        *list_y_u_tau* : `list` --
+            A list of the users&#39; protected inputs \\(\\{y_{u,\\tau}\\}_{u \\in \\{1,..,n\\}}\\)
+
+        ## **Returns**:
+        -------------
+        The sum of the users&#39; inputs of type `int` 
+        &#34;&#34;&#34;
+
+        assert isinstance(list_y_u_tau, list), &#34;list_y_u_tau should be a list&#34;
+        assert len(list_y_u_tau) &gt; 0 , &#34;list_y_u_tau should contain at least one protected input&#34;
+        if isinstance(list_y_u_tau[0], list):
+            for y_u_tau in list_y_u_tau:
+                assert len(list_y_u_tau[0]) == len(y_u_tau), &#34;attempting to aggregate protected vectors of different sizes&#34;
+            y_tau=[]
+            for i in range(len(list_y_u_tau[0])):
+                y_tau_i = list_y_u_tau[0][i]
+                for y_u_tau in list_y_u_tau[1:]:
+                    y_tau_i += y_u_tau[i]
+            y_tau.append(y_tau_i)
+            d = sk_0.decrypt(y_tau, tau)
+            sum_x_u_tau = self.VE.decode(d)
+
+        else: 
+            assert isinstance(list_y_u_tau[0], EncryptedNumber), &#34;bad ciphertext&#34;
+            y_tau = list_y_u_tau[0]
+            for y_u_tau in list_y_u_tau[1:]:
+                y_tau += y_u_tau
+            sum_x_u_tau = sk_0.decrypt(y_tau, tau)
+
+        return sum_x_u_tau</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>ftsa.protocols.buildingblocks.JoyeLibert.JLS</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="ThresholdJL.TJLS.SKShare"><code class="name flex">
+<span>def <span class="ident">SKShare</span></span>(<span>self, sk_u, t, U)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Share the secret sk_u with all users in U:
+<span><span class="MathJax_Preview">\{(v,[\Delta sk_u]_v)\}_{\forall v \in \mathcal{U}} \gets \textbf{TJL.SKShare}(sk_u,t,\mathcal{U})</span><script type="math/tex; mode=display">\{(v,[\Delta sk_u]_v)\}_{\forall v \in \mathcal{U}} \gets \textbf{TJL.SKShare}(sk_u,t,\mathcal{U})</script></span></p>
+<h3 id="on-input-of-user-uus-secret-key-this-algorithm-calls-textbfisssharesk_utmathcalutextbfisssharesk_utmathcalu-where-the-interval-of-the-secret-sk_usk_u-is-22l22l-22l22l-and-ll-is-the-number-of-bits-of-the-modulus-nn-it-constructs-a-secret-sharing-of-the-private-key-sk_usk_u-over-the-integers-hence-this-algorithm-outputs-nn-shares-of-user-uus-key-sk_usk_u-each-share-delta-sk_u_vdelta-sk_u_v-is-for-each-user-v-in-mathcaluv-in-mathcalu">On input of user <span><span class="MathJax_Preview">u</span><script type="math/tex">u</script></span>'s secret key, this algorithm calls <span><span class="MathJax_Preview">\textbf{ISS.Share}(sk_u,t,\mathcal{U})</span><script type="math/tex">\textbf{ISS.Share}(sk_u,t,\mathcal{U})</script></span> where the interval of the secret <span><span class="MathJax_Preview">sk_u</span><script type="math/tex">sk_u</script></span> is <span><span class="MathJax_Preview">[-2^{2l},2^{2l}]</span><script type="math/tex">[-2^{2l},2^{2l}]</script></span> and <span><span class="MathJax_Preview">l</span><script type="math/tex">l</script></span> is the number of bits of the modulus <span><span class="MathJax_Preview">N</span><script type="math/tex">N</script></span>. It constructs a secret sharing of the private key <span><span class="MathJax_Preview">sk_u</span><script type="math/tex">sk_u</script></span> over the integers. Hence, this algorithm outputs <span><span class="MathJax_Preview">n</span><script type="math/tex">n</script></span> shares of user <span><span class="MathJax_Preview">u</span><script type="math/tex">u</script></span>'s key <span><span class="MathJax_Preview">sk_u</span><script type="math/tex">sk_u</script></span>, each share <span><span class="MathJax_Preview">[\Delta sk_u]_v</span><script type="math/tex">[\Delta sk_u]_v</script></span> is for each user <span><span class="MathJax_Preview">v \in \mathcal{U}</span><script type="math/tex">v \in \mathcal{U}</script></span>.</h3>
+<h2 id="args"><strong>Args</strong>:</h2>
+<hr>
+<p><em>sk_u</em> : <code>UserKey</code> &ndash;
+The secret key of user u</p>
+<p><em>t</em> : <code>int</code> &ndash;
+The threshold of the secret sharing scheme</p>
+<p><em>U</em> : <code>list</code> &ndash;
+The list of user identifier [1,&hellip;,n]</p>
+<h2 id="returns"><strong>Returns</strong>:</h2>
+<hr>
+<p>A list of shares of the secret key. Each share is of type <code>IntSecretShare</code></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def SKShare(self, sk_u, t, U):
+    &#34;&#34;&#34;
+    Share the secret sk_u with all users in U: 
+    $$\\{(v,[\\Delta sk_u]_v)\\}_{\\forall v \\in \\mathcal{U}} \\gets \\textbf{TJL.SKShare}(sk_u,t,\\mathcal{U})$$
+
+    ### On input of user \\(u\\)&#39;s secret key, this algorithm calls \\(\\textbf{ISS.Share}(sk_u,t,\\mathcal{U})\\) where the interval of the secret \\(sk_u\\) is \\([-2^{2l},2^{2l}]\\) and \\(l\\) is the number of bits of the modulus \\(N\\). It constructs a secret sharing of the private key \\(sk_u\\) over the integers. Hence, this algorithm outputs \\(n\\) shares of user \\(u\\)&#39;s key \\(sk_u\\), each share \\([\\Delta sk_u]_v\\) is for each user \\(v \\in \\mathcal{U}\\).
+
+    ## **Args**:
+    -------------
+    *sk_u* : `UserKey` --
+        The secret key of user u
+    
+    *t* : `int` --
+        The threshold of the secret sharing scheme
+
+    *U* : `list` --
+        The list of user identifier [1,...,n]
+    
+    ## **Returns**:
+    ----------------
+    A list of shares of the secret key. Each share is of type `IntSecretShare`
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+<dt id="ThresholdJL.TJLS.ShareProtect"><code class="name flex">
+<span>def <span class="ident">ShareProtect</span></span>(<span>self, pp, list_sk_v_ushare, tau)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Protect a zero value with u's shares of all failed users' secret keys:
+<span><span class="MathJax_Preview">[ y'_{\tau}]_u \gets \textbf{TJL.ShareProtect}(pp,\{[\Delta sk_v]_u\}_{v\in \mathcal{U}''},\tau)</span><script type="math/tex; mode=display">[ y'_{\tau}]_u \gets \textbf{TJL.ShareProtect}(pp,\{[\Delta sk_v]_u\}_{v\in \mathcal{U}''},\tau)</script></span></p>
+<h3 id="this-algorithm-protects-a-zero-value-with-user-uus-shares-of-all-the-secret-keys-corresponding-to-the-failed-users-v-inmathcaluv-inmathcalu-delta-sk_v_udelta-sk_v_u-is-the-user-uu-share-of-the-secret-key-sk_vsk_v-corresponding-to-the-failed-user-vv-it-basically-calls-textbfjlprotectppsum_vin-mathcaludelta-sk_v_utau-0textbfjlprotectppsum_vin-mathcaludelta-sk_v_utau-0-and-outputs-y_tau_u-htausum_vin-mathcaludelta-sk_v_u-mod-n2y_tau_u-htausum_vin-mathcaludelta-sk_v_u-mod-n2-this-algorithm-is-called-when-there-are-failed-users-and-hence-their-input-need-to-be-recovered">This algorithm protects a zero-value with user <span><span class="MathJax_Preview">u</span><script type="math/tex">u</script></span>s shares of all the secret keys corresponding to the failed users ( <span><span class="MathJax_Preview">v \in\mathcal{U}''</span><script type="math/tex">v \in\mathcal{U}''</script></span> ) ( <span><span class="MathJax_Preview">[\Delta sk_v]_u</span><script type="math/tex">[\Delta sk_v]_u</script></span> is the user <span><span class="MathJax_Preview">u</span><script type="math/tex">u</script></span> share of the secret key <span><span class="MathJax_Preview">sk_v</span><script type="math/tex">sk_v</script></span> corresponding to the failed user <span><span class="MathJax_Preview">v</span><script type="math/tex">v</script></span> ). It basically calls <span><span class="MathJax_Preview">\textbf{JL.Protect}(pp,\sum_{v\in \mathcal{U}''}[\Delta sk_v]_u,\tau, 0)</span><script type="math/tex">\textbf{JL.Protect}(pp,\sum_{v\in \mathcal{U}''}[\Delta sk_v]_u,\tau, 0)</script></span> and outputs <span><span class="MathJax_Preview">[y'_{\tau}]_u = H(\tau)^{\sum_{v\in \mathcal{U}''}[\Delta sk_v]_u} \mod N^2</span><script type="math/tex">[y'_{\tau}]_u = H(\tau)^{\sum_{v\in \mathcal{U}''}[\Delta sk_v]_u} \mod N^2</script></span>. This algorithm is called when there are failed users and hence their input need to be recovered.</h3>
+<h2 id="args"><strong>Args</strong>:</h2>
+<hr>
+<p><em>pp</em> : <code>PublicParam</code> &ndash;
+The public parameters <span><span class="MathJax_Preview">pp</span><script type="math/tex">pp</script></span> (not used)</p>
+<p><em>list_sk_v_ushare</em> : <code>list</code> &ndash;
+A list of shares of all failed users' secret keys</p>
+<p><em>tau</em> : <code>int</code> &ndash;
+The time period <span><span class="MathJax_Preview">\tau</span><script type="math/tex">\tau</script></span></p>
+<h2 id="returns"><strong>Returns</strong>:</h2>
+<hr>
+<p>A share the protected zero-value with all failed users keys of type <code>IntSecretShare</code></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ShareProtect(self, pp, list_sk_v_ushare, tau):
+    &#34;&#34;&#34;
+    Protect a zero value with u&#39;s shares of all failed users&#39; secret keys: 
+    $$[ y&#39;_{\\tau}]_u \\gets \\textbf{TJL.ShareProtect}(pp,\\{[\\Delta sk_v]_u\\}_{v\\in \\mathcal{U}&#39;&#39;},\\tau)$$
+
+    ### This algorithm protects a zero-value with user \\(u\\)s shares of all the secret keys corresponding to the failed users ( \\(v \\in\\mathcal{U}&#39;&#39;\\) ) ( \\([\\Delta sk_v]_u\\) is the user \\(u\\) share of the secret key \\(sk_v\\) corresponding to the failed user \\(v\\) ). It basically calls \\(\\textbf{JL.Protect}(pp,\\sum_{v\\in \\mathcal{U}&#39;&#39;}[\\Delta sk_v]_u,\\tau, 0)\\) and outputs \\([y&#39;_{\\tau}]_u = H(\\tau)^{\\sum_{v\\in \\mathcal{U}&#39;&#39;}[\\Delta sk_v]_u} \\mod N^2\\). This algorithm is called when there are failed users and hence their input need to be recovered.
+
+    ## **Args**:
+    -------------
+    *pp* : `PublicParam` --
+        The public parameters \\(pp\\) (not used)
+
+    *list_sk_v_ushare* : `list` --
+        A list of shares of all failed users&#39; secret keys
+
+    *tau* : `int` --
+        The time period \\(\\tau\\)
+
+    
+    ## **Returns**:
+    ----------------
+    A share the protected zero-value with all failed users keys of type `IntSecretShare`
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+<dt id="ThresholdJL.TJLS.ShareCombine"><code class="name flex">
+<span>def <span class="ident">ShareCombine</span></span>(<span>self, list_yzero_ushare_tau, t)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Combine the shares of all protected zero-value:
+<span><span class="MathJax_Preview">y'_{\tau} \gets \textbf{TJL.ShareCombine}(\{(u,[y'_{\tau}]_u, n)\}_{\forall u \in \mathcal{U}'},t)</span><script type="math/tex; mode=display">y'_{\tau} \gets \textbf{TJL.ShareCombine}(\{(u,[y'_{\tau}]_u, n)\}_{\forall u \in \mathcal{U}'},t)</script></span></p>
+<h3 id="this-algorithm-combines-tt-out-of-nn-protected-shares-of-the-zero-value-for-time-step-tautau-and-given-delta-ndelta-n-mathcalumathcalu-is-a-subset-of-the-online-users-such-that-mathcalu-geq-tmathcalu-geq-t-and-mathcalumathcalu-is-the-set-of-failed-users-it-computes-the-lagrange-interpolation-on-the-exponent">This algorithm combines <span><span class="MathJax_Preview">t</span><script type="math/tex">t</script></span> out of <span><span class="MathJax_Preview">n</span><script type="math/tex">n</script></span> protected shares of the zero-value for time step <span><span class="MathJax_Preview">\tau</span><script type="math/tex">\tau</script></span> and given <span><span class="MathJax_Preview">\Delta = n!</span><script type="math/tex">\Delta = n!</script></span>. <span><span class="MathJax_Preview">\mathcal{U}'</span><script type="math/tex">\mathcal{U}'</script></span> is a subset of the online users such that <span><span class="MathJax_Preview">|\mathcal{U}'| \geq t</span><script type="math/tex">|\mathcal{U}'| \geq t</script></span> and <span><span class="MathJax_Preview">\mathcal{U}''</span><script type="math/tex">\mathcal{U}''</script></span> is the set of failed users. It computes the Lagrange interpolation on the exponent.</h3>
+<h2 id="args"><strong>Args</strong>:</h2>
+<hr>
+<p><em>list_yzero_ushare_tau</em> : <code>list</code> &ndash;
+A list of shares of the protected zero-value of all failed users</p>
+<p><em>t</em> : <code>int</code> &ndash;
+The threshold of the secret sharing scheme</p>
+<h2 id="returns"><strong>Returns</strong>:</h2>
+<hr>
+<p>The protected zero-value of all failed users at time period tau. Value of type <code>gmpy.mpz</code> or <code>list</code></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ShareCombine(self, list_yzero_ushare_tau, t):
+    &#34;&#34;&#34;
+    Combine the shares of all protected zero-value: 
+    $$y&#39;_{\\tau} \\gets \\textbf{TJL.ShareCombine}(\\{(u,[y&#39;_{\\tau}]_u, n)\\}_{\\forall u \\in \\mathcal{U}&#39;},t)$$
+
+    ### This algorithm combines \\(t\\) out of \\(n\\) protected shares of the zero-value for time step \\(\\tau\\) and given \\(\\Delta = n!\\). \\(\\mathcal{U}&#39;\\) is a subset of the online users such that \\(|\\mathcal{U}&#39;| \\geq t\\) and \\(\\mathcal{U}&#39;&#39;\\) is the set of failed users. It computes the Lagrange interpolation on the exponent.
+
+    ## **Args**:
+    -------------
+    *list_yzero_ushare_tau* : `list` --
+        A list of shares of the protected zero-value of all failed users
+    
+    *t* : `int` --
+        The threshold of the secret sharing scheme
+
+    ## **Returns**:
+    ----------------
+    The protected zero-value of all failed users at time period tau. Value of type `gmpy.mpz` or `list`
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+<dt id="ThresholdJL.TJLS.Agg"><code class="name flex">
+<span>def <span class="ident">Agg</span></span>(<span>self, pp, sk_0, tau, list_y_u_tau, yzero_tau)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Aggregate users protected inputs with the server's secret key:
+<span><span class="MathJax_Preview">X_{\tau} \gets \textbf{TJL.Agg}(pp, sk_0,\tau, \{y_{u,\tau}\}_{\forall u \in \mathcal{U}'},y'_\tau)</span><script type="math/tex; mode=display">X_{\tau} \gets \textbf{TJL.Agg}(pp, sk_0,\tau, \{y_{u,\tau}\}_{\forall u \in \mathcal{U}'},y'_\tau)</script></span></p>
+<h3 id="on-input-the-public-parameters-pppp-the-aggregation-key-sk_0sk_0-the-individual-ciphertexts-of-online-users-u-in-mathcaluu-in-mathcalu-and-the-ciphertexts-of-the-zero-value-corresponding-to-the-failed-users-this-algorithm-aggregates-the-ciphers-of-time-period-tautau-by-first-multiplying-the-inputs-for-all-online-users-raising-them-to-the-power-delta2delta2-and-multiplying-the-result-with-the-ciphertext-of-the-zero-value-mathcalumathcalu-is-that-set-of-online-users-and-mathcalu-mathcalu-setminus-mathcalumathcalu-mathcalu-setminus-mathcalu-is-the-set-of-failed-users-it-computes">On input the public parameters <span><span class="MathJax_Preview">pp</span><script type="math/tex">pp</script></span>, the aggregation key <span><span class="MathJax_Preview">sk_0</span><script type="math/tex">sk_0</script></span>, the individual ciphertexts of online users ( <span><span class="MathJax_Preview">u \in \mathcal{U}'</span><script type="math/tex">u \in \mathcal{U}'</script></span>), and the ciphertexts of the zero-value corresponding to the failed users, this algorithm aggregates the ciphers of time period <span><span class="MathJax_Preview">\tau</span><script type="math/tex">\tau</script></span> by first multiplying the inputs for all online users, raising them to the power <span><span class="MathJax_Preview">{\Delta^2}</span><script type="math/tex">{\Delta^2}</script></span>, and multiplying the result with the ciphertext of the zero-value. <span><span class="MathJax_Preview">\mathcal{U}'</span><script type="math/tex">\mathcal{U}'</script></span> is that set of online users and <span><span class="MathJax_Preview">\mathcal{U}'' = \mathcal{U} \setminus \mathcal{U}'</span><script type="math/tex">\mathcal{U}'' = \mathcal{U} \setminus \mathcal{U}'</script></span> is the set of failed users. It computes:</h3>
+<p><span><span class="MathJax_Preview">y'_{\tau} = (\prod\limits_{\forall u \in \mathcal{U}'}{y_{u,\tau}})^{\Delta^2} \cdot y'_\tau \mod N^2 =(1+{\Delta^2} \sum\limits_{\forall u \in \mathcal{U}'}x_{u,\tau} N)H(\tau)^{{\Delta^2} \sum\limits_{\forall u \in \mathcal{U}'}sk_u} \cdot H(\tau)^{{\Delta^2} \sum\limits_{\forall u \in \mathcal{U}''}sk_u} </span><script type="math/tex; mode=display">y'_{\tau} = (\prod\limits_{\forall u \in \mathcal{U}'}{y_{u,\tau}})^{\Delta^2} \cdot y'_\tau \mod N^2 =(1+{\Delta^2} \sum\limits_{\forall u \in \mathcal{U}'}x_{u,\tau} N)H(\tau)^{{\Delta^2} \sum\limits_{\forall u \in \mathcal{U}'}sk_u} \cdot H(\tau)^{{\Delta^2} \sum\limits_{\forall u \in \mathcal{U}''}sk_u} </script></span>
+<span><span class="MathJax_Preview">= (1+{\Delta^2} \sum\limits_{\forall u \in \mathcal{U}'}x_{u,\tau} N)H(\tau)^{{\Delta^2} \sum\limits_{\forall u \in \mathcal{U}}sk_u}</span><script type="math/tex; mode=display">= (1+{\Delta^2} \sum\limits_{\forall u \in \mathcal{U}'}x_{u,\tau} N)H(\tau)^{{\Delta^2} \sum\limits_{\forall u \in \mathcal{U}}sk_u}</script></span></p>
+<h3 id="to-decrypt-the-final-result-the-algorithm-proceeds-as-follows">To decrypt the final result, the algorithm proceeds as follows:</h3>
+<p><span><span class="MathJax_Preview"> V_{\tau} = H(\tau)^{ {\Delta^2} sk_0} \cdot y'_{\tau}
+\qquad \qquad X_{\tau} = \frac{V_{\tau}-1}{N{\Delta^2} } \mod N</span><script type="math/tex; mode=display"> V_{\tau} = H(\tau)^{ {\Delta^2} sk_0} \cdot y'_{\tau}
+\qquad \qquad X_{\tau} = \frac{V_{\tau}-1}{N{\Delta^2} } \mod N</script></span></p>
+<h2 id="args"><strong>Args</strong>:</h2>
+<hr>
+<p><em>pp</em> : <code>PublicParam</code> &ndash;
+The public parameters <span><span class="MathJax_Preview">pp</span><script type="math/tex">pp</script></span> (not used)</p>
+<p><em>sk_0</em> : <code>ServerKey</code> &ndash;
+The server's secret key <span><span class="MathJax_Preview">sk_0</span><script type="math/tex">sk_0</script></span></p>
+<p><em>tau</em> : <code>int</code> &ndash;
+The time period <span><span class="MathJax_Preview">\tau</span><script type="math/tex">\tau</script></span></p>
+<p><em>list_y_u_tau</em> : <code>list</code> &ndash;
+A list of the users' protected inputs <span><span class="MathJax_Preview">\{y_{u,\tau}\}_{u \in \{1,..,n\}}</span><script type="math/tex">\{y_{u,\tau}\}_{u \in \{1,..,n\}}</script></span></p>
+<h2 id="returns"><strong>Returns</strong>:</h2>
+<hr>
+<p>The sum of the users' inputs of type <code>int</code></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def Agg(self,pp, sk_0, tau,list_y_u_tau, yzero_tau):
+    &#34;&#34;&#34;
+    Aggregate users protected inputs with the server&#39;s secret key: 
+    $$X_{\\tau} \\gets \\textbf{TJL.Agg}(pp, sk_0,\\tau, \\{y_{u,\\tau}\\}_{\\forall u \\in \\mathcal{U}&#39;},y&#39;_\\tau)$$
+
+    ### On input the public parameters \\(pp\\), the aggregation key \\(sk_0\\), the individual ciphertexts of online users ( \\(u \\in \\mathcal{U}&#39;\\)), and the ciphertexts of the zero-value corresponding to the failed users, this algorithm aggregates the ciphers of time period \\(\\tau\\) by first multiplying the inputs for all online users, raising them to the power \\({\\Delta^2}\\), and multiplying the result with the ciphertext of the zero-value. \\(\\mathcal{U}&#39;\\) is that set of online users and \\(\\mathcal{U}&#39;&#39; = \\mathcal{U} \\setminus \\mathcal{U}&#39;\\) is the set of failed users. It computes:
+    
+    $$y&#39;_{\\tau} = (\\prod\\limits_{\\forall u \\in \\mathcal{U}&#39;}{y_{u,\\tau}})^{\\Delta^2} \\cdot y&#39;_\\tau \\mod N^2 =(1+{\\Delta^2} \\sum\\limits_{\\forall u \\in \\mathcal{U}&#39;}x_{u,\\tau} N)H(\\tau)^{{\\Delta^2} \\sum\\limits_{\\forall u \\in \\mathcal{U}&#39;}sk_u} \\cdot H(\\tau)^{{\\Delta^2} \\sum\\limits_{\\forall u \\in \\mathcal{U}&#39;&#39;}sk_u} $$
+    $$= (1+{\\Delta^2} \\sum\\limits_{\\forall u \\in \\mathcal{U}&#39;}x_{u,\\tau} N)H(\\tau)^{{\\Delta^2} \\sum\\limits_{\\forall u \\in \\mathcal{U}}sk_u}$$
+
+    ### To decrypt the final result, the algorithm proceeds as follows:  
+    $$ V_{\\tau} = H(\\tau)^{ {\\Delta^2} sk_0} \\cdot y&#39;_{\\tau}  \\qquad \\qquad X_{\\tau} = \\frac{V_{\\tau}-1}{N{\\Delta^2} } \\mod N$$
+
+
+    
+    ## **Args**:
+    -------------
+
+    *pp* : `PublicParam` --
+        The public parameters \\(pp\\) (not used)
+
+    *sk_0* : `ServerKey` --
+        The server&#39;s secret key \\(sk_0\\)
+
+    *tau* : `int` --
+        The time period \\(\\tau\\)
+
+    *list_y_u_tau* : `list` --
+        A list of the users&#39; protected inputs \\(\\{y_{u,\\tau}\\}_{u \\in \\{1,..,n\\}}\\)
+
+    ## **Returns**:
+    -------------
+    The sum of the users&#39; inputs of type `int` 
+    &#34;&#34;&#34;
+
+    assert isinstance(list_y_u_tau, list), &#34;list_y_u_tau should be a list&#34;
+    assert len(list_y_u_tau) &gt; 0 , &#34;list_y_u_tau should contain at least one protected input&#34;
+    if isinstance(list_y_u_tau[0], list):
+        for y_u_tau in list_y_u_tau:
+            assert len(list_y_u_tau[0]) == len(y_u_tau), &#34;attempting to aggregate protected vectors of different sizes&#34;
+        y_tau=[]
+        for i in range(len(list_y_u_tau[0])):
+            y_tau_i = list_y_u_tau[0][i]
+            for y_u_tau in list_y_u_tau[1:]:
+                y_tau_i += y_u_tau[i]
+        y_tau.append(y_tau_i)
+        d = sk_0.decrypt(y_tau, tau)
+        sum_x_u_tau = self.VE.decode(d)
+
+    else: 
+        assert isinstance(list_y_u_tau[0], EncryptedNumber), &#34;bad ciphertext&#34;
+        y_tau = list_y_u_tau[0]
+        for y_u_tau in list_y_u_tau[1:]:
+            y_tau += y_u_tau
+        sum_x_u_tau = sk_0.decrypt(y_tau, tau)
+
+    return sum_x_u_tau</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul>
+<li><a href="#this-module-contains-a-python-implementation-of-the-joye-libert-scheme-the-original-scheme-can-be-found-here-1">This module contains a python implementation of the Joye-Libert scheme. The original scheme can be found here [1]</a></li>
+</ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="ThresholdJL.TJLS" href="#ThresholdJL.TJLS">TJLS</a></code></h4>
+<ul class="">
+<li><code><a title="ThresholdJL.TJLS.SKShare" href="#ThresholdJL.TJLS.SKShare">SKShare</a></code></li>
+<li><code><a title="ThresholdJL.TJLS.ShareProtect" href="#ThresholdJL.TJLS.ShareProtect">ShareProtect</a></code></li>
+<li><code><a title="ThresholdJL.TJLS.ShareCombine" href="#ThresholdJL.TJLS.ShareCombine">ShareCombine</a></code></li>
+<li><code><a title="ThresholdJL.TJLS.Agg" href="#ThresholdJL.TJLS.Agg">Agg</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
