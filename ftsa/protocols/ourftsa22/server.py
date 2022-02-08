@@ -202,7 +202,6 @@ class Server(object):
             b[vuser] = Server.SS.recon(bshares[vuser],lagcoef)
             # recompute the blinding vector B
             B[vuser] = Server.prg.eval(b[vuser])
-
         Yzeroshares = [y for y in Yzeroshares if y]
         if Yzeroshares:
             assert len(Yzeroshares) >= Server.threshold

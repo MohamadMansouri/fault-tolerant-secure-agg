@@ -1,44 +1,37 @@
-from ftsa.protocols.ourftsa22.client import Client
-from ftsa.protocols.ourftsa22.server import Server
-from ftsa.protocols.buildingblocks.JoyeLibert import JLS
-from ftsa.protocols.utils.Scenario import Scenario
+from ftsa.protocols.buildingblocks.JoyeLibert import TJLS
 from ftsa.protocols.utils.TimeMeasure import Clock
 from ftsa.protocols.utils.CommMeasure import Bandwidth, User
+from ftsa.protocols.ourftsa22.client import Client
+from ftsa.protocols.ourftsa22.server import Server
+
+import benchmark_utils
 
 from math import ceil
 from copy import deepcopy
 import sys
 
-REPITIONS = 5
-# DIMLIST = [1000, 2000, 4000, 6000, 8000, 10000, 20000, 40000, 60000, 80000, 100000, 200000, 300000, 400000, 500000]
-DIMLIST = [200000, 300000, 400000, 500000]
-INPUTSIZE = 16 
-KEYSIZE = 2048
-NCNTLIST = [100, 200, 300]
-THRESHOLD = 2/3
-DROPLIST = [0.0, 0.1, 0.2, 0.3]
+TJL_keysize = 2048
 
-def init_scenario(scenario):
-    publicparam, _ , _ = JLS(nclients, inputsize, dimension).generate_keys()
+def init_ours_scenario(scenario):
     
-    Client.set_scenario(scenario.dimension, scenario.inputsize,scenario.keysize,
+    publicparam, _ , _ = TJLS(scenario.nclients, scenario.threshold).Setup(TJL_keysize)
+
+    Client.set_scenario(scenario.dimension, scenario.inputsize, TJL_keysize,
      scenario.threshold, scenario.nclients, publicparam)
     
-    Server.set_scenario(scenario.dimension, scenario.inputsize,scenario.keysize,
+    Server.set_scenario(scenario.dimension, scenario.inputsize, TJL_keysize,
      scenario.threshold, scenario.nclients, publicparam)
 
     clients = {}
-    for i in range(nclients):
+    for i in range(scenario.nclients):
         idx = i+1
         clients[idx] = Client(idx)
 
     server = Server()
 
     return clients, server
-
-
-
-def run_benchmark(clients, server, scenario, repititions):
+    
+def benchmark_ours(clients, server, scenario, repititions):
 
     setup_register_client_clock = Clock("setup", "register", "client", scenario)
     setup_register_server_clock = Clock("setup", "register", "server", scenario)
@@ -128,7 +121,7 @@ def run_benchmark(clients, server, scenario, repititions):
         allY[user] = Y
 
     # drop some clients
-    nclientsnew = scenario.nclients - ceil(scenario.dropout * nclients)
+    nclientsnew = scenario.nclients - ceil(scenario.dropout * scenario.nclients)
     allY = {idx:y for idx, y in allY.items() if idx <= nclientsnew }
     allebshares = {idx:y for idx, y in allebshares.items() if idx <= nclientsnew }
 
@@ -148,29 +141,25 @@ def run_benchmark(clients, server, scenario, repititions):
     ### **Online-Construct** phase
     # The clients
     allbshares = {}
-    Ybarshares = {}
+    Yzeroshares = {}
     for i in range(nclientsnew):
         online_construct_bandwith.measure_rcvd_data(allebshares[i+1], User.size)
         online_construct_client_clock.measure_from_here()
-        user, bshares, Ybarshare = clients[i+1].online_construct(allebshares[i+1])
+        user, bshares, Yzeroshare = clients[i+1].online_construct(allebshares[i+1])
         online_construct_client_clock.measure_till_here()
-        online_construct_bandwith.measure_sent_data((user, bshares, Ybarshare), User.size)
+        online_construct_bandwith.measure_sent_data((user, bshares, Yzeroshare), User.size)
         allbshares[user] = bshares 
-        Ybarshares[user] = Ybarshare
+        Yzeroshares[user] = Yzeroshare
 
     # The server
-    YbarsharesValues = list(Ybarshares.values())
-    if YbarsharesValues.count(None) == len(YbarsharesValues):
-        Ybarshares = None
-
     for i in range(repititions-1):
         server_copy = deepcopy(server)
         online_construct_server_clock.measure_from_here()
-        _ = server_copy.online_construct(allbshares, Ybarshares)
+        _ = server_copy.online_construct(allbshares, Yzeroshares.values())
         online_construct_server_clock.measure_till_here()
 
     online_construct_server_clock.measure_from_here()
-    sumX = server.online_construct(allbshares, Ybarshares)
+    sumX = server.online_construct(allbshares, Yzeroshares.values())
     online_construct_server_clock.measure_till_here()
 
 
@@ -202,71 +191,26 @@ def run_benchmark(clients, server, scenario, repititions):
 
 
 if __name__ == "__main__":
+    runs = []
+    dont_run = False
+    try:
 
-    r1 = None
-    r2 = None
+        if [x for x in sys.argv if x == '-p']: dont_run = True; print("Just printing run details")
+        else:
+            if len(sys.argv) >= 3:
+                Clock.LOGFILE = sys.argv[1]
+                Bandwidth.LOGFILE = sys.argv[2]
+            else:
+                raise()
+                
+            if len(sys.argv) == 4:
+                runs = [int(x) for x in sys.argv[3].split(",")]
+            if len(sys.argv) > 4:
+                raise()
+    except:
+        print("Usage: benchmarks_ours.py <time_benchmarks.csv> <comm_benchmarks.csv> [comma seprated run numbers (no spaces)]")
+        print("\t use [-p] to only see the existing runs")
+        sys.exit(-1)
 
-    if len(sys.argv) >= 3:
-        Clock.LOGFILE = sys.argv[1]
-        Bandwidth.LOGFILE = sys.argv[2]
-        if len(sys.argv) == 5:
-            r1 = int(sys.argv[3])    
-            r2 = int(sys.argv[4])    
-    else:
-        Bandwidth.LOGFILE = "ours_" + Bandwidth.LOGFILE
-        Clock.LOGFILE = "ours_" + Clock.LOGFILE
-        if len(sys.argv) != 1:
-            print("Usage: benchmarks.py [time_benchmarks.csv] [comm_benchmarks.csv]")
-            sys.exit(-1)
-    
-    dimensions = DIMLIST
-    inputsize = INPUTSIZE 
-    keysize = KEYSIZE
-    nclientss = NCNTLIST
-    threshold = THRESHOLD
-    dropouts = DROPLIST
-
-    total = len(dimensions) * len(dropouts) + len(nclientss) * len(dropouts)
-    success = {False : 0, True : 0}
-    counter = 0 
-    
-    if r1:
-        runs = range(r1,r2)
-    else: 
-        runs = range(1, total+1)
-
-    dimension = 100000
-    for nclients in nclientss:
-        for dropout in dropouts:
-
-            counter += 1
-            if counter not in runs:
-                continue
-            print("Test number {}/{} ({}/{} succesfull): dimension = {}, nclients = {}, dropout = {}".format(
-                counter, total, success[True], success[True] + success[False], dimension, nclients, dropout))
-            
-            
-            scenario = Scenario(dimension, inputsize, keysize, ceil(threshold*nclients), nclients, dropout)
-            clients, server = init_scenario(scenario)
-            valid = run_benchmark(clients, server, scenario, REPITIONS)
-            success[valid] += 1
-
-    nclients = 300    
-    for dimension in dimensions:
-        for dropout in dropouts:
-
-            counter += 1
-            if counter not in runs:
-                continue
-            print("Test number {}/{} ({}/{} succesfull): dimension = {}, nclients = {}, dropout = {}".format(
-                counter, total, success[True], success[True] + success[False], dimension, nclients, dropout))
-
-            
-            scenario = Scenario(dimension, inputsize, keysize, ceil(threshold*nclients), nclients, dropout)
-            clients, server = init_scenario(scenario)
-            valid = run_benchmark(clients, server, scenario, REPITIONS)    
-            success[valid] += 1
-
-
-    print("Finished. Succesfull tests: {}/{}".format(success[True], success[True] + success[False]))
-
+    benchmark_utils.keysize = TJL_keysize
+    benchmark_utils.benchmark(benchmark_ours, init_ours_scenario,dont_run, runs)

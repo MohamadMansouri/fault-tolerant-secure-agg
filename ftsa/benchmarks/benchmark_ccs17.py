@@ -1,32 +1,26 @@
-from ftsa.protocols.ccsftsa17.client import Client
-from ftsa.protocols.ccsftsa17.server import Server
-from ftsa.protocols.utils.Scenario import Scenario
 from ftsa.protocols.utils.TimeMeasure import Clock
 from ftsa.protocols.utils.CommMeasure import Bandwidth, User
+from ftsa.protocols.ccsftsa17.client import Client
+from ftsa.protocols.ccsftsa17.server import Server
+
+import benchmark_utils
 
 from math import ceil
 from copy import deepcopy
 import sys
 
-REPITIONS = 5
-# DIMLIST = [1000, 2000, 4000, 6000, 8000, 10000, 20000, 40000, 60000, 80000, 100000, 200000, 300000, 400000, 500000]
-DIMLIST = [200000, 300000, 400000, 500000]
-INPUTSIZE = 16 
-KEYSIZE = 256
-NCNTLIST = [100, 200, 300]
-THRESHOLD = 2/3
-DROPLIST = [0.0, 0.1, 0.2, 0.3]
+DH_keysize = 256
 
-def init_scenario(scenario):
+def init_ccs17_scenario(scenario):
     
-    Client.set_scenario(scenario.dimension, scenario.inputsize,scenario.keysize,
+    Client.set_scenario(scenario.dimension, scenario.inputsize, DH_keysize,
      scenario.threshold, scenario.nclients)
     
-    Server.set_scenario(scenario.dimension, scenario.inputsize,scenario.keysize,
+    Server.set_scenario(scenario.dimension, scenario.inputsize, DH_keysize,
      scenario.threshold, scenario.nclients)
 
     clients = {}
-    for i in range(nclients):
+    for i in range(scenario.nclients):
         idx = i+1
         clients[idx] = Client(idx)
 
@@ -35,8 +29,7 @@ def init_scenario(scenario):
     return clients, server
 
 
-
-def run_benchmark(clients, server, scenario, repititions):
+def benchmark_ccs17(clients, server, scenario, repititions):
 
     online_round0_client_clock = Clock("online", "round0", "client", scenario)
     online_round0_server_clock = Clock("online", "round0", "server", scenario)
@@ -114,7 +107,7 @@ def run_benchmark(clients, server, scenario, repititions):
         allY[user] = Y
 
     # drop some clients
-    nclientsnew = nclients - ceil(scenario.dropout * nclients)
+    nclientsnew = scenario.nclients - ceil(scenario.dropout * scenario.nclients)
     allY = {idx:y for idx, y in allY.items() if idx <= nclientsnew }
     
     # The server
@@ -180,78 +173,26 @@ def run_benchmark(clients, server, scenario, repititions):
 
 
 if __name__ == "__main__":
-    r1 = None
-    r2 = None
+    runs = []
+    dont_run = False
+    try:
 
-    if len(sys.argv) >= 3:
-        Clock.LOGFILE = sys.argv[1]
-        Bandwidth.LOGFILE = sys.argv[2]
-        if len(sys.argv) == 5:
-            r1 = int(sys.argv[3])
-            r2 = int(sys.argv[4])
-    else:
-        Bandwidth.LOGFILE = "ccs17_" + Bandwidth.LOGFILE
-        Clock.LOGFILE = "ccs17_" + Clock.LOGFILE
-        if len(sys.argv) != 1:
-            print("Usage: benchmarks.py [time_benchmarks.csv] [comm_benchmarks.csv]")
-            sys.exit(-1)
+        if [x for x in sys.argv if x == '-p']: dont_run = True; print("Just printing run details")
+        else:
+            if len(sys.argv) >= 3:
+                Clock.LOGFILE = sys.argv[1]
+                Bandwidth.LOGFILE = sys.argv[2]
+            else:
+                raise()
+                
+            if len(sys.argv) == 4:
+                runs = [int(x) for x in sys.argv[3].split(",")]
+            if len(sys.argv) > 4:
+                raise()
+    except:
+        print("Usage: benchmarks_ccs17.py <time_benchmarks.csv> <comm_benchmarks.csv> [comma seprated run numbers (no spaces)]")
+        print("\t use [-p] to only see the existing runs")
+        sys.exit(-1)
 
-
-
-    dimensions = DIMLIST
-    inputsize = INPUTSIZE 
-    keysize = KEYSIZE
-    nclientss = NCNTLIST
-    threshold = THRESHOLD
-    dropouts = DROPLIST
-
-    total = len(dimensions) * len(dropouts) + len(nclientss) * len(dropouts)
-    success = {False : 0, True : 0}
-    counter = 0 
-
-    
-    if r1:
-        runs = range(r1,r2)
-    else: 
-        runs = range(1, total+1)
-
-    dimension = 100000
-    for nclients in nclientss:
-        for dropout in dropouts:
-
-            counter += 1
-            if counter not in runs:
-                continue
-            
-            print("Test number {}/{} ({}/{} succesfull): dimension = {}, nclients = {}, dropout = {}".format(
-                counter, total, success[True], success[True] + success[False], dimension, nclients, dropout))
-
-            
-
-            scenario = Scenario(dimension, inputsize, keysize, ceil(threshold*nclients), nclients, dropout)
-            clients, server = init_scenario(scenario)
-            valid = run_benchmark(clients, server, scenario, REPITIONS)
-            success[valid] += 1
-
-    nclients = 300    
-    for dimension in dimensions:
-        for dropout in dropouts:
-
-            counter += 1
-            if counter not in runs:
-                continue
-            
-            print("Test number {}/{} ({}/{} succesfull): dimension = {}, nclients = {}, dropout = {}".format(
-                counter, total, success[True], success[True] + success[False], dimension, nclients, dropout))
-            
-            
-            scenario = Scenario(dimension, inputsize, keysize, ceil(threshold*nclients), nclients, dropout)
-            clients, server = init_scenario(scenario)
-            valid = run_benchmark(clients, server, scenario, REPITIONS)    
-            success[valid] += 1
-
-
-
-
-    print("Finished. Successful tests: {}/{}".format(success[True], success[True] + success[False]))
-
+    benchmark_utils.keysize = DH_keysize
+    benchmark_utils.benchmark(benchmark_ccs17, init_ccs17_scenario, dont_run, runs)
