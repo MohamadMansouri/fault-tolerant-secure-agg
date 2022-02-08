@@ -13,19 +13,82 @@ from ftsa.protocols.buildingblocks.AESGCM128 import EncryptionKey as AESKEY
 
 
 class Client(object):
+    """
+    A client for the FTSA scheme proposed by Google team in CCS17
+
+    ## **Args**:
+    -------------        
+    *user* : `int` --
+        The user's id
+
+    ## **Attributes**:
+    -------------        
+    *user* : `int` --
+        The user's id
+
+    *step* : `int` --
+        The FL step (round).
+
+    *key* : `list` --
+        The user's mask
+
+    *ckeys* : `dict` --
+        A channel encryption key for each communication channel with each other user {v : key}
+
+    *U1* : `list` --
+        Set of round 1 users' identifiers
+
+    *U2* : `list` --
+        Set of round 2 users' identifiers
+
+    *U4* : `list` --
+        Set of round 4 users' identifiers
+
+    *bshares* : `dict` --
+        A share of the b value of each other user {v : bshare}
+
+    *keyshares* : `dict` --
+        A share of the key of each other user {v : keyshare}
+
+    *X* : `list` --
+        The user input vector
+
+    *KAs*  : `KAS` --
+        DH KA scheme for computing JL key
+
+    *KAc*  : `KAS` --
+        DH KA scheme for computing channel key
+
+    *b* : `int` --
+        The blinding mask seed
+    
+    *alldhpks* : `dict` -- 
+        The public key of each user (used to compute the user's mask).
+    """
+
     dimension = 1000 # dimension of the input
+    """nb. of elements of the input vector (default: 1000)"""
     valuesize = 16 #-bit input values
+    """bit length of each element in the input vector (default: 16)"""
     nclients = 10 # number of FL clients
+    """number of FL clients (default: 10)"""
     expandedvaluesize = valuesize + ceil(log2(nclients))
+    """The expanded bit length to hold the sum of inputs"""
     keysize = 256 # size of a DH key 
+    """size of a DH key (default: 256)"""
     threshold = ceil(2*nclients / 3) # threshold for secret sharing
+    """threshold for secret sharing scheme (default: 2/3 of the nb. of clients)"""
     Uall = [i+1 for i in range(nclients)] # set of all user identifiers
+    """set of all user identifiers"""
 
     # init the building blocks
     prg = PRG(dimension, valuesize)
+    """the pseudo-random generator"""
     SSb = SSS(PRG.security) # t-out-of-n SS for the blinding mask b
+    """the secret sharing scheme for sharing the blinding mask"""
     SSsk = SSS(keysize) # t-out-of-n SS for the deffie-hellman secret key
-    KA = KAS()
+    """the secret sharing scheme for sharing the user mask"""
+
 
     def __init__(self, user) -> None:
         super().__init__()
@@ -46,6 +109,7 @@ class Client(object):
 
     @staticmethod
     def set_scenario(dimension, valuesize, keysize, threshold, nclients):
+        """Sets up the parameters of the protocol."""
         Client.dimension = dimension
         Client.valuesize = valuesize
         Client.nclients = nclients
@@ -56,9 +120,11 @@ class Client(object):
         Client.prg = PRG(dimension, valuesize)
         Client.SSb = SSS(PRG.security)
         Client.SSsk = SSS(keysize)
-        Client.KA = KAS()
 
     def new_fl_step(self):
+        """Starts a new FL round. 
+        
+        It increments the round counter and regenrates a new random input (This should be replaced with the actual training of the model)."""   
         self.step += 1
         self.U1 = []
         self.U2 = []
@@ -76,6 +142,13 @@ class Client(object):
         self.X = [random.SystemRandom().getrandbits(Client.valuesize) for _ in range(Client.dimension)]
                 
     def advertise_keys(self):
+        """Round 0 - AdvertiseKeys: User advertise the his generated keys. 
+        
+        **Returns**: 
+        ----------------
+        A user identifier, and two public keys (type: (`int`, `PublicKey`, `PublicKey`)).
+        """
+
         # generate DH key pairs for masking key
         self.KAs.generate()
                 
@@ -88,11 +161,26 @@ class Client(object):
         return self.user, self.KAs.pk, self.KAc.pk
 
     def share_keys(self, alldhpks, alldhpkc):
+        """Round 1 - ShareKeys: User setups and share its keys with other users. 
         
+        It accepts the public keys of other users and computes the shared keys and the JL key. It also shares the JL key using **TJL.SKShare** and returns its shares.
+        
+        ** Args **:
+        -----------
+        *alldhpkc* : `dict` -- 
+            The public key of each user (used to construct secret channels).
+
+        *alldhpks* : `dict` -- 
+            The public key of each user (used to compute the user mask).
+
+        **Returns**: 
+        ----------------
+        The user identifier and a dictionary of encrypted share pairs of the blinding mask and DH secret key  (type: (`int`, `dict`)).
+        """
         assert alldhpkc.keys() == alldhpks.keys()
         assert len(alldhpkc.keys()) >= self.threshold
-        assert setlen(alldhpkc.values()) == len(alldhpkc.values())  
-        assert setlen(alldhpks.values()) == len(alldhpks.values())  
+        assert _setlen(alldhpkc.values()) == len(alldhpkc.values())  
+        assert _setlen(alldhpks.values()) == len(alldhpks.values())  
 
         self.U1 += list(alldhpks.keys())
 
@@ -135,7 +223,16 @@ class Client(object):
         return self.user, E
 
     def masked_input_collection(self, eshares):
+        """Round 2 - MaskedInputCollection: User protect its input and sends it to the server. 
+        
+        ## **Args**:
+        -------------
+        *eshares* : `dict` -- 
+            The encrypted shares of the blinding mask and the Dh key of the users
 
+        **Returns**: 
+        ----------------
+        The user identifier, and the protected input (type: (`int`, `list`)."""
         assert len(eshares) + 1 >= self.threshold
 
         self.U2 = [self.user] + list(eshares.keys())
@@ -162,6 +259,17 @@ class Client(object):
         return self.user, Y
 
     def unmasking(self, U4):
+        """Round 4 - UnMasking: User send the shares of the users to the server.
+
+        ** Args **:
+        -----------
+        *U4* : `list` -- 
+            The list of still alive users
+
+        **Returns**: 
+        ----------------
+        The user identifier, the shares of the DH secret key for dead users, and the shares of the blinding mask seed of alive users (type: (`int`, `dict`, `dict`)).
+        """
         assert len(U4) >= self.threshold
         assert set(U4).issubset(set(self.U2))
 
@@ -197,7 +305,7 @@ class Client(object):
 
 
 
-def setlen(l):
+def _setlen(l):
     s = set()
     for e in l:
         k = repr(e)

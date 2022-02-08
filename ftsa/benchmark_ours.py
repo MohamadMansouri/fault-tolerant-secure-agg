@@ -1,5 +1,5 @@
-from protocols.ourftsa22.client import Client
-from protocols.ourftsa22.server import Server
+from ftsa.protocols.ourftsa22.client import Client
+from ftsa.protocols.ourftsa22.server import Server
 from ftsa.protocols.buildingblocks.JoyeLibert import JLS
 from ftsa.protocols.utils.Scenario import Scenario
 from ftsa.protocols.utils.TimeMeasure import Clock

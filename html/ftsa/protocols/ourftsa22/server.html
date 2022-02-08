@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>ftsa.protocols.ourftsa22.server API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>ftsa.protocols.ourftsa22.server</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from collections import defaultdict
+from math import ceil, factorial
+from gmpy2 import mpz
+
+from ftsa.protocols.buildingblocks.utils import subs_vectors, powmod
+from ftsa.protocols.buildingblocks.PRG import PRG
+from ftsa.protocols.buildingblocks.ShamirSS import SSS
+from ftsa.protocols.buildingblocks.VectorEncoding import VES
+from ftsa.protocols.buildingblocks.JoyeLibert import TJLS, ServerKey, EncryptedNumber
+
+
+
+class Server(object):
+    &#34;&#34;&#34;
+    A server for the FTSA scheme
+
+    ## **Attributes**:
+    -------------        
+    *step* : `int` --
+        The FL step (round).
+
+    *key* : `gmpy2.mpz` --
+        The server protection key for TJL
+
+    *ckeys* : `dict` --
+        A channel encryption key for each communication channel with each other user {v : key}
+
+    *Y* : `list` --
+        The list of all user&#39;s protected inputs
+
+    *delta*  : `int` --
+        A constant value equals the factorial of nb. of clients
+    &#34;&#34;&#34;
+
+    dimension = 1000 # dimension of the input
+    &#34;&#34;&#34;nb. of elements of the input vector (default: 1000)&#34;&#34;&#34;
+    valuesize = 16 #-bit input values
+    &#34;&#34;&#34;bit length of each element in the input vector (default: 16)&#34;&#34;&#34;
+    nclients = 10 # number of FL clients
+    &#34;&#34;&#34;number of FL clients (default: 10)&#34;&#34;&#34;
+    keysize = 2048 # size of a JL key 
+    &#34;&#34;&#34;size of a TJL key (default: 2048)&#34;&#34;&#34;
+    threshold = ceil(2*nclients / 3) # threshold for secret sharing
+    &#34;&#34;&#34;threshold for secret sharing scheme (default: 2/3 of the nb. of clients)&#34;&#34;&#34;
+
+    # init the building blocks
+    VE = VES(keysize // 2, nclients, valuesize, dimension)
+    &#34;&#34;&#34;the vector encoding scheme&#34;&#34;&#34;
+    TJL = TJLS(nclients, threshold, VE)
+    &#34;&#34;&#34;the threshold JL secure aggregation scheme&#34;&#34;&#34;
+    pp, _ , _ = TJL.Setup(keysize) # public parameters for TJL
+    &#34;&#34;&#34;the public parameters&#34;&#34;&#34;
+    prg = PRG(dimension, valuesize)
+    &#34;&#34;&#34;the pseudo-random generator&#34;&#34;&#34;
+    SS = SSS(PRG.security)
+    &#34;&#34;&#34;the secret sharing scheme&#34;&#34;&#34;
+
+    def __init__(self) -&gt; None:
+        super().__init__()
+        self.step = 0 # the Fl step.
+        self.key = ServerKey(Server.pp, mpz(0)) # the server encryption key for JL (we use zero)
+        self.U = [] # set of registered user identifiers
+        self.Ualive = [] # set of alive users&#39; identifiers 
+        self.Y = [] # aggregation result of the users&#39; ciphertext
+        self.delta = 1
+
+    @staticmethod
+    def set_scenario(dimension, valuesize, keysize, threshold, nclients, pp):
+        &#34;&#34;&#34;Sets up the parameters of the protocol&#34;&#34;&#34;
+        Server.dimension = dimension
+        Server.valuesize = valuesize
+        Server.nclients = nclients
+        Server.keysize = keysize
+        Server.threshold = threshold
+        Server.VE = VES(keysize // 2, nclients, valuesize, dimension)
+        Server.TJL = TJLS(nclients, threshold, Server.VE)
+        Server.TJL.Setup(keysize)
+        Server.pp = pp
+        Server.prg = PRG(dimension, valuesize)
+        Server.SS = SSS(PRG.security)
+
+    def new_fl_step(self):
+        &#34;&#34;&#34;Starts a new FL round. 
+        
+        It increments the round counter and reinitialize the state.&#34;&#34;&#34;
+        self.step += 1
+        self.Ualive = []
+        self.Y = []
+        self.delta = 1
+
+    def setup_register(self, alldhpkc, alldhpks):
+        &#34;&#34;&#34;Setup phase - Register: Sever forwards users registrations. 
+        
+        ** Args **:
+        -----------
+        *alldhpkc* : `dict`
+            The public key of each user (used to construct secret channels)
+
+        *alldhpks* : `dict`
+            The public key of each user (used to compute the TJL user keys)
+
+        **Returns**: 
+        ----------------
+        The same public keys (type: `dict`)
+        &#34;&#34;&#34;
+        assert alldhpkc.keys() == alldhpks.keys()
+        assert len(alldhpkc.keys()) &gt;= Server.threshold
+
+        # send for all user public keys
+        return alldhpkc, alldhpks
+
+    def setup_keysetup(self, allekshares):
+        &#34;&#34;&#34;Setup phase - KeySetup: Sever forwards the shares of the TJL keys. 
+        
+        ** Args **:
+        -----------
+        *allekshares* : `dict`
+            The list of encrypted share generated by each user
+
+        **Returns**: 
+        ----------------
+        A list of encrypted shares destined to each user (type: `dict`)
+        &#34;&#34;&#34;
+        assert len(allekshares) &gt;= Server.threshold
+
+        # prepare eshares for each corresponding user
+        ekshares = defaultdict(dict)
+        for user in allekshares:
+            self.U.append(user)
+            for vuser in allekshares[user]:
+                ekshares[vuser][user] = allekshares[user][vuser]
+        
+        self.delta = factorial(len(self.U))
+
+        # send the encrypted key shares for each corresponding user
+        return ekshares
+
+    def online_encrypt(self, allebshares, allY):
+        &#34;&#34;&#34;Online phase - Encrypt: Sever forward the shares of the blinding masks and stores the protected inputs. 
+        
+        ** Args **:
+        -----------
+        *allebshares* : `dict`
+            The list of encrypted share generated by each user
+
+        *allY* : `dict`
+            The protected number of each user
+
+
+        **Returns**: 
+        ----------------
+        A list of encrypted shares destined to each user (type: `dict`)
+        &#34;&#34;&#34;
+        assert len(allebshares) &gt;= Server.threshold
+
+        # prepare eshares for each corresponding user
+        ebshares = defaultdict(dict)
+        for user in allebshares:
+            self.Ualive.append(user)
+            for vuser in allebshares[user]:
+                ebshares[vuser][user] = allebshares[user][vuser]
+
+        # # aggregate all encrypted messages
+        # self.Ytelda = Server.JL.aggregate_vector(list(allY.values()))
+        # if len(allY) &lt; len(self.U):
+        #     self.Ytelda = [ EncryptedNumber( Server.pp, powmod(x.ciphertext, self.delta, Server.pp.nsquare)) for x in self.Ytelda]
+        self.Y = list(allY.values())
+
+        # send the encrypted b shares for each corresponding user
+        return ebshares 
+
+    def online_construct(self, allbshares, Yzeroshares = None):
+        &#34;&#34;&#34;Online phase - Construct: Sever construct the blinding masks and the protected zero-value and aggregates the users&#39; inputs. 
+        
+        ** Args **:
+        -----------
+        *allbshares* : `dict`
+            The list of mask shares of all alive users per user
+
+        *Yzeroshares* : `list`
+            A list of shares of the protected zero-value
+
+        **Returns**: 
+        ----------------
+        The sum of the alive users&#39; inputs (type: `list`)
+        &#34;&#34;&#34;
+        assert len(allbshares) &gt;= Server.threshold
+
+        # reconstruct the blinding mask seed b for each user 
+        bshares = defaultdict(list)
+        for user in allbshares:
+            for vuser in allbshares[user]:
+                bshares[vuser].append(allbshares[user][vuser])
+
+        lagcoef = []
+        b = {}
+        B = defaultdict(list)
+        for vuser in bshares:
+            assert len(bshares[vuser]) &gt;= Server.threshold
+            if not lagcoef:
+                lagcoef = Server.SS.lagrange(bshares[vuser])
+            b[vuser] = Server.SS.recon(bshares[vuser],lagcoef)
+            # recompute the blinding vector B
+            B[vuser] = Server.prg.eval(b[vuser])
+
+        Yzeroshares = [y for y in Yzeroshares if y]
+        if Yzeroshares:
+            assert len(Yzeroshares) &gt;= Server.threshold
+            # construct the protected zero-value
+            Yzero = Server.TJL.ShareCombine(Server.pp, Yzeroshares, self.threshold)
+        else:
+            Yzero = None
+        
+        # aggregate
+        XplusB = Server.TJL.Agg(Server.pp, self.key, self.step, self.Y, Yzero)
+
+        
+        # unmask
+        for user in B:
+            XplusB = subs_vectors(XplusB, B[user], 2**(Server.VE.elementsize))
+        
+        return XplusB</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="ftsa.protocols.ourftsa22.server.Server"><code class="flex name class">
+<span>class <span class="ident">Server</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>A server for the FTSA scheme</p>
+<h2 id="attributes"><strong>Attributes</strong>:</h2>
+<hr>
+<p><em>step</em> : <code>int</code> &ndash;
+The FL step (round).</p>
+<p><em>key</em> : <code>gmpy2.mpz</code> &ndash;
+The server protection key for TJL</p>
+<p><em>ckeys</em> : <code>dict</code> &ndash;
+A channel encryption key for each communication channel with each other user {v : key}</p>
+<p><em>Y</em> : <code>list</code> &ndash;
+The list of all user's protected inputs</p>
+<p><em>delta</em>
+: <code>int</code> &ndash;
+A constant value equals the factorial of nb. of clients</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Server(object):
+    &#34;&#34;&#34;
+    A server for the FTSA scheme
+
+    ## **Attributes**:
+    -------------        
+    *step* : `int` --
+        The FL step (round).
+
+    *key* : `gmpy2.mpz` --
+        The server protection key for TJL
+
+    *ckeys* : `dict` --
+        A channel encryption key for each communication channel with each other user {v : key}
+
+    *Y* : `list` --
+        The list of all user&#39;s protected inputs
+
+    *delta*  : `int` --
+        A constant value equals the factorial of nb. of clients
+    &#34;&#34;&#34;
+
+    dimension = 1000 # dimension of the input
+    &#34;&#34;&#34;nb. of elements of the input vector (default: 1000)&#34;&#34;&#34;
+    valuesize = 16 #-bit input values
+    &#34;&#34;&#34;bit length of each element in the input vector (default: 16)&#34;&#34;&#34;
+    nclients = 10 # number of FL clients
+    &#34;&#34;&#34;number of FL clients (default: 10)&#34;&#34;&#34;
+    keysize = 2048 # size of a JL key 
+    &#34;&#34;&#34;size of a TJL key (default: 2048)&#34;&#34;&#34;
+    threshold = ceil(2*nclients / 3) # threshold for secret sharing
+    &#34;&#34;&#34;threshold for secret sharing scheme (default: 2/3 of the nb. of clients)&#34;&#34;&#34;
+
+    # init the building blocks
+    VE = VES(keysize // 2, nclients, valuesize, dimension)
+    &#34;&#34;&#34;the vector encoding scheme&#34;&#34;&#34;
+    TJL = TJLS(nclients, threshold, VE)
+    &#34;&#34;&#34;the threshold JL secure aggregation scheme&#34;&#34;&#34;
+    pp, _ , _ = TJL.Setup(keysize) # public parameters for TJL
+    &#34;&#34;&#34;the public parameters&#34;&#34;&#34;
+    prg = PRG(dimension, valuesize)
+    &#34;&#34;&#34;the pseudo-random generator&#34;&#34;&#34;
+    SS = SSS(PRG.security)
+    &#34;&#34;&#34;the secret sharing scheme&#34;&#34;&#34;
+
+    def __init__(self) -&gt; None:
+        super().__init__()
+        self.step = 0 # the Fl step.
+        self.key = ServerKey(Server.pp, mpz(0)) # the server encryption key for JL (we use zero)
+        self.U = [] # set of registered user identifiers
+        self.Ualive = [] # set of alive users&#39; identifiers 
+        self.Y = [] # aggregation result of the users&#39; ciphertext
+        self.delta = 1
+
+    @staticmethod
+    def set_scenario(dimension, valuesize, keysize, threshold, nclients, pp):
+        &#34;&#34;&#34;Sets up the parameters of the protocol&#34;&#34;&#34;
+        Server.dimension = dimension
+        Server.valuesize = valuesize
+        Server.nclients = nclients
+        Server.keysize = keysize
+        Server.threshold = threshold
+        Server.VE = VES(keysize // 2, nclients, valuesize, dimension)
+        Server.TJL = TJLS(nclients, threshold, Server.VE)
+        Server.TJL.Setup(keysize)
+        Server.pp = pp
+        Server.prg = PRG(dimension, valuesize)
+        Server.SS = SSS(PRG.security)
+
+    def new_fl_step(self):
+        &#34;&#34;&#34;Starts a new FL round. 
+        
+        It increments the round counter and reinitialize the state.&#34;&#34;&#34;
+        self.step += 1
+        self.Ualive = []
+        self.Y = []
+        self.delta = 1
+
+    def setup_register(self, alldhpkc, alldhpks):
+        &#34;&#34;&#34;Setup phase - Register: Sever forwards users registrations. 
+        
+        ** Args **:
+        -----------
+        *alldhpkc* : `dict`
+            The public key of each user (used to construct secret channels)
+
+        *alldhpks* : `dict`
+            The public key of each user (used to compute the TJL user keys)
+
+        **Returns**: 
+        ----------------
+        The same public keys (type: `dict`)
+        &#34;&#34;&#34;
+        assert alldhpkc.keys() == alldhpks.keys()
+        assert len(alldhpkc.keys()) &gt;= Server.threshold
+
+        # send for all user public keys
+        return alldhpkc, alldhpks
+
+    def setup_keysetup(self, allekshares):
+        &#34;&#34;&#34;Setup phase - KeySetup: Sever forwards the shares of the TJL keys. 
+        
+        ** Args **:
+        -----------
+        *allekshares* : `dict`
+            The list of encrypted share generated by each user
+
+        **Returns**: 
+        ----------------
+        A list of encrypted shares destined to each user (type: `dict`)
+        &#34;&#34;&#34;
+        assert len(allekshares) &gt;= Server.threshold
+
+        # prepare eshares for each corresponding user
+        ekshares = defaultdict(dict)
+        for user in allekshares:
+            self.U.append(user)
+            for vuser in allekshares[user]:
+                ekshares[vuser][user] = allekshares[user][vuser]
+        
+        self.delta = factorial(len(self.U))
+
+        # send the encrypted key shares for each corresponding user
+        return ekshares
+
+    def online_encrypt(self, allebshares, allY):
+        &#34;&#34;&#34;Online phase - Encrypt: Sever forward the shares of the blinding masks and stores the protected inputs. 
+        
+        ** Args **:
+        -----------
+        *allebshares* : `dict`
+            The list of encrypted share generated by each user
+
+        *allY* : `dict`
+            The protected number of each user
+
+
+        **Returns**: 
+        ----------------
+        A list of encrypted shares destined to each user (type: `dict`)
+        &#34;&#34;&#34;
+        assert len(allebshares) &gt;= Server.threshold
+
+        # prepare eshares for each corresponding user
+        ebshares = defaultdict(dict)
+        for user in allebshares:
+            self.Ualive.append(user)
+            for vuser in allebshares[user]:
+                ebshares[vuser][user] = allebshares[user][vuser]
+
+        # # aggregate all encrypted messages
+        # self.Ytelda = Server.JL.aggregate_vector(list(allY.values()))
+        # if len(allY) &lt; len(self.U):
+        #     self.Ytelda = [ EncryptedNumber( Server.pp, powmod(x.ciphertext, self.delta, Server.pp.nsquare)) for x in self.Ytelda]
+        self.Y = list(allY.values())
+
+        # send the encrypted b shares for each corresponding user
+        return ebshares 
+
+    def online_construct(self, allbshares, Yzeroshares = None):
+        &#34;&#34;&#34;Online phase - Construct: Sever construct the blinding masks and the protected zero-value and aggregates the users&#39; inputs. 
+        
+        ** Args **:
+        -----------
+        *allbshares* : `dict`
+            The list of mask shares of all alive users per user
+
+        *Yzeroshares* : `list`
+            A list of shares of the protected zero-value
+
+        **Returns**: 
+        ----------------
+        The sum of the alive users&#39; inputs (type: `list`)
+        &#34;&#34;&#34;
+        assert len(allbshares) &gt;= Server.threshold
+
+        # reconstruct the blinding mask seed b for each user 
+        bshares = defaultdict(list)
+        for user in allbshares:
+            for vuser in allbshares[user]:
+                bshares[vuser].append(allbshares[user][vuser])
+
+        lagcoef = []
+        b = {}
+        B = defaultdict(list)
+        for vuser in bshares:
+            assert len(bshares[vuser]) &gt;= Server.threshold
+            if not lagcoef:
+                lagcoef = Server.SS.lagrange(bshares[vuser])
+            b[vuser] = Server.SS.recon(bshares[vuser],lagcoef)
+            # recompute the blinding vector B
+            B[vuser] = Server.prg.eval(b[vuser])
+
+        Yzeroshares = [y for y in Yzeroshares if y]
+        if Yzeroshares:
+            assert len(Yzeroshares) &gt;= Server.threshold
+            # construct the protected zero-value
+            Yzero = Server.TJL.ShareCombine(Server.pp, Yzeroshares, self.threshold)
+        else:
+            Yzero = None
+        
+        # aggregate
+        XplusB = Server.TJL.Agg(Server.pp, self.key, self.step, self.Y, Yzero)
+
+        
+        # unmask
+        for user in B:
+            XplusB = subs_vectors(XplusB, B[user], 2**(Server.VE.elementsize))
+        
+        return XplusB</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="ftsa.protocols.ourftsa22.server.Server.dimension"><code class="name">var <span class="ident">dimension</span></code></dt>
+<dd>
+<div class="desc"><p>nb. of elements of the input vector (default: 1000)</p></div>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.server.Server.valuesize"><code class="name">var <span class="ident">valuesize</span></code></dt>
+<dd>
+<div class="desc"><p>bit length of each element in the input vector (default: 16)</p></div>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.server.Server.nclients"><code class="name">var <span class="ident">nclients</span></code></dt>
+<dd>
+<div class="desc"><p>number of FL clients (default: 10)</p></div>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.server.Server.keysize"><code class="name">var <span class="ident">keysize</span></code></dt>
+<dd>
+<div class="desc"><p>size of a TJL key (default: 2048)</p></div>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.server.Server.threshold"><code class="name">var <span class="ident">threshold</span></code></dt>
+<dd>
+<div class="desc"><p>threshold for secret sharing scheme (default: 2/3 of the nb. of clients)</p></div>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.server.Server.VE"><code class="name">var <span class="ident">VE</span></code></dt>
+<dd>
+<div class="desc"><p>the vector encoding scheme</p></div>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.server.Server.TJL"><code class="name">var <span class="ident">TJL</span></code></dt>
+<dd>
+<div class="desc"><p>the threshold JL secure aggregation scheme</p></div>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.server.Server.pp"><code class="name">var <span class="ident">pp</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.server.Server.prg"><code class="name">var <span class="ident">prg</span></code></dt>
+<dd>
+<div class="desc"><p>the pseudo-random generator</p></div>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.server.Server.SS"><code class="name">var <span class="ident">SS</span></code></dt>
+<dd>
+<div class="desc"><p>the secret sharing scheme</p></div>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="ftsa.protocols.ourftsa22.server.Server.set_scenario"><code class="name flex">
+<span>def <span class="ident">set_scenario</span></span>(<span>dimension, valuesize, keysize, threshold, nclients, pp)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sets up the parameters of the protocol</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def set_scenario(dimension, valuesize, keysize, threshold, nclients, pp):
+    &#34;&#34;&#34;Sets up the parameters of the protocol&#34;&#34;&#34;
+    Server.dimension = dimension
+    Server.valuesize = valuesize
+    Server.nclients = nclients
+    Server.keysize = keysize
+    Server.threshold = threshold
+    Server.VE = VES(keysize // 2, nclients, valuesize, dimension)
+    Server.TJL = TJLS(nclients, threshold, Server.VE)
+    Server.TJL.Setup(keysize)
+    Server.pp = pp
+    Server.prg = PRG(dimension, valuesize)
+    Server.SS = SSS(PRG.security)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="ftsa.protocols.ourftsa22.server.Server.new_fl_step"><code class="name flex">
+<span>def <span class="ident">new_fl_step</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Starts a new FL round. </p>
+<p>It increments the round counter and reinitialize the state.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def new_fl_step(self):
+    &#34;&#34;&#34;Starts a new FL round. 
+    
+    It increments the round counter and reinitialize the state.&#34;&#34;&#34;
+    self.step += 1
+    self.Ualive = []
+    self.Y = []
+    self.delta = 1</code></pre>
+</details>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.server.Server.setup_register"><code class="name flex">
+<span>def <span class="ident">setup_register</span></span>(<span>self, alldhpkc, alldhpks)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Setup phase - Register: Sever forwards users registrations. </p>
+<h2 id="args"><strong> Args </strong>:</h2>
+<p><em>alldhpkc</em> : <code>dict</code>
+The public key of each user (used to construct secret channels)</p>
+<p><em>alldhpks</em> : <code>dict</code>
+The public key of each user (used to compute the TJL user keys)</p>
+<h2 id="returns"><strong>Returns</strong>:</h2>
+<p>The same public keys (type: <code>dict</code>)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def setup_register(self, alldhpkc, alldhpks):
+    &#34;&#34;&#34;Setup phase - Register: Sever forwards users registrations. 
+    
+    ** Args **:
+    -----------
+    *alldhpkc* : `dict`
+        The public key of each user (used to construct secret channels)
+
+    *alldhpks* : `dict`
+        The public key of each user (used to compute the TJL user keys)
+
+    **Returns**: 
+    ----------------
+    The same public keys (type: `dict`)
+    &#34;&#34;&#34;
+    assert alldhpkc.keys() == alldhpks.keys()
+    assert len(alldhpkc.keys()) &gt;= Server.threshold
+
+    # send for all user public keys
+    return alldhpkc, alldhpks</code></pre>
+</details>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.server.Server.setup_keysetup"><code class="name flex">
+<span>def <span class="ident">setup_keysetup</span></span>(<span>self, allekshares)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Setup phase - KeySetup: Sever forwards the shares of the TJL keys. </p>
+<h2 id="args"><strong> Args </strong>:</h2>
+<p><em>allekshares</em> : <code>dict</code>
+The list of encrypted share generated by each user</p>
+<h2 id="returns"><strong>Returns</strong>:</h2>
+<p>A list of encrypted shares destined to each user (type: <code>dict</code>)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def setup_keysetup(self, allekshares):
+    &#34;&#34;&#34;Setup phase - KeySetup: Sever forwards the shares of the TJL keys. 
+    
+    ** Args **:
+    -----------
+    *allekshares* : `dict`
+        The list of encrypted share generated by each user
+
+    **Returns**: 
+    ----------------
+    A list of encrypted shares destined to each user (type: `dict`)
+    &#34;&#34;&#34;
+    assert len(allekshares) &gt;= Server.threshold
+
+    # prepare eshares for each corresponding user
+    ekshares = defaultdict(dict)
+    for user in allekshares:
+        self.U.append(user)
+        for vuser in allekshares[user]:
+            ekshares[vuser][user] = allekshares[user][vuser]
+    
+    self.delta = factorial(len(self.U))
+
+    # send the encrypted key shares for each corresponding user
+    return ekshares</code></pre>
+</details>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.server.Server.online_encrypt"><code class="name flex">
+<span>def <span class="ident">online_encrypt</span></span>(<span>self, allebshares, allY)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Online phase - Encrypt: Sever forward the shares of the blinding masks and stores the protected inputs. </p>
+<h2 id="args"><strong> Args </strong>:</h2>
+<p><em>allebshares</em> : <code>dict</code>
+The list of encrypted share generated by each user</p>
+<p><em>allY</em> : <code>dict</code>
+The protected number of each user</p>
+<h2 id="returns"><strong>Returns</strong>:</h2>
+<p>A list of encrypted shares destined to each user (type: <code>dict</code>)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def online_encrypt(self, allebshares, allY):
+    &#34;&#34;&#34;Online phase - Encrypt: Sever forward the shares of the blinding masks and stores the protected inputs. 
+    
+    ** Args **:
+    -----------
+    *allebshares* : `dict`
+        The list of encrypted share generated by each user
+
+    *allY* : `dict`
+        The protected number of each user
+
+
+    **Returns**: 
+    ----------------
+    A list of encrypted shares destined to each user (type: `dict`)
+    &#34;&#34;&#34;
+    assert len(allebshares) &gt;= Server.threshold
+
+    # prepare eshares for each corresponding user
+    ebshares = defaultdict(dict)
+    for user in allebshares:
+        self.Ualive.append(user)
+        for vuser in allebshares[user]:
+            ebshares[vuser][user] = allebshares[user][vuser]
+
+    # # aggregate all encrypted messages
+    # self.Ytelda = Server.JL.aggregate_vector(list(allY.values()))
+    # if len(allY) &lt; len(self.U):
+    #     self.Ytelda = [ EncryptedNumber( Server.pp, powmod(x.ciphertext, self.delta, Server.pp.nsquare)) for x in self.Ytelda]
+    self.Y = list(allY.values())
+
+    # send the encrypted b shares for each corresponding user
+    return ebshares </code></pre>
+</details>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.server.Server.online_construct"><code class="name flex">
+<span>def <span class="ident">online_construct</span></span>(<span>self, allbshares, Yzeroshares=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Online phase - Construct: Sever construct the blinding masks and the protected zero-value and aggregates the users' inputs. </p>
+<h2 id="args"><strong> Args </strong>:</h2>
+<p><em>allbshares</em> : <code>dict</code>
+The list of mask shares of all alive users per user</p>
+<p><em>Yzeroshares</em> : <code>list</code>
+A list of shares of the protected zero-value</p>
+<h2 id="returns"><strong>Returns</strong>:</h2>
+<p>The sum of the alive users' inputs (type: <code>list</code>)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def online_construct(self, allbshares, Yzeroshares = None):
+    &#34;&#34;&#34;Online phase - Construct: Sever construct the blinding masks and the protected zero-value and aggregates the users&#39; inputs. 
+    
+    ** Args **:
+    -----------
+    *allbshares* : `dict`
+        The list of mask shares of all alive users per user
+
+    *Yzeroshares* : `list`
+        A list of shares of the protected zero-value
+
+    **Returns**: 
+    ----------------
+    The sum of the alive users&#39; inputs (type: `list`)
+    &#34;&#34;&#34;
+    assert len(allbshares) &gt;= Server.threshold
+
+    # reconstruct the blinding mask seed b for each user 
+    bshares = defaultdict(list)
+    for user in allbshares:
+        for vuser in allbshares[user]:
+            bshares[vuser].append(allbshares[user][vuser])
+
+    lagcoef = []
+    b = {}
+    B = defaultdict(list)
+    for vuser in bshares:
+        assert len(bshares[vuser]) &gt;= Server.threshold
+        if not lagcoef:
+            lagcoef = Server.SS.lagrange(bshares[vuser])
+        b[vuser] = Server.SS.recon(bshares[vuser],lagcoef)
+        # recompute the blinding vector B
+        B[vuser] = Server.prg.eval(b[vuser])
+
+    Yzeroshares = [y for y in Yzeroshares if y]
+    if Yzeroshares:
+        assert len(Yzeroshares) &gt;= Server.threshold
+        # construct the protected zero-value
+        Yzero = Server.TJL.ShareCombine(Server.pp, Yzeroshares, self.threshold)
+    else:
+        Yzero = None
+    
+    # aggregate
+    XplusB = Server.TJL.Agg(Server.pp, self.key, self.step, self.Y, Yzero)
+
+    
+    # unmask
+    for user in B:
+        XplusB = subs_vectors(XplusB, B[user], 2**(Server.VE.elementsize))
+    
+    return XplusB</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="ftsa.protocols.ourftsa22" href="index.html">ftsa.protocols.ourftsa22</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="ftsa.protocols.ourftsa22.server.Server" href="#ftsa.protocols.ourftsa22.server.Server">Server</a></code></h4>
+<ul class="two-column">
+<li><code><a title="ftsa.protocols.ourftsa22.server.Server.set_scenario" href="#ftsa.protocols.ourftsa22.server.Server.set_scenario">set_scenario</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.server.Server.new_fl_step" href="#ftsa.protocols.ourftsa22.server.Server.new_fl_step">new_fl_step</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.server.Server.setup_register" href="#ftsa.protocols.ourftsa22.server.Server.setup_register">setup_register</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.server.Server.setup_keysetup" href="#ftsa.protocols.ourftsa22.server.Server.setup_keysetup">setup_keysetup</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.server.Server.online_encrypt" href="#ftsa.protocols.ourftsa22.server.Server.online_encrypt">online_encrypt</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.server.Server.online_construct" href="#ftsa.protocols.ourftsa22.server.Server.online_construct">online_construct</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.server.Server.dimension" href="#ftsa.protocols.ourftsa22.server.Server.dimension">dimension</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.server.Server.valuesize" href="#ftsa.protocols.ourftsa22.server.Server.valuesize">valuesize</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.server.Server.nclients" href="#ftsa.protocols.ourftsa22.server.Server.nclients">nclients</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.server.Server.keysize" href="#ftsa.protocols.ourftsa22.server.Server.keysize">keysize</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.server.Server.threshold" href="#ftsa.protocols.ourftsa22.server.Server.threshold">threshold</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.server.Server.VE" href="#ftsa.protocols.ourftsa22.server.Server.VE">VE</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.server.Server.TJL" href="#ftsa.protocols.ourftsa22.server.Server.TJL">TJL</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.server.Server.pp" href="#ftsa.protocols.ourftsa22.server.Server.pp">pp</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.server.Server.prg" href="#ftsa.protocols.ourftsa22.server.Server.prg">prg</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.server.Server.SS" href="#ftsa.protocols.ourftsa22.server.Server.SS">SS</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

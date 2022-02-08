@@ -14,19 +14,73 @@ from ftsa.protocols.buildingblocks.AESGCM128 import EncryptionKey as AESKEY
 
 
 class Client(object):
+    """
+    A client for the FTSA scheme
+
+    ## **Args**:
+    -------------        
+    *user* : `int` --
+        The user's id
+
+    ## **Attributes**:
+    -------------        
+    *user* : `int` --
+        The user's id
+
+    *step* : `int` --
+        The FL step (round).
+
+    *key* : `gmpy2.mpz` --
+        The user protection key for TJL
+
+    *ckeys* : `dict` --
+        A channel encryption key for each communication channel with each other user {v : key}
+
+    *U* : `list` --
+        Set of registered user identifiers
+
+    *Ualive* : `list` --
+        Set of alive users' identifiers 
+
+    *bshares* : `dict` --
+        A share of the b value of each other user {v : bshare}
+
+    *keyshares* : `dict` --
+        A share of the key of each other user {v : keyshare}
+
+    *X* : `list` --
+        The user input vector
+
+    *KAs*  : `KAS` --
+        DH KA scheme for computing JL key
+
+    *KAc*  : `KAS` --
+        DH KA scheme for computing channel key
+    """
     dimension = 1000 # dimension of the input
+    """nb. of elements of the input vector (default: 1000)"""
     valuesize = 16 #-bit input values
+    """bit length of each element in the input vector (default: 16)"""
     nclients = 10 # number of FL clients
+    """number of FL clients (default: 10)"""
     keysize = 2048 # size of a JL key 
+    """size of a TJL key (default: 2048)"""
     threshold = ceil(2*nclients / 3) # threshold for secret sharing
+    """threshold for secret sharing scheme (default: 2/3 of the nb. of clients)"""
     Uall = [i+1 for i in range(nclients)] # set of all user identifiers
+    """set of all user identifiers"""
 
     # init the building blocks
     VE = VES(keysize // 2, nclients, valuesize, dimension)
+    """the vector encoding scheme"""
     TJL = TJLS(nclients, threshold, VE)
+    """the threshold JL secure aggregation scheme"""
     pp, _ , _ = TJL.Setup(keysize) # public parameters for TJL
+    """the public parameters"""
     prg = PRG(dimension, valuesize)
+    """the pseudo-random generator"""
     SS = SSS(PRG.security)
+    """the secret sharing scheme"""
 
     def __init__(self, user) -> None:
         super().__init__()
@@ -44,6 +98,7 @@ class Client(object):
 
     @staticmethod
     def set_scenario(dimension, valuesize, keysize, threshold, nclients, publicparam):
+        """Sets up the parameters of the protocol."""
         Client.dimension = dimension
         Client.valuesize = valuesize
         Client.nclients = nclients
@@ -58,6 +113,9 @@ class Client(object):
         Client.SS = SSS(PRG.security)
 
     def new_fl_step(self):
+        """Starts a new FL round. 
+        
+        It increments the round counter and regenrates a new random input (This should be replaced with the actual training of the model)."""
         self.step += 1
         self.Ualive = []
         self.bshares = {}
@@ -65,6 +123,14 @@ class Client(object):
         self.X = [random.SystemRandom().getrandbits(Client.valuesize) for _ in range(Client.dimension)]
                 
     def setup_register(self):
+        """Setup phase - Register: User registers to te server. 
+        
+        It generates public keys.
+        
+        **Returns**: 
+        ----------------
+        A user identifier, and two public keys (type: (`int`, `PublicKey`, `PublicKey`)).
+        """
         # generate DH key pairs for JL key
         self.KAs.generate()
                 
@@ -77,11 +143,26 @@ class Client(object):
         return self.user, self.KAs.pk, self.KAc.pk
 
     def setup_keysetup(self, alldhpks, alldhpkc):
+        """Setup phase - KeySetup: User setups its keys. 
         
+        It accepts the public keys of other users and computes the shared keys and the JL key. It also shares the JL key using **TJL.SKShare** and returns its shares.
+        
+        ** Args **:
+        -----------
+        *alldhpkc* : `dict` -- 
+            The public key of each user (used to construct secret channels).
+
+        *alldhpks* : `dict` -- 
+            The public key of each user (used to compute the TJL user keys).
+
+        **Returns**: 
+        ----------------
+        The user identifier and a dictionary of encrypted shares of its TJL secret key (type: (`int`, `dict`)).
+        """
         assert alldhpkc.keys() == alldhpks.keys()
         assert len(alldhpkc.keys()) >= self.threshold
-        assert setlen(alldhpkc.values()) == len(alldhpkc.values())  
-        assert setlen(alldhpks.values()) == len(alldhpks.values())  
+        assert _setlen(alldhpkc.values()) == len(alldhpkc.values())  
+        assert _setlen(alldhpks.values()) == len(alldhpks.values())  
 
         # for each user compute agreed key
         for vuser in alldhpkc:
@@ -121,7 +202,15 @@ class Client(object):
         return self.user, E
 
     def setup_keysetup2(self, eshares):
-
+        """Setup phase - KeySetup: User setups its keys. 
+        
+        It completes the setup phase by receiving the shares of the JL keys of all other users and storing them.
+        
+        ** Args **:
+        -----------
+        *eshares* : `dict` -- 
+            The shares of the JL keys.
+        """
         assert len(eshares) + 1 >= self.threshold
     
         # set the registered users and decrypt the shares
@@ -136,6 +225,14 @@ class Client(object):
         return 
 
     def online_encrypt(self):
+        """Online phase - Encrypt: User protect its input and sends it to the server. 
+        
+        It protects the user input using **TJL.Protect** and a random generated mask. It returns the protected input and the shares of the mask seed
+        
+        **Returns**: 
+        ----------------
+        The user identifier, a dictionary of encryptes shares of its mask seed, and the protected input (type: (`int`, `dict`, `list`)."""
+
         # sample a random element b
         b = random.SystemRandom().getrandbits(PRG.security)
 
@@ -166,6 +263,19 @@ class Client(object):
         return self.user, E, Y
 
     def online_construct(self, eshares):
+        """Online phase - Construct: User send the shares of the users to the server.
+
+        It receives the shares of other users and deduce the alive users. For all not alive user, it computes the protected zero-value using **TJL.ShareProtect**. It returns the shares of the blinding mask seed of alive users and a share of the protected zero-value.
+
+        ** Args **:
+        -----------
+        *eshares* : `dict` -- 
+            The encrypted shares of the blinding mask of each alive user
+
+        **Returns**: 
+        ----------------
+        The user identifier, the shares of the blinding mask seed of alive users, and a share of the protected zero-value (type: (`int`, `dict`, `list`)).
+        """
         assert len(eshares) + 1 >= self.threshold
 
         self.Ualive = [self.user]
@@ -196,7 +306,7 @@ class Client(object):
         return self.user, self.bshares, Yzeroshare
 
 
-def setlen(l):
+def _setlen(l):
     s = set()
     for e in l:
         k = repr(e)
