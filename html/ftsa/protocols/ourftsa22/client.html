@@ -1,0 +1,1093 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>ftsa.protocols.ourftsa22.client API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>ftsa.protocols.ourftsa22.client</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import random
+from math import ceil
+import gmpy2
+
+from ftsa.protocols.buildingblocks.utils import add_vectors
+from ftsa.protocols.buildingblocks.PRG import PRG
+from ftsa.protocols.buildingblocks.ShamirSS import SSS, Share
+from ftsa.protocols.buildingblocks.IntegerSS import IShare
+from ftsa.protocols.buildingblocks.JoyeLibert import TJLS, UserKey
+from ftsa.protocols.buildingblocks.VectorEncoding import VES
+from ftsa.protocols.buildingblocks.KeyAggreement import KAS
+from ftsa.protocols.buildingblocks.AESGCM128 import EncryptionKey as AESKEY
+
+
+
+class Client(object):
+    &#34;&#34;&#34;
+    A client for the FTSA scheme
+
+    ## **Args**:
+    -------------        
+    *user* : `int` --
+        The user&#39;s id
+
+    ## **Attributes**:
+    -------------        
+    *user* : `int` --
+        The user&#39;s id
+
+    *step* : `int` --
+        The FL step (round).
+
+    *key* : `gmpy2.mpz` --
+        The user protection key for TJL
+
+    *ckeys* : `dict` --
+        A channel encryption key for each communication channel with each other user {v : key}
+
+    *U* : `list` --
+        Set of registered user identifiers
+
+    *Ualive* : `list` --
+        Set of alive users&#39; identifiers 
+
+    *bshares* : `dict` --
+        A share of the b value of each other user {v : bshare}
+
+    *keyshares* : `dict` --
+        A share of the key of each other user {v : keyshare}
+
+    *X* : `list` --
+        The user input vector
+
+    *KAs*  : `KAS` --
+        DH KA scheme for computing JL key
+
+    *KAc*  : `KAS` --
+        DH KA scheme for computing channel key
+    &#34;&#34;&#34;
+    dimension = 1000 # dimension of the input
+    &#34;&#34;&#34;nb. of elements of the input vector (default: 1000)&#34;&#34;&#34;
+    valuesize = 16 #-bit input values
+    &#34;&#34;&#34;bit length of each element in the input vector (default: 16)&#34;&#34;&#34;
+    nclients = 10 # number of FL clients
+    &#34;&#34;&#34;number of FL clients (default: 10)&#34;&#34;&#34;
+    keysize = 2048 # size of a JL key 
+    &#34;&#34;&#34;size of a TJL key (default: 2048)&#34;&#34;&#34;
+    threshold = ceil(2*nclients / 3) # threshold for secret sharing
+    &#34;&#34;&#34;threshold for secret sharing scheme (default: 2/3 of the nb. of clients)&#34;&#34;&#34;
+    Uall = [i+1 for i in range(nclients)] # set of all user identifiers
+    &#34;&#34;&#34;set of all user identifiers&#34;&#34;&#34;
+
+    # init the building blocks
+    VE = VES(keysize // 2, nclients, valuesize, dimension)
+    &#34;&#34;&#34;the vector encoding scheme&#34;&#34;&#34;
+    TJL = TJLS(nclients, threshold, VE)
+    &#34;&#34;&#34;the threshold JL secure aggregation scheme&#34;&#34;&#34;
+    pp, _ , _ = TJL.Setup(keysize) # public parameters for TJL
+    &#34;&#34;&#34;the public parameters&#34;&#34;&#34;
+    prg = PRG(dimension, valuesize)
+    &#34;&#34;&#34;the pseudo-random generator&#34;&#34;&#34;
+    SS = SSS(PRG.security)
+    &#34;&#34;&#34;the secret sharing scheme&#34;&#34;&#34;
+
+    def __init__(self, user) -&gt; None:
+        super().__init__()
+        self.user = user # the user identifier (we use values in [1,nclients])
+        self.step = 0 # the Fl step.
+        self.key = gmpy2.mpz(0) # the user encryption key for JL
+        self.ckeys = {} # a channel encryption key for each communication channel with each other user {v : key}
+        self.U = [] # set of registered user identifiers
+        self.Ualive = [] # set of alive users&#39; identifiers 
+        self.bshares = {} # a share of the b value of each other user {v : bshare}
+        self.keyshares = {} # a share of the key of each other user {v : keyshare}
+        self.X = [] # the user input vector
+        self.KAs= KAS() # DH KA scheme for computing JL key
+        self.KAc= KAS() # DH KA scheme for computing channel key
+
+    @staticmethod
+    def set_scenario(dimension, valuesize, keysize, threshold, nclients, publicparam):
+        &#34;&#34;&#34;Sets up the parameters of the protocol.&#34;&#34;&#34;
+        Client.dimension = dimension
+        Client.valuesize = valuesize
+        Client.nclients = nclients
+        Client.keysize = keysize
+        Client.threshold = threshold
+        Client.Uall = [i+1 for i in range(nclients)]
+        Client.VE = VES(keysize // 2, nclients, valuesize, dimension)
+        Client.TJL = TJLS(nclients,threshold, Client.VE)
+        Client.TJL.Setup(keysize) 
+        Client.pp = publicparam
+        Client.prg = PRG(dimension, valuesize)
+        Client.SS = SSS(PRG.security)
+
+    def new_fl_step(self):
+        &#34;&#34;&#34;Starts a new FL round. 
+        
+        It increments the round counter and regenrates a new random input (This should be replaced with the actual training of the model).&#34;&#34;&#34;
+        self.step += 1
+        self.Ualive = []
+        self.bshares = {}
+        # generate a new input vector
+        self.X = [random.SystemRandom().getrandbits(Client.valuesize) for _ in range(Client.dimension)]
+                
+    def setup_register(self):
+        &#34;&#34;&#34;Setup phase - Register: User registers to te server. 
+        
+        It generates public keys.
+        
+        **Returns**: 
+        ----------------
+        A user identifier, and two public keys (type: (`int`, `PublicKey`, `PublicKey`)).
+        &#34;&#34;&#34;
+        # generate DH key pairs for JL key
+        self.KAs.generate()
+                
+        # generate DH key pairs for channel key
+        self.KAc.generate()
+
+        self.U.append(self.user)
+
+        # send user id and public keys
+        return self.user, self.KAs.pk, self.KAc.pk
+
+    def setup_keysetup(self, alldhpks, alldhpkc):
+        &#34;&#34;&#34;Setup phase - KeySetup: User setups its keys. 
+        
+        It accepts the public keys of other users and computes the shared keys and the JL key. It also shares the JL key using **TJL.SKShare** and returns its shares.
+        
+        ** Args **:
+        -----------
+        *alldhpkc* : `dict` -- 
+            The public key of each user (used to construct secret channels).
+
+        *alldhpks* : `dict` -- 
+            The public key of each user (used to compute the TJL user keys).
+
+        **Returns**: 
+        ----------------
+        The user identifier and a dictionary of encrypted shares of its TJL secret key (type: (`int`, `dict`)).
+        &#34;&#34;&#34;
+        assert alldhpkc.keys() == alldhpks.keys()
+        assert len(alldhpkc.keys()) &gt;= self.threshold
+        assert _setlen(alldhpkc.values()) == len(alldhpkc.values())  
+        assert _setlen(alldhpks.values()) == len(alldhpks.values())  
+
+        # for each user compute agreed key
+        for vuser in alldhpkc:
+            if vuser == self.user:
+                continue
+            
+            self.U.append(vuser)
+
+            # compute channel key
+            self.ckeys[vuser] = self.KAc.agree(alldhpkc[vuser])
+            
+            # compute JL key
+            sv = self.KAs.agree(alldhpks[vuser], Client.keysize)
+            if vuser &gt; self.user:
+                self.key -= sv
+            else:
+                self.key += sv
+
+        self.key = UserKey(Client.pp, self.key)
+
+        # generate t-out-of-n shares of JL key
+        shares = Client.TJL.SKShare(self.key, self.threshold, self.U)
+        
+        # encrypt the shares for each user
+        E = {}
+        for share in shares:
+            vuser = share.idx
+            if self.user == vuser:
+                self.keyshares[self.user] = share
+                continue
+            key = AESKEY(self.ckeys[vuser])
+            message = self.user.to_bytes(2,&#34;big&#34;) + vuser.to_bytes(2,&#34;big&#34;) + gmpy2.to_binary(share.value)
+            e = key.encrypt(message)
+            E[vuser] = e
+        
+        # send the user id and the encrypted shares
+        return self.user, E
+
+    def setup_keysetup2(self, eshares):
+        &#34;&#34;&#34;Setup phase - KeySetup: User setups its keys. 
+        
+        It completes the setup phase by receiving the shares of the JL keys of all other users and storing them.
+        
+        ** Args **:
+        -----------
+        *eshares* : `dict` -- 
+            The shares of the JL keys.
+        &#34;&#34;&#34;
+        assert len(eshares) + 1 &gt;= self.threshold
+    
+        # set the registered users and decrypt the shares
+        for vuser in eshares: 
+            key = AESKEY(self.ckeys[vuser])
+            message = key.decrypt(eshares[vuser])
+            u = int.from_bytes(message[:2],&#34;big&#34;)
+            v = int.from_bytes(message[2:4],&#34;big&#34;)
+            assert v == self.user and u == vuser, &#34;invalid encrypted message&#34; 
+            share = gmpy2.from_binary(message[4:])
+            self.keyshares[vuser] = IShare(self.user, share)
+        return 
+
+    def online_encrypt(self):
+        &#34;&#34;&#34;Online phase - Encrypt: User protect its input and sends it to the server. 
+        
+        It protects the user input using **TJL.Protect** and a random generated mask. It returns the protected input and the shares of the mask seed
+        
+        **Returns**: 
+        ----------------
+        The user identifier, a dictionary of encryptes shares of its mask seed, and the protected input (type: (`int`, `dict`, `list`).&#34;&#34;&#34;
+
+        # sample a random element b
+        b = random.SystemRandom().getrandbits(PRG.security)
+
+        # extend b using PRG
+        B = Client.prg.eval(b)
+
+        # encrypt the message
+        XplusB = add_vectors(self.X,B,2**(Client.VE.elementsize))
+        Y = Client.TJL.Protect(Client.pp, self.key, self.step, XplusB)
+
+        # generate t-out-of-U shares of b
+        shares = Client.SS.share(self.threshold, self.nclients, b)
+
+        # encrypt the shares for each user
+        E = {}
+
+        for share in shares:
+            vuser = share.idx
+            if self.user == vuser:
+                self.bshares[self.user] = share
+                continue
+            key = AESKEY(self.ckeys[vuser])
+            message = self.user.to_bytes(2,&#34;big&#34;) + vuser.to_bytes(2,&#34;big&#34;) + gmpy2.to_binary(share.value._value)
+            e = key.encrypt(message)
+            E[vuser] = e
+
+        # send user id, encrypted shares, and the encrypted input
+        return self.user, E, Y
+
+    def online_construct(self, eshares):
+        &#34;&#34;&#34;Online phase - Construct: User send the shares of the users to the server.
+
+        It receives the shares of other users and deduce the alive users. For all not alive user, it computes the protected zero-value using **TJL.ShareProtect**. It returns the shares of the blinding mask seed of alive users and a share of the protected zero-value.
+
+        ** Args **:
+        -----------
+        *eshares* : `dict` -- 
+            The encrypted shares of the blinding mask of each alive user
+
+        **Returns**: 
+        ----------------
+        The user identifier, the shares of the blinding mask seed of alive users, and a share of the protected zero-value (type: (`int`, `dict`, `list`)).
+        &#34;&#34;&#34;
+        assert len(eshares) + 1 &gt;= self.threshold
+
+        self.Ualive = [self.user]
+        # deduce the alive users and decrypt the shares
+        for vuser in eshares: 
+            self.Ualive.append(vuser)
+            key = AESKEY(self.ckeys[vuser])
+            message = key.decrypt(eshares[vuser])
+            u = int.from_bytes(message[:2],&#34;big&#34;)
+            v = int.from_bytes(message[2:4],&#34;big&#34;)
+            share = gmpy2.from_binary(message[4:])
+            assert v == self.user and u == vuser, &#34;invalid encrypted message&#34;
+            self.bshares[vuser] = Share(self.user, Client.SS.Field(share))
+
+
+        # compute the shares of the missing component Ybar
+        dropshares = []
+        Yzeroshare = None
+        if self.U != self.Ualive:
+            for vuser in self.U:
+                if vuser in self.Ualive:
+                    continue
+                dropshares.append(self.keyshares[vuser])
+            if dropshares:
+                Yzeroshare = Client.TJL.ShareProtect(Client.pp, dropshares, self.step)
+
+        # send the secret shares and the missing component
+        return self.user, self.bshares, Yzeroshare
+
+
+def _setlen(l):
+    s = set()
+    for e in l:
+        k = repr(e)
+        s.add(k)
+    return len(s)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="ftsa.protocols.ourftsa22.client.Client"><code class="flex name class">
+<span>class <span class="ident">Client</span></span>
+<span>(</span><span>user)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A client for the FTSA scheme</p>
+<h2 id="args"><strong>Args</strong>:</h2>
+<hr>
+<p><em>user</em> : <code>int</code> &ndash;
+The user's id</p>
+<h2 id="attributes"><strong>Attributes</strong>:</h2>
+<hr>
+<p><em>user</em> : <code>int</code> &ndash;
+The user's id</p>
+<p><em>step</em> : <code>int</code> &ndash;
+The FL step (round).</p>
+<p><em>key</em> : <code>gmpy2.mpz</code> &ndash;
+The user protection key for TJL</p>
+<p><em>ckeys</em> : <code>dict</code> &ndash;
+A channel encryption key for each communication channel with each other user {v : key}</p>
+<p><em>U</em> : <code>list</code> &ndash;
+Set of registered user identifiers</p>
+<p><em>Ualive</em> : <code>list</code> &ndash;
+Set of alive users' identifiers </p>
+<p><em>bshares</em> : <code>dict</code> &ndash;
+A share of the b value of each other user {v : bshare}</p>
+<p><em>keyshares</em> : <code>dict</code> &ndash;
+A share of the key of each other user {v : keyshare}</p>
+<p><em>X</em> : <code>list</code> &ndash;
+The user input vector</p>
+<p><em>KAs</em>
+: <code>KAS</code> &ndash;
+DH KA scheme for computing JL key</p>
+<p><em>KAc</em>
+: <code>KAS</code> &ndash;
+DH KA scheme for computing channel key</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Client(object):
+    &#34;&#34;&#34;
+    A client for the FTSA scheme
+
+    ## **Args**:
+    -------------        
+    *user* : `int` --
+        The user&#39;s id
+
+    ## **Attributes**:
+    -------------        
+    *user* : `int` --
+        The user&#39;s id
+
+    *step* : `int` --
+        The FL step (round).
+
+    *key* : `gmpy2.mpz` --
+        The user protection key for TJL
+
+    *ckeys* : `dict` --
+        A channel encryption key for each communication channel with each other user {v : key}
+
+    *U* : `list` --
+        Set of registered user identifiers
+
+    *Ualive* : `list` --
+        Set of alive users&#39; identifiers 
+
+    *bshares* : `dict` --
+        A share of the b value of each other user {v : bshare}
+
+    *keyshares* : `dict` --
+        A share of the key of each other user {v : keyshare}
+
+    *X* : `list` --
+        The user input vector
+
+    *KAs*  : `KAS` --
+        DH KA scheme for computing JL key
+
+    *KAc*  : `KAS` --
+        DH KA scheme for computing channel key
+    &#34;&#34;&#34;
+    dimension = 1000 # dimension of the input
+    &#34;&#34;&#34;nb. of elements of the input vector (default: 1000)&#34;&#34;&#34;
+    valuesize = 16 #-bit input values
+    &#34;&#34;&#34;bit length of each element in the input vector (default: 16)&#34;&#34;&#34;
+    nclients = 10 # number of FL clients
+    &#34;&#34;&#34;number of FL clients (default: 10)&#34;&#34;&#34;
+    keysize = 2048 # size of a JL key 
+    &#34;&#34;&#34;size of a TJL key (default: 2048)&#34;&#34;&#34;
+    threshold = ceil(2*nclients / 3) # threshold for secret sharing
+    &#34;&#34;&#34;threshold for secret sharing scheme (default: 2/3 of the nb. of clients)&#34;&#34;&#34;
+    Uall = [i+1 for i in range(nclients)] # set of all user identifiers
+    &#34;&#34;&#34;set of all user identifiers&#34;&#34;&#34;
+
+    # init the building blocks
+    VE = VES(keysize // 2, nclients, valuesize, dimension)
+    &#34;&#34;&#34;the vector encoding scheme&#34;&#34;&#34;
+    TJL = TJLS(nclients, threshold, VE)
+    &#34;&#34;&#34;the threshold JL secure aggregation scheme&#34;&#34;&#34;
+    pp, _ , _ = TJL.Setup(keysize) # public parameters for TJL
+    &#34;&#34;&#34;the public parameters&#34;&#34;&#34;
+    prg = PRG(dimension, valuesize)
+    &#34;&#34;&#34;the pseudo-random generator&#34;&#34;&#34;
+    SS = SSS(PRG.security)
+    &#34;&#34;&#34;the secret sharing scheme&#34;&#34;&#34;
+
+    def __init__(self, user) -&gt; None:
+        super().__init__()
+        self.user = user # the user identifier (we use values in [1,nclients])
+        self.step = 0 # the Fl step.
+        self.key = gmpy2.mpz(0) # the user encryption key for JL
+        self.ckeys = {} # a channel encryption key for each communication channel with each other user {v : key}
+        self.U = [] # set of registered user identifiers
+        self.Ualive = [] # set of alive users&#39; identifiers 
+        self.bshares = {} # a share of the b value of each other user {v : bshare}
+        self.keyshares = {} # a share of the key of each other user {v : keyshare}
+        self.X = [] # the user input vector
+        self.KAs= KAS() # DH KA scheme for computing JL key
+        self.KAc= KAS() # DH KA scheme for computing channel key
+
+    @staticmethod
+    def set_scenario(dimension, valuesize, keysize, threshold, nclients, publicparam):
+        &#34;&#34;&#34;Sets up the parameters of the protocol.&#34;&#34;&#34;
+        Client.dimension = dimension
+        Client.valuesize = valuesize
+        Client.nclients = nclients
+        Client.keysize = keysize
+        Client.threshold = threshold
+        Client.Uall = [i+1 for i in range(nclients)]
+        Client.VE = VES(keysize // 2, nclients, valuesize, dimension)
+        Client.TJL = TJLS(nclients,threshold, Client.VE)
+        Client.TJL.Setup(keysize) 
+        Client.pp = publicparam
+        Client.prg = PRG(dimension, valuesize)
+        Client.SS = SSS(PRG.security)
+
+    def new_fl_step(self):
+        &#34;&#34;&#34;Starts a new FL round. 
+        
+        It increments the round counter and regenrates a new random input (This should be replaced with the actual training of the model).&#34;&#34;&#34;
+        self.step += 1
+        self.Ualive = []
+        self.bshares = {}
+        # generate a new input vector
+        self.X = [random.SystemRandom().getrandbits(Client.valuesize) for _ in range(Client.dimension)]
+                
+    def setup_register(self):
+        &#34;&#34;&#34;Setup phase - Register: User registers to te server. 
+        
+        It generates public keys.
+        
+        **Returns**: 
+        ----------------
+        A user identifier, and two public keys (type: (`int`, `PublicKey`, `PublicKey`)).
+        &#34;&#34;&#34;
+        # generate DH key pairs for JL key
+        self.KAs.generate()
+                
+        # generate DH key pairs for channel key
+        self.KAc.generate()
+
+        self.U.append(self.user)
+
+        # send user id and public keys
+        return self.user, self.KAs.pk, self.KAc.pk
+
+    def setup_keysetup(self, alldhpks, alldhpkc):
+        &#34;&#34;&#34;Setup phase - KeySetup: User setups its keys. 
+        
+        It accepts the public keys of other users and computes the shared keys and the JL key. It also shares the JL key using **TJL.SKShare** and returns its shares.
+        
+        ** Args **:
+        -----------
+        *alldhpkc* : `dict` -- 
+            The public key of each user (used to construct secret channels).
+
+        *alldhpks* : `dict` -- 
+            The public key of each user (used to compute the TJL user keys).
+
+        **Returns**: 
+        ----------------
+        The user identifier and a dictionary of encrypted shares of its TJL secret key (type: (`int`, `dict`)).
+        &#34;&#34;&#34;
+        assert alldhpkc.keys() == alldhpks.keys()
+        assert len(alldhpkc.keys()) &gt;= self.threshold
+        assert _setlen(alldhpkc.values()) == len(alldhpkc.values())  
+        assert _setlen(alldhpks.values()) == len(alldhpks.values())  
+
+        # for each user compute agreed key
+        for vuser in alldhpkc:
+            if vuser == self.user:
+                continue
+            
+            self.U.append(vuser)
+
+            # compute channel key
+            self.ckeys[vuser] = self.KAc.agree(alldhpkc[vuser])
+            
+            # compute JL key
+            sv = self.KAs.agree(alldhpks[vuser], Client.keysize)
+            if vuser &gt; self.user:
+                self.key -= sv
+            else:
+                self.key += sv
+
+        self.key = UserKey(Client.pp, self.key)
+
+        # generate t-out-of-n shares of JL key
+        shares = Client.TJL.SKShare(self.key, self.threshold, self.U)
+        
+        # encrypt the shares for each user
+        E = {}
+        for share in shares:
+            vuser = share.idx
+            if self.user == vuser:
+                self.keyshares[self.user] = share
+                continue
+            key = AESKEY(self.ckeys[vuser])
+            message = self.user.to_bytes(2,&#34;big&#34;) + vuser.to_bytes(2,&#34;big&#34;) + gmpy2.to_binary(share.value)
+            e = key.encrypt(message)
+            E[vuser] = e
+        
+        # send the user id and the encrypted shares
+        return self.user, E
+
+    def setup_keysetup2(self, eshares):
+        &#34;&#34;&#34;Setup phase - KeySetup: User setups its keys. 
+        
+        It completes the setup phase by receiving the shares of the JL keys of all other users and storing them.
+        
+        ** Args **:
+        -----------
+        *eshares* : `dict` -- 
+            The shares of the JL keys.
+        &#34;&#34;&#34;
+        assert len(eshares) + 1 &gt;= self.threshold
+    
+        # set the registered users and decrypt the shares
+        for vuser in eshares: 
+            key = AESKEY(self.ckeys[vuser])
+            message = key.decrypt(eshares[vuser])
+            u = int.from_bytes(message[:2],&#34;big&#34;)
+            v = int.from_bytes(message[2:4],&#34;big&#34;)
+            assert v == self.user and u == vuser, &#34;invalid encrypted message&#34; 
+            share = gmpy2.from_binary(message[4:])
+            self.keyshares[vuser] = IShare(self.user, share)
+        return 
+
+    def online_encrypt(self):
+        &#34;&#34;&#34;Online phase - Encrypt: User protect its input and sends it to the server. 
+        
+        It protects the user input using **TJL.Protect** and a random generated mask. It returns the protected input and the shares of the mask seed
+        
+        **Returns**: 
+        ----------------
+        The user identifier, a dictionary of encryptes shares of its mask seed, and the protected input (type: (`int`, `dict`, `list`).&#34;&#34;&#34;
+
+        # sample a random element b
+        b = random.SystemRandom().getrandbits(PRG.security)
+
+        # extend b using PRG
+        B = Client.prg.eval(b)
+
+        # encrypt the message
+        XplusB = add_vectors(self.X,B,2**(Client.VE.elementsize))
+        Y = Client.TJL.Protect(Client.pp, self.key, self.step, XplusB)
+
+        # generate t-out-of-U shares of b
+        shares = Client.SS.share(self.threshold, self.nclients, b)
+
+        # encrypt the shares for each user
+        E = {}
+
+        for share in shares:
+            vuser = share.idx
+            if self.user == vuser:
+                self.bshares[self.user] = share
+                continue
+            key = AESKEY(self.ckeys[vuser])
+            message = self.user.to_bytes(2,&#34;big&#34;) + vuser.to_bytes(2,&#34;big&#34;) + gmpy2.to_binary(share.value._value)
+            e = key.encrypt(message)
+            E[vuser] = e
+
+        # send user id, encrypted shares, and the encrypted input
+        return self.user, E, Y
+
+    def online_construct(self, eshares):
+        &#34;&#34;&#34;Online phase - Construct: User send the shares of the users to the server.
+
+        It receives the shares of other users and deduce the alive users. For all not alive user, it computes the protected zero-value using **TJL.ShareProtect**. It returns the shares of the blinding mask seed of alive users and a share of the protected zero-value.
+
+        ** Args **:
+        -----------
+        *eshares* : `dict` -- 
+            The encrypted shares of the blinding mask of each alive user
+
+        **Returns**: 
+        ----------------
+        The user identifier, the shares of the blinding mask seed of alive users, and a share of the protected zero-value (type: (`int`, `dict`, `list`)).
+        &#34;&#34;&#34;
+        assert len(eshares) + 1 &gt;= self.threshold
+
+        self.Ualive = [self.user]
+        # deduce the alive users and decrypt the shares
+        for vuser in eshares: 
+            self.Ualive.append(vuser)
+            key = AESKEY(self.ckeys[vuser])
+            message = key.decrypt(eshares[vuser])
+            u = int.from_bytes(message[:2],&#34;big&#34;)
+            v = int.from_bytes(message[2:4],&#34;big&#34;)
+            share = gmpy2.from_binary(message[4:])
+            assert v == self.user and u == vuser, &#34;invalid encrypted message&#34;
+            self.bshares[vuser] = Share(self.user, Client.SS.Field(share))
+
+
+        # compute the shares of the missing component Ybar
+        dropshares = []
+        Yzeroshare = None
+        if self.U != self.Ualive:
+            for vuser in self.U:
+                if vuser in self.Ualive:
+                    continue
+                dropshares.append(self.keyshares[vuser])
+            if dropshares:
+                Yzeroshare = Client.TJL.ShareProtect(Client.pp, dropshares, self.step)
+
+        # send the secret shares and the missing component
+        return self.user, self.bshares, Yzeroshare</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="ftsa.protocols.ourftsa22.client.Client.dimension"><code class="name">var <span class="ident">dimension</span></code></dt>
+<dd>
+<div class="desc"><p>nb. of elements of the input vector (default: 1000)</p></div>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.client.Client.valuesize"><code class="name">var <span class="ident">valuesize</span></code></dt>
+<dd>
+<div class="desc"><p>bit length of each element in the input vector (default: 16)</p></div>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.client.Client.nclients"><code class="name">var <span class="ident">nclients</span></code></dt>
+<dd>
+<div class="desc"><p>number of FL clients (default: 10)</p></div>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.client.Client.keysize"><code class="name">var <span class="ident">keysize</span></code></dt>
+<dd>
+<div class="desc"><p>size of a TJL key (default: 2048)</p></div>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.client.Client.threshold"><code class="name">var <span class="ident">threshold</span></code></dt>
+<dd>
+<div class="desc"><p>threshold for secret sharing scheme (default: 2/3 of the nb. of clients)</p></div>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.client.Client.Uall"><code class="name">var <span class="ident">Uall</span></code></dt>
+<dd>
+<div class="desc"><p>set of all user identifiers</p></div>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.client.Client.VE"><code class="name">var <span class="ident">VE</span></code></dt>
+<dd>
+<div class="desc"><p>the vector encoding scheme</p></div>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.client.Client.TJL"><code class="name">var <span class="ident">TJL</span></code></dt>
+<dd>
+<div class="desc"><p>the threshold JL secure aggregation scheme</p></div>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.client.Client.pp"><code class="name">var <span class="ident">pp</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.client.Client.prg"><code class="name">var <span class="ident">prg</span></code></dt>
+<dd>
+<div class="desc"><p>the pseudo-random generator</p></div>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.client.Client.SS"><code class="name">var <span class="ident">SS</span></code></dt>
+<dd>
+<div class="desc"><p>the secret sharing scheme</p></div>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="ftsa.protocols.ourftsa22.client.Client.set_scenario"><code class="name flex">
+<span>def <span class="ident">set_scenario</span></span>(<span>dimension, valuesize, keysize, threshold, nclients, publicparam)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sets up the parameters of the protocol.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def set_scenario(dimension, valuesize, keysize, threshold, nclients, publicparam):
+    &#34;&#34;&#34;Sets up the parameters of the protocol.&#34;&#34;&#34;
+    Client.dimension = dimension
+    Client.valuesize = valuesize
+    Client.nclients = nclients
+    Client.keysize = keysize
+    Client.threshold = threshold
+    Client.Uall = [i+1 for i in range(nclients)]
+    Client.VE = VES(keysize // 2, nclients, valuesize, dimension)
+    Client.TJL = TJLS(nclients,threshold, Client.VE)
+    Client.TJL.Setup(keysize) 
+    Client.pp = publicparam
+    Client.prg = PRG(dimension, valuesize)
+    Client.SS = SSS(PRG.security)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="ftsa.protocols.ourftsa22.client.Client.new_fl_step"><code class="name flex">
+<span>def <span class="ident">new_fl_step</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Starts a new FL round. </p>
+<p>It increments the round counter and regenrates a new random input (This should be replaced with the actual training of the model).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def new_fl_step(self):
+    &#34;&#34;&#34;Starts a new FL round. 
+    
+    It increments the round counter and regenrates a new random input (This should be replaced with the actual training of the model).&#34;&#34;&#34;
+    self.step += 1
+    self.Ualive = []
+    self.bshares = {}
+    # generate a new input vector
+    self.X = [random.SystemRandom().getrandbits(Client.valuesize) for _ in range(Client.dimension)]</code></pre>
+</details>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.client.Client.setup_register"><code class="name flex">
+<span>def <span class="ident">setup_register</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Setup phase - Register: User registers to te server. </p>
+<p>It generates public keys.</p>
+<h2 id="returns"><strong>Returns</strong>:</h2>
+<p>A user identifier, and two public keys (type: (<code>int</code>, <code>PublicKey</code>, <code>PublicKey</code>)).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def setup_register(self):
+    &#34;&#34;&#34;Setup phase - Register: User registers to te server. 
+    
+    It generates public keys.
+    
+    **Returns**: 
+    ----------------
+    A user identifier, and two public keys (type: (`int`, `PublicKey`, `PublicKey`)).
+    &#34;&#34;&#34;
+    # generate DH key pairs for JL key
+    self.KAs.generate()
+            
+    # generate DH key pairs for channel key
+    self.KAc.generate()
+
+    self.U.append(self.user)
+
+    # send user id and public keys
+    return self.user, self.KAs.pk, self.KAc.pk</code></pre>
+</details>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.client.Client.setup_keysetup"><code class="name flex">
+<span>def <span class="ident">setup_keysetup</span></span>(<span>self, alldhpks, alldhpkc)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Setup phase - KeySetup: User setups its keys. </p>
+<p>It accepts the public keys of other users and computes the shared keys and the JL key. It also shares the JL key using <strong>TJL.SKShare</strong> and returns its shares.</p>
+<h2 id="args"><strong> Args </strong>:</h2>
+<p><em>alldhpkc</em> : <code>dict</code> &ndash;
+The public key of each user (used to construct secret channels).</p>
+<p><em>alldhpks</em> : <code>dict</code> &ndash;
+The public key of each user (used to compute the TJL user keys).</p>
+<h2 id="returns"><strong>Returns</strong>:</h2>
+<p>The user identifier and a dictionary of encrypted shares of its TJL secret key (type: (<code>int</code>, <code>dict</code>)).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def setup_keysetup(self, alldhpks, alldhpkc):
+    &#34;&#34;&#34;Setup phase - KeySetup: User setups its keys. 
+    
+    It accepts the public keys of other users and computes the shared keys and the JL key. It also shares the JL key using **TJL.SKShare** and returns its shares.
+    
+    ** Args **:
+    -----------
+    *alldhpkc* : `dict` -- 
+        The public key of each user (used to construct secret channels).
+
+    *alldhpks* : `dict` -- 
+        The public key of each user (used to compute the TJL user keys).
+
+    **Returns**: 
+    ----------------
+    The user identifier and a dictionary of encrypted shares of its TJL secret key (type: (`int`, `dict`)).
+    &#34;&#34;&#34;
+    assert alldhpkc.keys() == alldhpks.keys()
+    assert len(alldhpkc.keys()) &gt;= self.threshold
+    assert _setlen(alldhpkc.values()) == len(alldhpkc.values())  
+    assert _setlen(alldhpks.values()) == len(alldhpks.values())  
+
+    # for each user compute agreed key
+    for vuser in alldhpkc:
+        if vuser == self.user:
+            continue
+        
+        self.U.append(vuser)
+
+        # compute channel key
+        self.ckeys[vuser] = self.KAc.agree(alldhpkc[vuser])
+        
+        # compute JL key
+        sv = self.KAs.agree(alldhpks[vuser], Client.keysize)
+        if vuser &gt; self.user:
+            self.key -= sv
+        else:
+            self.key += sv
+
+    self.key = UserKey(Client.pp, self.key)
+
+    # generate t-out-of-n shares of JL key
+    shares = Client.TJL.SKShare(self.key, self.threshold, self.U)
+    
+    # encrypt the shares for each user
+    E = {}
+    for share in shares:
+        vuser = share.idx
+        if self.user == vuser:
+            self.keyshares[self.user] = share
+            continue
+        key = AESKEY(self.ckeys[vuser])
+        message = self.user.to_bytes(2,&#34;big&#34;) + vuser.to_bytes(2,&#34;big&#34;) + gmpy2.to_binary(share.value)
+        e = key.encrypt(message)
+        E[vuser] = e
+    
+    # send the user id and the encrypted shares
+    return self.user, E</code></pre>
+</details>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.client.Client.setup_keysetup2"><code class="name flex">
+<span>def <span class="ident">setup_keysetup2</span></span>(<span>self, eshares)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Setup phase - KeySetup: User setups its keys. </p>
+<p>It completes the setup phase by receiving the shares of the JL keys of all other users and storing them.</p>
+<h2 id="args"><strong> Args </strong>:</h2>
+<p><em>eshares</em> : <code>dict</code> &ndash;
+The shares of the JL keys.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def setup_keysetup2(self, eshares):
+    &#34;&#34;&#34;Setup phase - KeySetup: User setups its keys. 
+    
+    It completes the setup phase by receiving the shares of the JL keys of all other users and storing them.
+    
+    ** Args **:
+    -----------
+    *eshares* : `dict` -- 
+        The shares of the JL keys.
+    &#34;&#34;&#34;
+    assert len(eshares) + 1 &gt;= self.threshold
+
+    # set the registered users and decrypt the shares
+    for vuser in eshares: 
+        key = AESKEY(self.ckeys[vuser])
+        message = key.decrypt(eshares[vuser])
+        u = int.from_bytes(message[:2],&#34;big&#34;)
+        v = int.from_bytes(message[2:4],&#34;big&#34;)
+        assert v == self.user and u == vuser, &#34;invalid encrypted message&#34; 
+        share = gmpy2.from_binary(message[4:])
+        self.keyshares[vuser] = IShare(self.user, share)
+    return </code></pre>
+</details>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.client.Client.online_encrypt"><code class="name flex">
+<span>def <span class="ident">online_encrypt</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Online phase - Encrypt: User protect its input and sends it to the server. </p>
+<p>It protects the user input using <strong>TJL.Protect</strong> and a random generated mask. It returns the protected input and the shares of the mask seed</p>
+<h2 id="returns"><strong>Returns</strong>:</h2>
+<p>The user identifier, a dictionary of encryptes shares of its mask seed, and the protected input (type: (<code>int</code>, <code>dict</code>, <code>list</code>).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def online_encrypt(self):
+    &#34;&#34;&#34;Online phase - Encrypt: User protect its input and sends it to the server. 
+    
+    It protects the user input using **TJL.Protect** and a random generated mask. It returns the protected input and the shares of the mask seed
+    
+    **Returns**: 
+    ----------------
+    The user identifier, a dictionary of encryptes shares of its mask seed, and the protected input (type: (`int`, `dict`, `list`).&#34;&#34;&#34;
+
+    # sample a random element b
+    b = random.SystemRandom().getrandbits(PRG.security)
+
+    # extend b using PRG
+    B = Client.prg.eval(b)
+
+    # encrypt the message
+    XplusB = add_vectors(self.X,B,2**(Client.VE.elementsize))
+    Y = Client.TJL.Protect(Client.pp, self.key, self.step, XplusB)
+
+    # generate t-out-of-U shares of b
+    shares = Client.SS.share(self.threshold, self.nclients, b)
+
+    # encrypt the shares for each user
+    E = {}
+
+    for share in shares:
+        vuser = share.idx
+        if self.user == vuser:
+            self.bshares[self.user] = share
+            continue
+        key = AESKEY(self.ckeys[vuser])
+        message = self.user.to_bytes(2,&#34;big&#34;) + vuser.to_bytes(2,&#34;big&#34;) + gmpy2.to_binary(share.value._value)
+        e = key.encrypt(message)
+        E[vuser] = e
+
+    # send user id, encrypted shares, and the encrypted input
+    return self.user, E, Y</code></pre>
+</details>
+</dd>
+<dt id="ftsa.protocols.ourftsa22.client.Client.online_construct"><code class="name flex">
+<span>def <span class="ident">online_construct</span></span>(<span>self, eshares)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Online phase - Construct: User send the shares of the users to the server.</p>
+<p>It receives the shares of other users and deduce the alive users. For all not alive user, it computes the protected zero-value using <strong>TJL.ShareProtect</strong>. It returns the shares of the blinding mask seed of alive users and a share of the protected zero-value.</p>
+<h2 id="args"><strong> Args </strong>:</h2>
+<p><em>eshares</em> : <code>dict</code> &ndash;
+The encrypted shares of the blinding mask of each alive user</p>
+<h2 id="returns"><strong>Returns</strong>:</h2>
+<p>The user identifier, the shares of the blinding mask seed of alive users, and a share of the protected zero-value (type: (<code>int</code>, <code>dict</code>, <code>list</code>)).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def online_construct(self, eshares):
+    &#34;&#34;&#34;Online phase - Construct: User send the shares of the users to the server.
+
+    It receives the shares of other users and deduce the alive users. For all not alive user, it computes the protected zero-value using **TJL.ShareProtect**. It returns the shares of the blinding mask seed of alive users and a share of the protected zero-value.
+
+    ** Args **:
+    -----------
+    *eshares* : `dict` -- 
+        The encrypted shares of the blinding mask of each alive user
+
+    **Returns**: 
+    ----------------
+    The user identifier, the shares of the blinding mask seed of alive users, and a share of the protected zero-value (type: (`int`, `dict`, `list`)).
+    &#34;&#34;&#34;
+    assert len(eshares) + 1 &gt;= self.threshold
+
+    self.Ualive = [self.user]
+    # deduce the alive users and decrypt the shares
+    for vuser in eshares: 
+        self.Ualive.append(vuser)
+        key = AESKEY(self.ckeys[vuser])
+        message = key.decrypt(eshares[vuser])
+        u = int.from_bytes(message[:2],&#34;big&#34;)
+        v = int.from_bytes(message[2:4],&#34;big&#34;)
+        share = gmpy2.from_binary(message[4:])
+        assert v == self.user and u == vuser, &#34;invalid encrypted message&#34;
+        self.bshares[vuser] = Share(self.user, Client.SS.Field(share))
+
+
+    # compute the shares of the missing component Ybar
+    dropshares = []
+    Yzeroshare = None
+    if self.U != self.Ualive:
+        for vuser in self.U:
+            if vuser in self.Ualive:
+                continue
+            dropshares.append(self.keyshares[vuser])
+        if dropshares:
+            Yzeroshare = Client.TJL.ShareProtect(Client.pp, dropshares, self.step)
+
+    # send the secret shares and the missing component
+    return self.user, self.bshares, Yzeroshare</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="ftsa.protocols.ourftsa22" href="index.html">ftsa.protocols.ourftsa22</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="ftsa.protocols.ourftsa22.client.Client" href="#ftsa.protocols.ourftsa22.client.Client">Client</a></code></h4>
+<ul class="two-column">
+<li><code><a title="ftsa.protocols.ourftsa22.client.Client.set_scenario" href="#ftsa.protocols.ourftsa22.client.Client.set_scenario">set_scenario</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.client.Client.new_fl_step" href="#ftsa.protocols.ourftsa22.client.Client.new_fl_step">new_fl_step</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.client.Client.setup_register" href="#ftsa.protocols.ourftsa22.client.Client.setup_register">setup_register</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.client.Client.setup_keysetup" href="#ftsa.protocols.ourftsa22.client.Client.setup_keysetup">setup_keysetup</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.client.Client.setup_keysetup2" href="#ftsa.protocols.ourftsa22.client.Client.setup_keysetup2">setup_keysetup2</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.client.Client.online_encrypt" href="#ftsa.protocols.ourftsa22.client.Client.online_encrypt">online_encrypt</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.client.Client.online_construct" href="#ftsa.protocols.ourftsa22.client.Client.online_construct">online_construct</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.client.Client.dimension" href="#ftsa.protocols.ourftsa22.client.Client.dimension">dimension</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.client.Client.valuesize" href="#ftsa.protocols.ourftsa22.client.Client.valuesize">valuesize</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.client.Client.nclients" href="#ftsa.protocols.ourftsa22.client.Client.nclients">nclients</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.client.Client.keysize" href="#ftsa.protocols.ourftsa22.client.Client.keysize">keysize</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.client.Client.threshold" href="#ftsa.protocols.ourftsa22.client.Client.threshold">threshold</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.client.Client.Uall" href="#ftsa.protocols.ourftsa22.client.Client.Uall">Uall</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.client.Client.VE" href="#ftsa.protocols.ourftsa22.client.Client.VE">VE</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.client.Client.TJL" href="#ftsa.protocols.ourftsa22.client.Client.TJL">TJL</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.client.Client.pp" href="#ftsa.protocols.ourftsa22.client.Client.pp">pp</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.client.Client.prg" href="#ftsa.protocols.ourftsa22.client.Client.prg">prg</a></code></li>
+<li><code><a title="ftsa.protocols.ourftsa22.client.Client.SS" href="#ftsa.protocols.ourftsa22.client.Client.SS">SS</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
