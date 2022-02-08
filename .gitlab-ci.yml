@@ -2,7 +2,7 @@ pages:
   stage: deploy
   script:
   - mkdir .public
-  - cp -r html/ftsa/* .public
+  - cp -r html/ftsa/* .public 
   - mv .public public 
   artifacts:
     paths:
