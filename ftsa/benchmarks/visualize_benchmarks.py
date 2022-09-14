@@ -165,7 +165,7 @@ def plot_time_client(ccs, online):
     fig.set_figheight(4)
     fig.set_figwidth(8)
     # ax = axes[0]
-    ax.set_ylabel('Time (seconds)')
+    ax.set_ylabel('seconds')
     ax.set_xlabel('# clients')
     ax.yaxis.grid(True)
     ax.set_axisbelow(True)
@@ -181,6 +181,9 @@ def plot_time_client(ccs, online):
             means = np.array([ccs_mean[10000][drop][ncli], online_mean[10000][drop][ncli]])
             error = np.array([ccs_std[10000][drop][ncli], online_std[10000][drop][ncli]])
             ax.bar(x_pos, means, yerr=error, align='center', alpha=1, ecolor='black', color =clrs[j], hatch=htch,capsize=6, width=wdth)
+            # print(ncli, drop, means[0]/means[1])
+
+
         i+=1
 
 
@@ -207,7 +210,7 @@ def plot_time_client(ccs, online):
     dimsnames = ['1K', '10K', '100K']
     ncli = 600 
 
-    ax.set_ylabel('Time (seconds)')
+    ax.set_ylabel('seconds')
     ax.set_xlabel('Dimension')
     ax.yaxis.grid(True)
     ax.set_axisbelow(True)
@@ -401,7 +404,7 @@ def plot_time_server(ccs, online):
     fig.set_figheight(4)
     fig.set_figwidth(8)
     # ax.set_ylim(0,400)
-    ax.set_ylabel('Time (seconds)')
+    ax.set_ylabel('seconds')
     ax.set_xlabel('# clients')
     ax.yaxis.grid(True)
     ax.set_axisbelow(True)
@@ -417,6 +420,8 @@ def plot_time_server(ccs, online):
             means = np.array([ccs_mean[10000][drop][ncli], online_mean[10000][drop][ncli]])
             error = np.array([ccs_std[10000][drop][ncli], online_std[10000][drop][ncli]])
             ax.bar(x_pos, means, yerr=error, align='center', alpha=1, ecolor='black', color =clrs[j], hatch=htch,capsize=6, width=wdth)
+            # print(ncli, drop, means[0]/means[1])
+
             j+=1
         i+=1
 
@@ -445,7 +450,7 @@ def plot_time_server(ccs, online):
     dimsnames = ['1K', '10K', '100K']
     ncli = 600 
 
-    ax.set_ylabel('Time (seconds)')
+    ax.set_ylabel('seconds')
     ax.set_xlabel('Dimension')
     ax.yaxis.grid(True)
     ax.set_axisbelow(True)
@@ -502,34 +507,88 @@ def get_time_ms(setup, online, entity):
 
         online_mean[s.dimension][s.dropout][s.nclients] =( 1000* np.mean(online[s]['encrypt']) , 1000* np.mean(online[s]['construct']))
 
+    print(entity + " runtime measurements:")
+    print("-------------------------")
+    print("100 clients, 1K dim:")
+    print("00% failures :  Setup = ",setup_mean[1000][0.0][100])
+    print("00% failures :  Online = ",online_mean[1000][0.0][100])
+    print("10% failures :  Setup = ",setup_mean[1000][0.1][100])
+    print("10% failures :  Online = ",online_mean[1000][0.1][100])
+    print("30% failures :  Setup = ",setup_mean[1000][0.3][100])
+    print("30% failures :  Online = ",online_mean[1000][0.3][100])
+    print() 
 
-    print(setup_mean[10000][0.1][600])
-    print(100*online_mean[10000][0.1][600] + setup_mean[10000][0.1][600])
-    print(500*online_mean[10000][0.1][600] + setup_mean[10000][0.1][600])
-    print(1000*online_mean[10000][0.1][600] + setup_mean[10000][0.1][600])
+    print("300 clients, 1K dim:")
+    print("00% failures :  Setup = ",setup_mean[1000][0.0][300])
+    print("00% failures :  Online = ",online_mean[1000][0.0][300])
+    print("10% failures :  Setup = ",setup_mean[1000][0.1][300])
+    print("10% failures :  Online = ",online_mean[1000][0.1][300])
+    print("30% failures :  Setup = ",setup_mean[1000][0.3][300])
+    print("30% failures :  Online = ",online_mean[1000][0.3][300])
+    print() 
 
-    print(setup_mean[10000][0.0][100])
-    print(online_mean[10000][0.0][100])
-    print(setup_mean[10000][0.1][100])
-    print(online_mean[10000][0.1][100])
-    print(setup_mean[10000][0.3][100])
-    print(online_mean[10000][0.3][100])
+    print("600 clients, 1K dim:")
+    print("00% failures :  Setup = ",setup_mean[1000][0.0][600])
+    print("00% failures :  Online = ",online_mean[1000][0.0][600])
+    print("10% failures :  Setup = ",setup_mean[1000][0.1][600])
+    print("10% failures :  Online = ",online_mean[1000][0.1][600])
+    print("30% failures :  Setup = ",setup_mean[1000][0.3][600])
+    print("30% failures :  Online = ",online_mean[1000][0.3][600])
+    print() 
 
+    print("100 clients, 10K dim:")
+    print("00% failures :  Setup = ",setup_mean[10000][0.0][100])
+    print("00% failures :  Online = ",online_mean[10000][0.0][100])
+    print("10% failures :  Setup = ",setup_mean[10000][0.1][100])
+    print("10% failures :  Online = ",online_mean[10000][0.1][100])
+    print("30% failures :  Setup = ",setup_mean[10000][0.3][100])
+    print("30% failures :  Online = ",online_mean[10000][0.3][100])
+    print() 
 
-    print(setup_mean[10000][0.0][300])
-    print(online_mean[10000][0.0][300])
-    print(setup_mean[10000][0.1][300])
-    print(online_mean[10000][0.1][300])
-    print(setup_mean[10000][0.3][300])
-    print(online_mean[10000][0.3][300])
+    print("300 clients, 10K dim:")
+    print("00% failures :  Setup = ",setup_mean[10000][0.0][300])
+    print("00% failures :  Online = ",online_mean[10000][0.0][300])
+    print("10% failures :  Setup = ",setup_mean[10000][0.1][300])
+    print("10% failures :  Online = ",online_mean[10000][0.1][300])
+    print("30% failures :  Setup = ",setup_mean[10000][0.3][300])
+    print("30% failures :  Online = ",online_mean[10000][0.3][300])
+    print() 
 
+    print("600 clients, 10K dim:")
+    print("00% failures :  Setup = ",setup_mean[10000][0.0][600])
+    print("00% failures :  Online = ",online_mean[10000][0.0][600])
+    print("10% failures :  Setup = ",setup_mean[10000][0.1][600])
+    print("10% failures :  Online = ",online_mean[10000][0.1][600])
+    print("30% failures :  Setup = ",setup_mean[10000][0.3][600])
+    print("30% failures :  Online = ",online_mean[10000][0.3][600])
 
-    print(setup_mean[10000][0.0][600])
-    print(online_mean[10000][0.0][600])
-    print(setup_mean[10000][0.1][600])
-    print(online_mean[10000][0.1][600])
-    print(setup_mean[10000][0.3][600])
-    print(online_mean[10000][0.3][600])
+    print("100 clients, 100K dim:")
+    print("00% failures :  Setup = ",setup_mean[100000][0.0][100])
+    print("00% failures :  Online = ",online_mean[100000][0.0][100])
+    print("10% failures :  Setup = ",setup_mean[100000][0.1][100])
+    print("10% failures :  Online = ",online_mean[100000][0.1][100])
+    print("30% failures :  Setup = ",setup_mean[100000][0.3][100])
+    print("30% failures :  Online = ",online_mean[100000][0.3][100])
+    print() 
+
+    print("300 clients, 100K dim:")
+    print("00% failures :  Setup = ",setup_mean[100000][0.0][300])
+    print("00% failures :  Online = ",online_mean[100000][0.0][300])
+    print("10% failures :  Setup = ",setup_mean[100000][0.1][300])
+    print("10% failures :  Online = ",online_mean[100000][0.1][300])
+    print("30% failures :  Setup = ",setup_mean[100000][0.3][300])
+    print("30% failures :  Online = ",online_mean[100000][0.3][300])
+    print() 
+
+    print("600 clients, 100K dim:")
+    print("00% failures :  Setup = ",setup_mean[100000][0.0][600])
+    print("00% failures :  Online = ",online_mean[100000][0.0][600])
+    print("10% failures :  Setup = ",setup_mean[100000][0.1][600])
+    print("10% failures :  Online = ",online_mean[100000][0.1][600])
+    print("30% failures :  Setup = ",setup_mean[100000][0.3][600])
+    print("30% failures :  Online = ",online_mean[100000][0.3][600])
+    print() 
+    print() 
 
 
 def get_comm(setup_sent,setup_rcvd, online_sent,online_rcvd):
@@ -551,22 +610,44 @@ def get_comm(setup_sent,setup_rcvd, online_sent,online_rcvd):
         online_sent_mean[s.dimension][s.dropout][s.nclients] = (np.mean(online_sent[s]['encrypt'])/8/1024, np.mean(online_sent[s]['construct'])/8/1024)
         online_rcvd_mean[s.dimension][s.dropout][s.nclients] = (0,np.mean(online_rcvd[s]['construct'])/8/1024)
 
-    for n in [100,300,600]:
-        for d in [0.0,0.3]:
-            sS = setup_sent_mean[10000][d][n]
-            oS = online_sent_mean[10000][d][n]
-            sR = setup_rcvd_mean[10000][d][n]
-            oR = online_rcvd_mean[10000][d][n]
-            print("nclients={}, drops={}".format(n,d))
-            print("{:.2f} KB & {:.2f} KB & {:.2f} KB & {:.2f} KB".format(sS[0],sS[1],oS[0],oS[1]))
-            print("{:.2f} KB & {:.2f} KB & {:.2f} KB & {:.2f} KB".format(sR[0],sR[1],oR[0],oR[1]))
-            print("{:.2f} KB & {:.2f} KB & {:.2f} KB & {:.2f} KB".format(sS[0]+sR[0],sS[1]+sR[1],oS[0]+oR[0],oS[1]+oR[1]))
+    print("Bandwidth measurements:")
+    print("-------------------------")
+    # for n in [100,300,600]:
+    #     for d in [0.0,0.3]:
+    #         print("nclients={}, drops={}".format(n,d))
+    #         print("{:.2f} KB & {:.2f} KB & {:.2f} KB & {:.2f} KB".format(sS[0],sS[1],oS[0],oS[1]))
+    #         print("{:.2f} KB & {:.2f} KB & {:.2f} KB & {:.2f} KB".format(sR[0],sR[1],oR[0],oR[1]))
+    #         print("{:.2f} KB & {:.2f} KB & {:.2f} KB & {:.2f} KB".format(sS[0]+sR[0],sS[1]+sR[1],oS[0]+oR[0],oS[1]+oR[1]))
+    #         print()
+
+#     for d in [0.0,0.3]:
+    for dim in [1000,10000,100000]:
+        for n in [100,300,600]:
+            print("{} clients, {}K dim, 00% fail:".format(n,int(dim/1000)))
+            sS = setup_sent_mean[dim][0.0][n]
+            oS = online_sent_mean[dim][0.0][n]
+            sR = setup_rcvd_mean[dim][0.0][n]
+            oR = online_rcvd_mean[dim][0.0][n]
+            print("00% failures : Sent = {:.2f} KB & {:.2f} KB & {:.2f} KB & {:.2f} KB".format(sS[0],sS[1],oS[0],oS[1]))
+            print("00% failures : Rcvd = {:.2f} KB & {:.2f} KB & {:.2f} KB & {:.2f} KB".format(sR[0],sR[1],oR[0],oR[1]))
+            print("00% failures : Totl = {:.2f} KB & {:.2f} KB & {:.2f} KB & {:.2f} KB".format(sS[0]+sR[0],sS[1]+sR[1],oS[0]+oR[0],oS[1]+oR[1]))
+            sS = setup_sent_mean[dim][0.1][n]
+            oS = online_sent_mean[dim][0.1][n]
+            sR = setup_rcvd_mean[dim][0.1][n]
+            oR = online_rcvd_mean[dim][0.1][n]
+            print("10% failures : Sent = {:.2f} KB & {:.2f} KB & {:.2f} KB & {:.2f} KB".format(sS[0],sS[1],oS[0],oS[1]))
+            print("10% failures : Rcvd = {:.2f} KB & {:.2f} KB & {:.2f} KB & {:.2f} KB".format(sR[0],sR[1],oR[0],oR[1]))
+            print("10% failures : Totl = {:.2f} KB & {:.2f} KB & {:.2f} KB & {:.2f} KB".format(sS[0]+sR[0],sS[1]+sR[1],oS[0]+oR[0],oS[1]+oR[1]))
             print()
 
-
-
-
-
+            sS = setup_sent_mean[dim][0.0][n]
+            oS = online_sent_mean[dim][0.0][n]
+            sR = setup_rcvd_mean[dim][0.0][n]
+            oR = online_rcvd_mean[dim][0.0][n]
+            print("30% failures : Sent = {:.2f} KB & {:.2f} KB & {:.2f} KB & {:.2f} KB".format(sS[0],sS[1],oS[0],oS[1]))
+            print("30% failures : Rcvd = {:.2f} KB & {:.2f} KB & {:.2f} KB & {:.2f} KB".format(sR[0],sR[1],oR[0],oR[1]))
+            print("30% failures : Totl = {:.2f} KB & {:.2f} KB & {:.2f} KB & {:.2f} KB".format(sS[0]+sR[0],sS[1]+sR[1],oS[0]+oR[0],oS[1]+oR[1]))
+            print()
 
 
 
@@ -585,7 +666,7 @@ if __name__ == "__main__":
     plot_time_server(ccs_server_time, server_online_time)
 
 
-    # get_time_ms(server_setup_time, server_online_time, "server")
-    # get_time_ms(client_setup_time, client_online_time, "client")
-    # get_comm(sent_setup_comm, rcvd_setup_comm, sent_online_comm,  rcvd_online_comm)
+    get_time_ms(server_setup_time, server_online_time, "server")
+    get_time_ms(client_setup_time, client_online_time, "client")
+    get_comm(sent_setup_comm, rcvd_setup_comm, sent_online_comm,  rcvd_online_comm)
 

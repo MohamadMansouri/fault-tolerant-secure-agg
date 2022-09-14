@@ -190,7 +190,7 @@ if __name__ == "__main__":
             if len(sys.argv) > 4:
                 raise()
     except:
-        print("Usage: benchmarks_ccs17.py <time_benchmarks.csv> <comm_benchmarks.csv> [comma seprated run numbers (no spaces)]")
+        print("Usage: benchmarks_ccs17.py <time_benchmarks.csv> <comm_benchmarks.csv> [comma separated run numbers (no spaces)]")
         print("\t use [-p] to only see the existing runs")
         sys.exit(-1)
 
