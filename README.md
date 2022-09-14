@@ -29,7 +29,7 @@ They can be found @ [ftsa/jupyter_nb](ftsa/jupyter_nb).
 They can be found @ [ftsa/benchmarks](ftsa/benchmarks). 
 
 ## Setup of the project
-The project requires a python version higher than 3.6 and a Jupyter notebook client (you can install one by running `pip install notebook`).
+The project requires a python version higher than 3.8 and a Jupyter notebook client (you can install one by running `pip install notebook`).
 
  
 - First create a python virtual environment and activate it as follows:

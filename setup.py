@@ -6,7 +6,7 @@ setup(name='ftsa',
  author='Mohamad Mansouri',
  author_email='mohamad.mansouri@thalesgroup.com',
  packages=find_packages(),
- python_requires=">=3.6",
+ python_requires=">=3.8",
  install_requires=[
         'gmpy2',
         'pycryptodome',
