@@ -1,6 +1,6 @@
 # Tests using Jupyter Notebook 
 
-To run the tests, Open these files in a Jupyter notebook. Please make sure that you open the notebook from your shell while activating the virtual environment `.venv` (where ftsa package is installed). Otherwise, you have to manually set the kernel of your notebook to the python executable in `.venv`.
+To run the tests, open these files in a Jupyter notebook. Please make sure that you open the notebook from your shell while activating the virtual environment `.venv` (where ftsa package is installed). Otherwise, you have to manually set the kernel of your notebook to the python executable in `.venv`.
 
 
 ### Notebook "test_buildingblocks.ipynb"
