@@ -57,7 +57,7 @@ class VES(object):
         self.addops = addops
         self.valuesize = valuesize
         self.vectorsize = vectorsize
-        self.elementsize = valuesize + ceil(log2(addops))
+        self.elementsize = valuesize + ceil(log2(addops+1))
         self.compratio = floor(ptsize / self.elementsize)
         self.numbatches = ceil(self.vectorsize / self.compratio)
 
