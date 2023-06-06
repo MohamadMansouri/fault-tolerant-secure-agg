@@ -299,6 +299,7 @@ class TJLS(JLS):
         keyshare = UserKey(pp, sharesum.value) 
         if self.VE is not None:
             yzero_ushare_tau =  self.Protect(pp, keyshare, tau, [0] * self.VE.vectorsize)
+            IShare.bits = yzero_ushare_tau[0].ciphertext.bit_length()
             r = []
             for yzero_ushare_tau_i in yzero_ushare_tau: 
                 r.append(IShare(idx,yzero_ushare_tau_i))
